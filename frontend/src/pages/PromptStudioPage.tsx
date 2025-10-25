@@ -1,15 +1,32 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Sparkles, Copy, RefreshCw, Check } from 'lucide-react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { Sparkles, Save, Loader2, CheckCircle } from 'lucide-react';
 import { generatePrompt } from '../services/ai.service';
+import { 
+  getPromptById, 
+  createPrompt, 
+  updatePrompt, 
+  type CreatePromptRequest 
+} from '../services/prompt.service';
+import { getCurrentUser } from '../services/auth.service';
 import { AIModel, PromptStyle, StructuredPrompt } from '../types/prompt';
 import StepCard from '../components/studio/StepCard';
 import IdeaInput from '../components/studio/IdeaInput';
 import GeneratedPrompt from '../components/studio/GeneratedPrompt';
 import StructuredEditor from '../components/studio/StructuredEditor';
 import { PromptRating } from '../components/PromptRating';
+import SavePromptDialog, { SavePromptData } from '../components/studio/SavePromptDialog';
+
+const DRAFT_KEY = 'promptvalar_draft';
 
 const PromptStudioPage = () => {
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const editId = searchParams.get('edit');
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [editingPromptId, setEditingPromptId] = useState<string | null>(null);
+
   // Step 1: 用户输入
   const [idea, setIdea] = useState('');
   const [selectedModel, setSelectedModel] = useState<AIModel>('sora');
@@ -34,6 +51,109 @@ const PromptStudioPage = () => {
   });
   const [finalPrompt, setFinalPrompt] = useState('');
 
+  // 保存对话框
+  const [showSaveDialog, setShowSaveDialog] = useState(false);
+  const [saveData, setSaveData] = useState<Partial<SavePromptData>>({});
+
+  // 成功消息
+  const [successMessage, setSuccessMessage] = useState('');
+
+  // 加载编辑模式数据
+  useEffect(() => {
+    if (editId) {
+      loadPromptForEdit(editId);
+    } else {
+      // 尝试加载草稿
+      loadDraft();
+    }
+  }, [editId]);
+
+  // 自动保存草稿
+  useEffect(() => {
+    if (!isEditMode && (idea || generatedPrompt || finalPrompt)) {
+      const draft = {
+        idea,
+        selectedModel,
+        selectedStyle,
+        generatedPrompt,
+        structuredData,
+        finalPrompt,
+        timestamp: new Date().toISOString(),
+      };
+      localStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
+    }
+  }, [idea, selectedModel, selectedStyle, generatedPrompt, structuredData, finalPrompt, isEditMode]);
+
+  // 加载要编辑的提示词
+  const loadPromptForEdit = async (id: string) => {
+    try {
+      const response = await getPromptById(id);
+      if (response.success && response.data) {
+        const prompt = response.data;
+        
+        // 检查是否是作者本人
+        const currentUser = getCurrentUser();
+        if (currentUser?.id !== prompt.author?.id) {
+          alert('您只能编辑自己创建的提示词');
+          navigate('/studio');
+          return;
+        }
+
+        // 加载数据
+        setIsEditMode(true);
+        setEditingPromptId(id);
+        setGeneratedPrompt(prompt.content);
+        setFinalPrompt(prompt.content);
+        setSelectedModel(prompt.modelType as AIModel);
+        setSelectedStyle((prompt.style || 'cinematic') as PromptStyle);
+        
+        // 设置保存数据
+        setSaveData({
+          title: prompt.title,
+          description: prompt.description || '',
+          category: prompt.category || '',
+          tags: prompt.tags || [],
+          previewImage: prompt.previewImage || '',
+        });
+      }
+    } catch (error) {
+      console.error('Failed to load prompt:', error);
+      alert('加载提示词失败');
+      navigate('/studio');
+    }
+  };
+
+  // 加载草稿
+  const loadDraft = () => {
+    try {
+      const draftStr = localStorage.getItem(DRAFT_KEY);
+      if (draftStr) {
+        const draft = JSON.parse(draftStr);
+        const draftAge = Date.now() - new Date(draft.timestamp).getTime();
+        
+        // 只加载24小时内的草稿
+        if (draftAge < 24 * 60 * 60 * 1000) {
+          setIdea(draft.idea || '');
+          setSelectedModel(draft.selectedModel || 'sora');
+          setSelectedStyle(draft.selectedStyle || 'cinematic');
+          setGeneratedPrompt(draft.generatedPrompt || '');
+          setStructuredData(draft.structuredData || {});
+          setFinalPrompt(draft.finalPrompt || '');
+        } else {
+          // 清除过期草稿
+          localStorage.removeItem(DRAFT_KEY);
+        }
+      }
+    } catch (error) {
+      console.error('Failed to load draft:', error);
+    }
+  };
+
+  // 清除草稿
+  const clearDraft = () => {
+    localStorage.removeItem(DRAFT_KEY);
+  };
+
   // 生成提示词
   const handleGenerate = async () => {
     if (!idea.trim()) {
@@ -54,7 +174,7 @@ const PromptStudioPage = () => {
       setGeneratedPrompt(result.prompt);
       setStructuredData(result.structured);
       setFinalPrompt(result.prompt);
-      setGenerationLogId(result.logId || ''); // 保存日志ID供评分使用
+      setGenerationLogId(result.logId || '');
     } catch (error) {
       console.error('Failed to generate prompt:', error);
       setGenerationError('Failed to generate prompt. Please try again.');
@@ -82,9 +202,71 @@ const PromptStudioPage = () => {
     setFinalPrompt(parts.join(', '));
   };
 
+  // 打开保存对话框
+  const handleOpenSaveDialog = () => {
+    if (!finalPrompt.trim()) {
+      alert('请先生成提示词');
+      return;
+    }
+    setShowSaveDialog(true);
+  };
+
+  // 保存提示词
+  const handleSavePrompt = async (data: SavePromptData) => {
+    try {
+      const promptData: CreatePromptRequest = {
+        title: data.title,
+        description: data.description || undefined,
+        content: finalPrompt,
+        modelType: selectedModel,
+        style: selectedStyle,
+        category: data.category || undefined,
+        tags: data.tags,
+        previewImage: data.previewImage,
+      };
+
+      let savedPrompt;
+      if (isEditMode && editingPromptId) {
+        // 更新现有提示词
+        const response = await updatePrompt(editingPromptId, promptData);
+        savedPrompt = response.data;
+        setSuccessMessage('提示词更新成功！');
+      } else {
+        // 创建新提示词
+        const response = await createPrompt(promptData);
+        savedPrompt = response.data;
+        setSuccessMessage('提示词保存成功！');
+        clearDraft(); // 清除草稿
+      }
+
+      // 显示成功消息
+      setTimeout(() => {
+        setSuccessMessage('');
+        // 跳转到详情页
+        navigate(`/library/${savedPrompt.id}`);
+      }, 2000);
+    } catch (error: any) {
+      console.error('Failed to save prompt:', error);
+      throw new Error(error.response?.data?.error?.message || '保存失败，请稍后重试');
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 py-12 px-4">
       <div className="max-w-7xl mx-auto">
+        {/* 成功消息 */}
+        {successMessage && (
+          <motion.div
+            initial={{ opacity: 0, y: -50 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            className="fixed top-4 right-4 z-50 bg-green-500 text-white px-6 py-4 rounded-lg shadow-xl flex items-center gap-3"
+          >
+            <CheckCircle className="w-6 h-6" />
+            <span className="font-semibold">{successMessage}</span>
+          </motion.div>
+        )}
+
         {/* 页面标题 */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -93,10 +275,13 @@ const PromptStudioPage = () => {
         >
           <h1 className="text-5xl font-bold text-white mb-4 flex items-center justify-center gap-3">
             <Sparkles className="w-12 h-12 text-purple-400" />
-            Prompt Studio
+            {isEditMode ? 'Edit Prompt' : 'Prompt Studio'}
           </h1>
           <p className="text-xl text-purple-200">
-            Transform your ideas into professional AI prompts in 3 simple steps
+            {isEditMode 
+              ? 'Update your prompt and save changes'
+              : 'Transform your ideas into professional AI prompts in 3 simple steps'
+            }
           </p>
         </motion.div>
 
@@ -154,9 +339,31 @@ const PromptStudioPage = () => {
                 onUpdate={updateFinalPrompt}
                 finalPrompt={finalPrompt}
               />
+              
+              {/* 保存按钮 */}
+              <div className="mt-8 flex justify-center">
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={handleOpenSaveDialog}
+                  className="px-8 py-4 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white rounded-xl font-bold text-lg shadow-xl flex items-center gap-3 transition-all"
+                >
+                  <Save className="w-6 h-6" />
+                  {isEditMode ? '更新提示词' : '保存提示词'}
+                </motion.button>
+              </div>
             </StepCard>
           )}
         </div>
+
+        {/* 保存对话框 */}
+        <SavePromptDialog
+          isOpen={showSaveDialog}
+          onClose={() => setShowSaveDialog(false)}
+          onSave={handleSavePrompt}
+          initialData={saveData}
+          isEditMode={isEditMode}
+        />
 
         {/* 使用提示 */}
         {!generatedPrompt && (

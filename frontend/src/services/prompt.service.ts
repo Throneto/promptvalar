@@ -61,12 +61,15 @@ export interface PromptDetailResponse {
 export interface CreatePromptRequest {
   title: string;
   description?: string;
-  content: string;
-  modelType: string;
+  promptText?: string;  // 后端使用 promptText
+  content?: string;      // 前端使用 content，需要转换
+  model?: string;        // 后端使用 model
+  modelType?: string;    // 前端使用 modelType，需要转换
   style?: string;
   category?: string;
   tags?: string[];
-  previewImage?: string;
+  previewImageUrl?: string;  // 后端使用 previewImageUrl
+  previewImage?: string;     // 前端使用 previewImage，需要转换
 }
 
 export interface UpdatePromptRequest extends Partial<CreatePromptRequest> {}
@@ -99,7 +102,19 @@ export async function getPromptById(id: string): Promise<PromptDetailResponse> {
  * 创建提示词
  */
 export async function createPrompt(data: CreatePromptRequest): Promise<PromptDetailResponse> {
-  const response = await apiClient.post<PromptDetailResponse>('/prompts', data);
+  // 转换字段名以匹配后端API
+  const requestData = {
+    title: data.title,
+    description: data.description,
+    promptText: data.content || data.promptText || '',  // 使用 promptText
+    model: data.modelType || data.model || 'sora',      // 使用 model
+    style: data.style,
+    category: data.category,
+    tags: data.tags || [],
+    previewImageUrl: data.previewImage || data.previewImageUrl,  // 使用 previewImageUrl
+  };
+  
+  const response = await apiClient.post<PromptDetailResponse>('/prompts', requestData);
   return response.data;
 }
 
@@ -107,7 +122,21 @@ export async function createPrompt(data: CreatePromptRequest): Promise<PromptDet
  * 更新提示词
  */
 export async function updatePrompt(id: string, data: UpdatePromptRequest): Promise<PromptDetailResponse> {
-  const response = await apiClient.put<PromptDetailResponse>(`/prompts/${id}`, data);
+  // 转换字段名以匹配后端API
+  const requestData: any = {};
+  
+  if (data.title) requestData.title = data.title;
+  if (data.description !== undefined) requestData.description = data.description;
+  if (data.content || data.promptText) requestData.promptText = data.content || data.promptText;
+  if (data.modelType || data.model) requestData.model = data.modelType || data.model;
+  if (data.style !== undefined) requestData.style = data.style;
+  if (data.category !== undefined) requestData.category = data.category;
+  if (data.tags) requestData.tags = data.tags;
+  if (data.previewImage || data.previewImageUrl) {
+    requestData.previewImageUrl = data.previewImage || data.previewImageUrl;
+  }
+  
+  const response = await apiClient.put<PromptDetailResponse>(`/prompts/${id}`, requestData);
   return response.data;
 }
 
