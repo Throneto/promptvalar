@@ -1,0 +1,39 @@
+import { motion } from 'framer-motion';
+import { ReactNode } from 'react';
+
+interface StepCardProps {
+  stepNumber: number;
+  title: string;
+  description: string;
+  children: ReactNode;
+}
+
+const StepCard = ({ stepNumber, title, description, children }: StepCardProps) => {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: stepNumber * 0.1 }}
+      className="bg-white/10 backdrop-blur-lg rounded-2xl border border-purple-500/30 overflow-hidden shadow-2xl"
+    >
+      {/* 卡片头部 */}
+      <div className="bg-gradient-to-r from-purple-600/20 to-pink-600/20 px-8 py-6 border-b border-purple-500/30">
+        <div className="flex items-center gap-4">
+          <div className="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500 text-white font-bold text-xl">
+            {stepNumber}
+          </div>
+          <div>
+            <h2 className="text-2xl font-bold text-white">{title}</h2>
+            <p className="text-purple-200 mt-1">{description}</p>
+          </div>
+        </div>
+      </div>
+
+      {/* 卡片内容 */}
+      <div className="p-8">{children}</div>
+    </motion.div>
+  );
+};
+
+export default StepCard;
+

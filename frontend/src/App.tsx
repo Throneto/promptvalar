@@ -3,6 +3,8 @@ import Layout from './components/layout/Layout';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
+import PromptStudioPage from './pages/PromptStudioPage';
+import PromptLibraryPage from './pages/PromptLibraryPage';
 
 function App() {
   return (
@@ -10,6 +12,8 @@ function App() {
       <Layout>
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/studio" element={<PromptStudioPage />} />
+          <Route path="/library" element={<PromptLibraryPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
         </Routes>
