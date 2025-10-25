@@ -19,13 +19,13 @@ export interface SavePromptData {
 }
 
 const CATEGORIES = [
-  { value: 'video', label: '视频生成' },
-  { value: 'image', label: '图像生成' },
-  { value: 'animation', label: '动画' },
-  { value: 'photography', label: '摄影' },
-  { value: 'art', label: '艺术创作' },
-  { value: 'design', label: '设计' },
-  { value: 'other', label: '其他' },
+  { value: 'video', label: 'Video Generation' },
+  { value: 'image', label: 'Image Generation' },
+  { value: 'animation', label: 'Animation' },
+  { value: 'photography', label: 'Photography' },
+  { value: 'art', label: 'Art Creation' },
+  { value: 'design', label: 'Design' },
+  { value: 'other', label: 'Other' },
 ];
 
 const POPULAR_TAGS = [
@@ -55,12 +55,12 @@ function SavePromptDialog({
     
     // 验证
     if (!title.trim()) {
-      setError('请输入标题');
+      setError('Please enter a title');
       return;
     }
 
     if (title.length < 3) {
-      setError('标题至少需要3个字符');
+      setError('Title must be at least 3 characters');
       return;
     }
 
@@ -79,8 +79,8 @@ function SavePromptDialog({
       // 成功后关闭对话框
       onClose();
     } catch (err: any) {
-      console.error('保存失败:', err);
-      setError(err.message || '保存失败，请稍后重试');
+      console.error('Save failed:', err);
+      setError(err.message || 'Failed to save, please try again later');
     } finally {
       setSaving(false);
     }
@@ -129,7 +129,7 @@ function SavePromptDialog({
           {/* 头部 */}
           <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between z-10">
             <h2 className="text-2xl font-bold text-gray-900">
-              {isEditMode ? '编辑提示词' : '保存提示词'}
+              {isEditMode ? 'Edit Prompt' : 'Save Prompt'}
             </h2>
             <button
               onClick={onClose}
@@ -156,14 +156,14 @@ function SavePromptDialog({
             {/* 标题 */}
             <div>
               <label htmlFor="title" className="block text-sm font-semibold text-gray-700 mb-2">
-                标题 <span className="text-red-500">*</span>
+                Title <span className="text-red-500">*</span>
               </label>
               <input
                 type="text"
                 id="title"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                placeholder="给你的提示词起个名字..."
+                placeholder="Give your prompt a name..."
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
                 required
                 minLength={3}
@@ -171,20 +171,20 @@ function SavePromptDialog({
                 disabled={saving}
               />
               <p className="mt-1 text-xs text-gray-500">
-                {title.length}/255 字符
+                {title.length}/255 characters
               </p>
             </div>
 
             {/* 描述 */}
             <div>
               <label htmlFor="description" className="block text-sm font-semibold text-gray-700 mb-2">
-                描述
+                Description
               </label>
               <textarea
                 id="description"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                placeholder="描述这个提示词的用途和特点..."
+                placeholder="Describe the purpose and features of this prompt..."
                 rows={4}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all resize-none"
                 disabled={saving}
@@ -194,7 +194,7 @@ function SavePromptDialog({
             {/* 分类 */}
             <div>
               <label htmlFor="category" className="block text-sm font-semibold text-gray-700 mb-2">
-                分类
+                Category
               </label>
               <select
                 id="category"
@@ -203,7 +203,7 @@ function SavePromptDialog({
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
                 disabled={saving}
               >
-                <option value="">选择分类...</option>
+                <option value="">Select category...</option>
                 {CATEGORIES.map((cat) => (
                   <option key={cat.value} value={cat.value}>
                     {cat.label}
@@ -215,7 +215,7 @@ function SavePromptDialog({
             {/* 标签 */}
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">
-                标签
+                Tags
               </label>
               
               {/* 已选标签 */}
@@ -247,7 +247,7 @@ function SavePromptDialog({
                   value={tagInput}
                   onChange={(e) => setTagInput(e.target.value)}
                   onKeyDown={handleTagInputKeyDown}
-                  placeholder="输入标签后按回车..."
+                  placeholder="Enter tag and press Enter..."
                   className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
                   disabled={saving}
                 />
@@ -257,13 +257,13 @@ function SavePromptDialog({
                   className="px-4 py-2 bg-purple-100 text-purple-700 rounded-lg hover:bg-purple-200 transition-colors disabled:opacity-50"
                   disabled={saving || !tagInput.trim()}
                 >
-                  添加
+                  Add
                 </button>
               </div>
 
               {/* 推荐标签 */}
               <div className="mt-3">
-                <p className="text-xs text-gray-500 mb-2">推荐标签：</p>
+                <p className="text-xs text-gray-500 mb-2">Suggested tags:</p>
                 <div className="flex flex-wrap gap-2">
                   {POPULAR_TAGS.filter(tag => !tags.includes(tag)).slice(0, 8).map((tag) => (
                     <button
@@ -284,7 +284,7 @@ function SavePromptDialog({
             <div>
               <label htmlFor="previewImage" className="block text-sm font-semibold text-gray-700 mb-2">
                 <ImageIcon className="w-4 h-4 inline mr-1" />
-                预览图 URL
+                Preview Image URL
               </label>
               <input
                 type="url"
@@ -296,7 +296,7 @@ function SavePromptDialog({
                 disabled={saving}
               />
               <p className="mt-1 text-xs text-gray-500">
-                可选：提供一个图片 URL 作为预览图
+                Optional: Provide an image URL as preview
               </p>
             </div>
 
@@ -308,7 +308,7 @@ function SavePromptDialog({
                 className="flex-1 px-6 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors font-medium disabled:opacity-50"
                 disabled={saving}
               >
-                取消
+                Cancel
               </button>
               <button
                 type="submit"
@@ -318,12 +318,12 @@ function SavePromptDialog({
                 {saving ? (
                   <>
                     <Loader2 className="w-5 h-5 animate-spin" />
-                    保存中...
+                    Saving...
                   </>
                 ) : (
                   <>
                     <Save className="w-5 h-5" />
-                    {isEditMode ? '更新' : '保存'}
+                    {isEditMode ? 'Update' : 'Save'}
                   </>
                 )}
               </button>

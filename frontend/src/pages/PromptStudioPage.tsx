@@ -94,7 +94,7 @@ const PromptStudioPage = () => {
         // 检查是否是作者本人
         const currentUser = getCurrentUser();
         if (currentUser?.id !== prompt.author?.id) {
-          alert('您只能编辑自己创建的提示词');
+          alert('You can only edit your own prompts');
           navigate('/studio');
           return;
         }
@@ -118,7 +118,7 @@ const PromptStudioPage = () => {
       }
     } catch (error) {
       console.error('Failed to load prompt:', error);
-      alert('加载提示词失败');
+      alert('Failed to load prompt');
       navigate('/studio');
     }
   };
@@ -205,7 +205,7 @@ const PromptStudioPage = () => {
   // 打开保存对话框
   const handleOpenSaveDialog = () => {
     if (!finalPrompt.trim()) {
-      alert('请先生成提示词');
+      alert('Please generate a prompt first');
       return;
     }
     setShowSaveDialog(true);
@@ -230,12 +230,12 @@ const PromptStudioPage = () => {
         // 更新现有提示词
         const response = await updatePrompt(editingPromptId, promptData);
         savedPrompt = response.data;
-        setSuccessMessage('提示词更新成功！');
+        setSuccessMessage('Prompt updated successfully!');
       } else {
         // 创建新提示词
         const response = await createPrompt(promptData);
         savedPrompt = response.data;
-        setSuccessMessage('提示词保存成功！');
+        setSuccessMessage('Prompt saved successfully!');
         clearDraft(); // 清除草稿
       }
 
@@ -247,7 +247,7 @@ const PromptStudioPage = () => {
       }, 2000);
     } catch (error: any) {
       console.error('Failed to save prompt:', error);
-      throw new Error(error.response?.data?.error?.message || '保存失败，请稍后重试');
+      throw new Error(error.response?.data?.error?.message || 'Failed to save, please try again later');
     }
   };
 
@@ -349,7 +349,7 @@ const PromptStudioPage = () => {
                   className="px-8 py-4 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white rounded-xl font-bold text-lg shadow-xl flex items-center gap-3 transition-all"
                 >
                   <Save className="w-6 h-6" />
-                  {isEditMode ? '更新提示词' : '保存提示词'}
+                  {isEditMode ? 'Update Prompt' : 'Save Prompt'}
                 </motion.button>
               </div>
             </StepCard>
