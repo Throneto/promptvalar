@@ -271,7 +271,7 @@ sudo -u promptvalar npm ci
 
 # 创建前端环境变量
 cat > .env.production <<EOF
-VITE_API_BASE_URL=https://${API_DOMAIN}
+VITE_API_BASE_URL=https://${API_DOMAIN}/api/v1
 VITE_APP_NAME=PromptValar
 VITE_APP_URL=https://${DOMAIN}
 EOF
