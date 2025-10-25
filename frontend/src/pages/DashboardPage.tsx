@@ -44,7 +44,7 @@ function DashboardPage() {
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('zh-CN', {
+    return date.toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'long',
       day: 'numeric',
@@ -65,11 +65,11 @@ function DashboardPage() {
   const getSubscriptionLabel = (tier: string) => {
     switch (tier) {
       case 'pro':
-        return 'Pro会员';
+        return 'Pro Member';
       case 'premium':
-        return 'Premium会员';
+        return 'Premium Member';
       default:
-        return '免费版';
+        return 'Free';
     }
   };
 
@@ -77,7 +77,7 @@ function DashboardPage() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <p className="text-gray-600">加载中...</p>
+          <p className="text-gray-600">Loading...</p>
         </div>
       </div>
     );
@@ -92,8 +92,8 @@ function DashboardPage() {
           animate={{ opacity: 1, y: 0 }}
           className="mb-8"
         >
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">个人中心</h1>
-          <p className="text-gray-600">管理您的个人信息和内容</p>
+          <h1 className="text-4xl font-bold text-gray-900 mb-2">Dashboard</h1>
+          <p className="text-gray-600">Manage your personal information and content</p>
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -132,12 +132,12 @@ function DashboardPage() {
                   
                   <div className="flex items-center gap-3 text-gray-600">
                     <Calendar className="w-5 h-5" />
-                    <span className="text-sm">加入于 {formatDate(user.createdAt)}</span>
+                    <span className="text-sm">Joined on {formatDate(user.createdAt)}</span>
                   </div>
                   
                   <div className="flex items-center gap-3 text-gray-600">
                     <Shield className="w-5 h-5" />
-                    <span className="text-sm">账号状态：正常</span>
+                    <span className="text-sm">Account Status: Active</span>
                   </div>
                 </div>
 
@@ -146,7 +146,7 @@ function DashboardPage() {
                   to="/dashboard/settings"
                   className="mt-6 w-full btn-primary text-center block"
                 >
-                  编辑个人资料
+                  Edit Profile
                 </Link>
               </div>
             </div>
@@ -160,37 +160,37 @@ function DashboardPage() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.2 }}
             >
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">数据统计</h3>
+              <h3 className="text-xl font-semibold text-gray-900 mb-4">Statistics</h3>
               
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {/* 提示词数量 */}
                 <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
                   <div className="flex items-center justify-between mb-2">
                     <FileText className="w-8 h-8 text-purple-500" />
-                    <span className="text-sm text-gray-500">我的提示词</span>
+                    <span className="text-sm text-gray-500">My Prompts</span>
                   </div>
                   <p className="text-3xl font-bold text-gray-900">{stats.promptCount}</p>
-                  <p className="text-sm text-gray-600 mt-1">个提示词</p>
+                  <p className="text-sm text-gray-600 mt-1">prompts</p>
                 </div>
 
                 {/* 收藏数量 */}
                 <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
                   <div className="flex items-center justify-between mb-2">
                     <Heart className="w-8 h-8 text-pink-500" />
-                    <span className="text-sm text-gray-500">我的收藏</span>
+                    <span className="text-sm text-gray-500">My Favorites</span>
                   </div>
                   <p className="text-3xl font-bold text-gray-900">{stats.favoriteCount}</p>
-                  <p className="text-sm text-gray-600 mt-1">个收藏</p>
+                  <p className="text-sm text-gray-600 mt-1">favorites</p>
                 </div>
 
                 {/* 浏览量 */}
                 <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
                   <div className="flex items-center justify-between mb-2">
                     <TrendingUp className="w-8 h-8 text-blue-500" />
-                    <span className="text-sm text-gray-500">总浏览量</span>
+                    <span className="text-sm text-gray-500">Total Views</span>
                   </div>
                   <p className="text-3xl font-bold text-gray-900">{stats.viewCount}</p>
-                  <p className="text-sm text-gray-600 mt-1">次浏览</p>
+                  <p className="text-sm text-gray-600 mt-1">views</p>
                 </div>
               </div>
             </motion.div>
@@ -201,7 +201,7 @@ function DashboardPage() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.3 }}
             >
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">快捷操作</h3>
+              <h3 className="text-xl font-semibold text-gray-900 mb-4">Quick Actions</h3>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {/* 创建提示词 */}
@@ -214,8 +214,8 @@ function DashboardPage() {
                       <FileText className="w-6 h-6 text-purple-600" />
                     </div>
                     <div>
-                      <h4 className="font-semibold text-gray-900">创建提示词</h4>
-                      <p className="text-sm text-gray-600">使用AI Studio创建新提示词</p>
+                      <h4 className="font-semibold text-gray-900">Create Prompt</h4>
+                      <p className="text-sm text-gray-600">Use AI Studio to create new prompts</p>
                     </div>
                   </div>
                 </Link>
@@ -230,8 +230,8 @@ function DashboardPage() {
                       <Heart className="w-6 h-6 text-pink-600" />
                     </div>
                     <div>
-                      <h4 className="font-semibold text-gray-900">浏览提示词库</h4>
-                      <p className="text-sm text-gray-600">发现优质提示词</p>
+                      <h4 className="font-semibold text-gray-900">Browse Library</h4>
+                      <p className="text-sm text-gray-600">Discover quality prompts</p>
                     </div>
                   </div>
                 </Link>
@@ -246,8 +246,8 @@ function DashboardPage() {
                       <User className="w-6 h-6 text-blue-600" />
                     </div>
                     <div>
-                      <h4 className="font-semibold text-gray-900">我的提示词</h4>
-                      <p className="text-sm text-gray-600">管理您创建的提示词</p>
+                      <h4 className="font-semibold text-gray-900">My Prompts</h4>
+                      <p className="text-sm text-gray-600">Manage your created prompts</p>
                     </div>
                   </div>
                 </Link>
@@ -262,8 +262,8 @@ function DashboardPage() {
                       <Heart className="w-6 h-6 text-green-600" />
                     </div>
                     <div>
-                      <h4 className="font-semibold text-gray-900">我的收藏</h4>
-                      <p className="text-sm text-gray-600">查看收藏的提示词</p>
+                      <h4 className="font-semibold text-gray-900">My Favorites</h4>
+                      <p className="text-sm text-gray-600">View your favorited prompts</p>
                     </div>
                   </div>
                 </Link>

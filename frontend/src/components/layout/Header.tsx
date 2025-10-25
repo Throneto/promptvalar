@@ -115,7 +115,7 @@ function Header() {
                       onClick={() => setShowDropdown(false)}
                     >
                       <User className="w-4 h-4" />
-                      个人中心
+                      Dashboard
                     </Link>
 
                     <Link
@@ -124,7 +124,7 @@ function Header() {
                       onClick={() => setShowDropdown(false)}
                     >
                       <FileText className="w-4 h-4" />
-                      我的提示词
+                      My Prompts
                     </Link>
 
                     <Link
@@ -133,7 +133,7 @@ function Header() {
                       onClick={() => setShowDropdown(false)}
                     >
                       <Heart className="w-4 h-4" />
-                      我的收藏
+                      My Favorites
                     </Link>
 
                     <Link
@@ -142,7 +142,7 @@ function Header() {
                       onClick={() => setShowDropdown(false)}
                     >
                       <Settings className="w-4 h-4" />
-                      设置
+                      Settings
                     </Link>
 
                     <div className="border-t border-gray-100 mt-2 pt-2">
@@ -151,7 +151,7 @@ function Header() {
                         className="flex items-center gap-3 px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors w-full"
                       >
                         <LogOut className="w-4 h-4" />
-                        退出登录
+                        Logout
                       </button>
                     </div>
                   </div>
