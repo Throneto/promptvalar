@@ -22,5 +22,8 @@ router.delete('/:id', authenticate, promptController.deletePrompt);
 router.post('/:id/favorite', authenticate, promptController.toggleFavorite);
 router.get('/favorites/me', authenticate, promptController.getUserFavorites);
 
+// 我的提示词路由
+router.get('/my', authenticate, promptController.getMyPrompts);
+
 export default router;
 

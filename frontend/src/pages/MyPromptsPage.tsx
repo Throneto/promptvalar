@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { getPrompts, deletePrompt, type Prompt } from '../services/prompt.service';
-import { Edit, Trash2, Eye, Heart, Calendar, Loader2, Plus } from 'lucide-react';
+import { getMyPrompts, deletePrompt, type Prompt } from '../services/prompt.service';
+import { Edit, Trash2, Eye, Heart, Calendar, Loader2, Plus, Search } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 function MyPromptsPage() {
@@ -12,10 +12,13 @@ function MyPromptsPage() {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [sortBy, setSortBy] = useState('updatedAt');
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
 
   useEffect(() => {
     loadMyPrompts();
-  }, [page]);
+  }, [page, searchQuery, sortBy, sortOrder]);
 
   const loadMyPrompts = async () => {
     try {
@@ -23,7 +26,13 @@ function MyPromptsPage() {
       setError('');
       
       // 获取当前用户创建的提示词
-      const response = await getPrompts({ page, limit: 12 });
+      const response = await getMyPrompts({ 
+        page, 
+        limit: 12,
+        search: searchQuery || undefined,
+        sortBy,
+        sortOrder,
+      });
       
       if (response.success && response.data) {
         setPrompts(response.data.prompts);
@@ -31,40 +40,56 @@ function MyPromptsPage() {
       }
     } catch (err: any) {
       console.error('Failed to load prompts:', err);
-      setError('加载提示词失败，请稍后重试');
+      setError('Failed to load prompts. Please try again later.');
     } finally {
       setLoading(false);
     }
   };
 
   const handleDelete = async (promptId: string) => {
-    if (!confirm('确定要删除这个提示词吗？此操作无法撤销。')) {
+    if (!confirm('Are you sure you want to delete this prompt? This action cannot be undone.')) {
       return;
     }
 
     try {
       setDeletingId(promptId);
-      await deletePrompt(promptId);
+      const response = await deletePrompt(promptId);
       
-      // 从列表中移除
-      setPrompts(prompts.filter(p => p.id !== promptId));
-      alert('删除成功！');
+      if (response.success) {
+        // Remove from list
+        setPrompts(prompts.filter(p => p.id !== promptId));
+        // Show success notification
+        const notification = document.createElement('div');
+        notification.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-fade-in-down';
+        notification.textContent = '✓ Deleted successfully!';
+        document.body.appendChild(notification);
+        setTimeout(() => {
+          notification.remove();
+        }, 3000);
+      }
     } catch (err: any) {
       console.error('Failed to delete prompt:', err);
-      alert('删除失败，请稍后重试');
+      // Show error notification
+      const notification = document.createElement('div');
+      notification.className = 'fixed top-4 right-4 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-fade-in-down';
+      notification.textContent = '✗ Failed to delete. Please try again.';
+      document.body.appendChild(notification);
+      setTimeout(() => {
+        notification.remove();
+      }, 3000);
     } finally {
       setDeletingId(null);
     }
   };
 
   const handleEdit = (promptId: string) => {
-    // 跳转到编辑页面（需要在Studio页面添加编辑功能）
+    // Navigate to edit page
     navigate(`/studio?edit=${promptId}`);
   };
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('zh-CN', {
+    return date.toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'short',
       day: 'numeric',
@@ -76,7 +101,7 @@ function MyPromptsPage() {
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 via-white to-pink-50">
         <div className="text-center">
           <Loader2 className="w-12 h-12 text-purple-600 animate-spin mx-auto mb-4" />
-          <p className="text-gray-600">加载中...</p>
+          <p className="text-gray-600">Loading...</p>
         </div>
       </div>
     );
@@ -89,22 +114,61 @@ function MyPromptsPage() {
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mb-8 flex items-center justify-between"
+          className="mb-8"
         >
-          <div>
-            <h1 className="text-4xl font-bold text-gray-900 mb-2">我的提示词</h1>
+          <div className="flex items-center justify-between mb-6">
+            <div>
+            <h1 className="text-4xl font-bold text-gray-900 mb-2">My Prompts</h1>
             <p className="text-gray-600">
-              您已创建了 <span className="font-semibold text-purple-600">{prompts.length}</span> 个提示词
+              You have created <span className="font-semibold text-purple-600">{prompts.length}</span> prompts
             </p>
+            </div>
+            
+            <Link
+              to="/studio"
+              className="btn-primary inline-flex items-center gap-2"
+            >
+              <Plus className="w-5 h-5" />
+              Create New Prompt
+            </Link>
           </div>
-          
-          <Link
-            to="/studio"
-            className="btn-primary inline-flex items-center gap-2"
-          >
-            <Plus className="w-5 h-5" />
-            创建新提示词
-          </Link>
+
+          {/* 搜索和筛选 */}
+          <div className="flex flex-col sm:flex-row gap-4">
+            {/* 搜索框 */}
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <input
+                type="text"
+                placeholder="Search prompts..."
+                value={searchQuery}
+                onChange={(e) => {
+                  setSearchQuery(e.target.value);
+                  setPage(1); // Reset to first page
+                }}
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              />
+            </div>
+
+            {/* 排序选择 */}
+            <select
+              value={`${sortBy}-${sortOrder}`}
+              onChange={(e) => {
+                const [newSortBy, newSortOrder] = e.target.value.split('-');
+                setSortBy(newSortBy);
+                setSortOrder(newSortOrder as 'asc' | 'desc');
+                setPage(1);
+              }}
+              className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white"
+            >
+              <option value="updatedAt-desc">Recently Updated</option>
+              <option value="createdAt-desc">Newest First</option>
+              <option value="viewsCount-desc">Most Viewed</option>
+              <option value="favoritesCount-desc">Most Favorited</option>
+              <option value="title-asc">Title A-Z</option>
+              <option value="title-desc">Title Z-A</option>
+            </select>
+          </div>
         </motion.div>
 
         {/* 错误提示 */}
@@ -128,11 +192,11 @@ function MyPromptsPage() {
             <div className="w-20 h-20 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-6">
               <Plus className="w-10 h-10 text-purple-600" />
             </div>
-            <h3 className="text-2xl font-semibold text-gray-700 mb-2">还没有创建提示词</h3>
-            <p className="text-gray-500 mb-8">使用AI Studio创建您的第一个提示词吧！</p>
+            <h3 className="text-2xl font-semibold text-gray-700 mb-2">No Prompts Created Yet</h3>
+            <p className="text-gray-500 mb-8">Use AI Studio to create your first prompt!</p>
             <Link to="/studio" className="btn-primary inline-flex items-center gap-2">
               <Plus className="w-5 h-5" />
-              开始创建
+              Get Started
             </Link>
           </motion.div>
         ) : (
@@ -164,7 +228,7 @@ function MyPromptsPage() {
                             <button
                               onClick={() => handleEdit(prompt.id)}
                               className="p-3 bg-white rounded-full hover:bg-purple-50 transition-colors"
-                              title="编辑"
+                              title="Edit"
                             >
                               <Edit className="w-5 h-5 text-purple-600" />
                             </button>
@@ -172,7 +236,7 @@ function MyPromptsPage() {
                               onClick={() => handleDelete(prompt.id)}
                               disabled={deletingId === prompt.id}
                               className="p-3 bg-white rounded-full hover:bg-red-50 transition-colors disabled:opacity-50"
-                              title="删除"
+                              title="Delete"
                             >
                               {deletingId === prompt.id ? (
                                 <Loader2 className="w-5 h-5 text-red-600 animate-spin" />
@@ -193,7 +257,7 @@ function MyPromptsPage() {
                             <button
                               onClick={() => handleEdit(prompt.id)}
                               className="p-3 bg-white rounded-full hover:bg-purple-50 transition-colors"
-                              title="编辑"
+                              title="Edit"
                             >
                               <Edit className="w-5 h-5 text-purple-600" />
                             </button>
@@ -201,7 +265,7 @@ function MyPromptsPage() {
                               onClick={() => handleDelete(prompt.id)}
                               disabled={deletingId === prompt.id}
                               className="p-3 bg-white rounded-full hover:bg-red-50 transition-colors disabled:opacity-50"
-                              title="删除"
+                              title="Delete"
                             >
                               {deletingId === prompt.id ? (
                                 <Loader2 className="w-5 h-5 text-red-600 animate-spin" />
@@ -269,14 +333,14 @@ function MyPromptsPage() {
                             className="py-2 px-4 bg-purple-100 text-purple-700 rounded-lg hover:bg-purple-200 transition-colors font-medium flex items-center justify-center gap-2"
                           >
                             <Edit className="w-4 h-4" />
-                            编辑
+                            Edit
                           </button>
                           <Link
                             to={`/library/${prompt.id}`}
                             className="py-2 px-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg hover:from-purple-600 hover:to-pink-600 transition-all font-medium text-center flex items-center justify-center gap-2"
                           >
                             <Eye className="w-4 h-4" />
-                            查看
+                            View
                           </Link>
                         </div>
                       </div>
@@ -299,7 +363,7 @@ function MyPromptsPage() {
                   disabled={page === 1}
                   className="px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
-                  上一页
+                  Previous
                 </button>
                 
                 <div className="flex items-center gap-2">
@@ -336,7 +400,7 @@ function MyPromptsPage() {
                   disabled={page === totalPages}
                   className="px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
-                  下一页
+                  Next
                 </button>
               </motion.div>
             )}

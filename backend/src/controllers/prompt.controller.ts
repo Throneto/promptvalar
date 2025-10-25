@@ -1,4 +1,5 @@
-import { Request, Response, NextFunction } from 'express';
+import { Response, NextFunction } from 'express';
+import { AuthRequest } from '../types/index.js';
 import * as promptService from '../services/prompt.service.js';
 import {
   createPromptSchema,
@@ -13,7 +14,7 @@ import { z } from 'zod';
  * 创建新提示词
  * POST /api/v1/prompts
  */
-export async function createPrompt(req: Request, res: Response, next: NextFunction) {
+export async function createPrompt(req: AuthRequest, res: Response, next: NextFunction) {
   try {
     // 验证请求数据
     const validatedData = createPromptSchema.parse(req.body);
@@ -93,7 +94,7 @@ export async function getPrompts(req: Request, res: Response, next: NextFunction
  * 根据ID获取单个提示词详情
  * GET /api/v1/prompts/:id
  */
-export async function getPromptById(req: Request, res: Response, next: NextFunction) {
+export async function getPromptById(req: AuthRequest, res: Response, next: NextFunction) {
   try {
     // 验证参数
     const { id } = uuidParamSchema.parse(req.params);
@@ -128,7 +129,7 @@ export async function getPromptById(req: Request, res: Response, next: NextFunct
  * 更新提示词
  * PUT /api/v1/prompts/:id
  */
-export async function updatePrompt(req: Request, res: Response, next: NextFunction) {
+export async function updatePrompt(req: AuthRequest, res: Response, next: NextFunction) {
   try {
     // 验证参数
     const { id } = uuidParamSchema.parse(req.params);
@@ -169,7 +170,7 @@ export async function updatePrompt(req: Request, res: Response, next: NextFuncti
  * 删除提示词
  * DELETE /api/v1/prompts/:id
  */
-export async function deletePrompt(req: Request, res: Response, next: NextFunction) {
+export async function deletePrompt(req: AuthRequest, res: Response, next: NextFunction) {
   try {
     // 验证参数
     const { id } = uuidParamSchema.parse(req.params);
@@ -207,7 +208,7 @@ export async function deletePrompt(req: Request, res: Response, next: NextFuncti
  * 添加/取消收藏
  * POST /api/v1/prompts/:id/favorite
  */
-export async function toggleFavorite(req: Request, res: Response, next: NextFunction) {
+export async function toggleFavorite(req: AuthRequest, res: Response, next: NextFunction) {
   try {
     // 验证参数
     const { id } = uuidParamSchema.parse(req.params);
@@ -245,7 +246,7 @@ export async function toggleFavorite(req: Request, res: Response, next: NextFunc
  * 获取用户收藏的提示词列表
  * GET /api/v1/prompts/favorites/me
  */
-export async function getUserFavorites(req: Request, res: Response, next: NextFunction) {
+export async function getUserFavorites(req: AuthRequest, res: Response, next: NextFunction) {
   try {
     // 获取当前用户ID
     const userId = req.user?.id;
@@ -259,6 +260,48 @@ export async function getUserFavorites(req: Request, res: Response, next: NextFu
 
     // 查询收藏列表
     const result = await promptService.getUserFavorites(userId, page, limit);
+
+    res.status(200).json({
+      success: true,
+      data: result.data,
+      pagination: result.pagination,
+      meta: {
+        timestamp: new Date().toISOString(),
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
+/**
+ * 获取当前用户创建的提示词列表
+ * GET /api/v1/prompts/my
+ */
+export async function getMyPrompts(req: AuthRequest, res: Response, next: NextFunction) {
+  try {
+    // 获取当前用户ID
+    const userId = req.user?.id;
+    if (!userId) {
+      throw new AppError(401, 'UNAUTHORIZED', '请先登录');
+    }
+
+    // 获取分页和查询参数
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 12;
+    const search = req.query.search as string | undefined;
+    const sortBy = (req.query.sortBy as string) || 'updatedAt';
+    const sortOrder = (req.query.sortOrder as 'asc' | 'desc') || 'desc';
+
+    // 查询当前用户创建的提示词
+    const result = await promptService.getPrompts({
+      page,
+      limit,
+      authorId: userId,
+      search,
+      sortBy,
+      sortOrder,
+    });
 
     res.status(200).json({
       success: true,

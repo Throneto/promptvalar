@@ -1,6 +1,6 @@
 import { db } from '../db/index.js';
 import { prompts, structuredPrompts, favorites, users } from '../db/schema.js';
-import { eq, and, desc, asc, ilike, inArray, sql, isNull } from 'drizzle-orm';
+import { eq, and, desc, asc, sql, isNull } from 'drizzle-orm';
 import { AppError } from '../middleware/errorHandler.js';
 
 /**
@@ -119,10 +119,18 @@ export async function getPrompts(filters: {
     }
 
     // 排序
-    const orderBy =
-      filters.sortOrder === 'desc'
-        ? desc(prompts[filters.sortBy as keyof typeof prompts])
-        : asc(prompts[filters.sortBy as keyof typeof prompts]);
+    const sortByField = filters.sortBy as keyof typeof prompts;
+    let orderBy;
+    
+    // 检查字段是否存在于 prompts schema
+    if (sortByField in prompts) {
+      orderBy = filters.sortOrder === 'desc'
+        ? desc(prompts[sortByField])
+        : asc(prompts[sortByField]);
+    } else {
+      // 默认按创建时间排序
+      orderBy = desc(prompts.createdAt);
+    }
 
     // 查询提示词列表
     const promptsList = await db

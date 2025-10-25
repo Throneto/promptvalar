@@ -167,3 +167,17 @@ export async function getMyFavorites(params?: {
   return response.data;
 }
 
+/**
+ * 获取我的提示词列表
+ */
+export async function getMyPrompts(params?: {
+  page?: number;
+  limit?: number;
+  search?: string;
+  sortBy?: string;
+  sortOrder?: 'asc' | 'desc';
+}): Promise<PromptListResponse> {
+  const response = await apiClient.get<PromptListResponse>('/prompts/my', { params });
+  return response.data;
+}
+

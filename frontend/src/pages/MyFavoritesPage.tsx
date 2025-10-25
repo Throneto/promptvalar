@@ -1,20 +1,54 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getMyFavorites, toggleFavorite, type Prompt } from '../services/prompt.service';
-import { Heart, Eye, Calendar, Loader2, Trash2 } from 'lucide-react';
+import { Heart, Eye, Calendar, Loader2, Trash2, Search, Filter } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 function MyFavoritesPage() {
   const [prompts, setPrompts] = useState<Prompt[]>([]);
+  const [filteredPrompts, setFilteredPrompts] = useState<Prompt[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [removingId, setRemovingId] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [sortBy, setSortBy] = useState('createdAt');
 
   useEffect(() => {
     loadFavorites();
   }, [page]);
+
+  // 本地搜索和排序
+  useEffect(() => {
+    let filtered = [...prompts];
+
+    // 搜索过滤
+    if (searchQuery) {
+      filtered = filtered.filter(
+        (prompt) =>
+          prompt.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          prompt.description?.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+
+    // 排序
+    filtered.sort((a, b) => {
+      switch (sortBy) {
+        case 'title':
+          return a.title.localeCompare(b.title);
+        case 'viewCount':
+          return b.viewCount - a.viewCount;
+        case 'favoriteCount':
+          return b.favoriteCount - a.favoriteCount;
+        case 'createdAt':
+        default:
+          return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+      }
+    });
+
+    setFilteredPrompts(filtered);
+  }, [prompts, searchQuery, sortBy]);
 
   const loadFavorites = async () => {
     try {
@@ -28,7 +62,7 @@ function MyFavoritesPage() {
       }
     } catch (err: any) {
       console.error('Failed to load favorites:', err);
-      setError('Failed to load favorites, please try again later');
+      setError('Failed to load favorites. Please try again later.');
     } finally {
       setLoading(false);
     }
@@ -37,13 +71,30 @@ function MyFavoritesPage() {
   const handleRemoveFavorite = async (promptId: string) => {
     try {
       setRemovingId(promptId);
-      await toggleFavorite(promptId);
+      const response = await toggleFavorite(promptId);
       
-      // 从列表中移除
-      setPrompts(prompts.filter(p => p.id !== promptId));
+      if (response.success) {
+        // 从列表中移除
+        setPrompts(prompts.filter(p => p.id !== promptId));
+        // Show success notification
+        const notification = document.createElement('div');
+        notification.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-fade-in-down';
+        notification.textContent = '✓ Removed from favorites';
+        document.body.appendChild(notification);
+        setTimeout(() => {
+          notification.remove();
+        }, 3000);
+      }
     } catch (err: any) {
       console.error('Failed to remove favorite:', err);
-      alert('Failed to remove favorite, please try again later');
+      // Show error notification
+      const notification = document.createElement('div');
+      notification.className = 'fixed top-4 right-4 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-fade-in-down';
+      notification.textContent = '✗ Failed to remove favorite. Please try again.';
+      document.body.appendChild(notification);
+      setTimeout(() => {
+        notification.remove();
+      }, 3000);
     } finally {
       setRemovingId(null);
     }
@@ -63,7 +114,7 @@ function MyFavoritesPage() {
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 via-white to-pink-50">
         <div className="text-center">
           <Loader2 className="w-12 h-12 text-purple-600 animate-spin mx-auto mb-4" />
-          <p className="text-gray-600">Loading favorites...</p>
+          <p className="text-gray-600">Loading...</p>
         </div>
       </div>
     );
@@ -78,10 +129,40 @@ function MyFavoritesPage() {
           animate={{ opacity: 1, y: 0 }}
           className="mb-8"
         >
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">My Favorites</h1>
-          <p className="text-gray-600">
-            You have saved <span className="font-semibold text-purple-600">{prompts.length}</span> prompts
-          </p>
+          <div className="mb-6">
+            <h1 className="text-4xl font-bold text-gray-900 mb-2">My Favorites</h1>
+            <p className="text-gray-600">
+              You have saved <span className="font-semibold text-purple-600">{prompts.length}</span> prompts
+              {searchQuery && ` (showing ${filteredPrompts.length} matches)`}
+            </p>
+          </div>
+
+          {/* 搜索和筛选 */}
+          <div className="flex flex-col sm:flex-row gap-4">
+            {/* 搜索框 */}
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <input
+                type="text"
+                placeholder="Search favorites..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              />
+            </div>
+
+            {/* 排序选择 */}
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+              className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white"
+            >
+              <option value="createdAt">Date Added</option>
+              <option value="viewCount">Most Viewed</option>
+              <option value="favoriteCount">Most Favorited</option>
+              <option value="title">Title A-Z</option>
+            </select>
+          </div>
         </motion.div>
 
         {/* 错误提示 */}
@@ -96,26 +177,43 @@ function MyFavoritesPage() {
         )}
 
         {/* 空状态 */}
-        {!loading && prompts.length === 0 ? (
+        {!loading && filteredPrompts.length === 0 ? (
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             className="text-center py-20"
           >
-            <Heart className="w-20 h-20 text-gray-300 mx-auto mb-6" />
-            <h3 className="text-2xl font-semibold text-gray-700 mb-2">No Favorites Yet</h3>
-            <p className="text-gray-500 mb-8">Explore the library to discover quality prompts!</p>
-            <Link to="/library" className="btn-primary inline-flex items-center gap-2">
-              <Heart className="w-5 h-5" />
-              Browse Library
-            </Link>
+            {searchQuery ? (
+              <>
+                <Search className="w-20 h-20 text-gray-300 mx-auto mb-6" />
+                <h3 className="text-2xl font-semibold text-gray-700 mb-2">No Matches Found</h3>
+                <p className="text-gray-500 mb-8">Try searching with different keywords</p>
+                <button
+                  onClick={() => setSearchQuery('')}
+                  className="btn-primary inline-flex items-center gap-2"
+                >
+                  <Filter className="w-5 h-5" />
+                  Clear Search
+                </button>
+              </>
+            ) : (
+              <>
+                <Heart className="w-20 h-20 text-gray-300 mx-auto mb-6" />
+                <h3 className="text-2xl font-semibold text-gray-700 mb-2">No Favorites Yet</h3>
+                <p className="text-gray-500 mb-8">Explore the library and discover great prompts!</p>
+                <Link to="/library" className="btn-primary inline-flex items-center gap-2">
+                  <Heart className="w-5 h-5" />
+                  Browse Library
+                </Link>
+              </>
+            )}
           </motion.div>
         ) : (
           <>
             {/* 收藏列表 */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               <AnimatePresence mode="popLayout">
-                {prompts.map((prompt, index) => (
+                {filteredPrompts.map((prompt, index) => (
                   <motion.div
                     key={prompt.id}
                     initial={{ opacity: 0, y: 20 }}

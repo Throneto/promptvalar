@@ -1,4 +1,5 @@
-import { Request, Response, NextFunction } from 'express';
+import { Response, NextFunction } from 'express';
+import { AuthRequest } from '../types/index.js';
 import * as openrouterService from '../services/openrouter.service.js';
 import { AppError } from '../middleware/errorHandler.js';
 import { z } from 'zod';
@@ -24,7 +25,7 @@ const suggestSchema = z.object({
  * 生成提示词
  * POST /api/v1/ai/generate-prompt
  */
-export async function generatePrompt(req: Request, res: Response, next: NextFunction) {
+export async function generatePrompt(req: AuthRequest, res: Response, next: NextFunction) {
   try {
     // 验证请求数据
     const { idea, model, style } = generatePromptSchema.parse(req.body);
@@ -61,7 +62,7 @@ export async function generatePrompt(req: Request, res: Response, next: NextFunc
  * 解析提示词
  * POST /api/v1/ai/parse-prompt
  */
-export async function parsePrompt(req: Request, res: Response, next: NextFunction) {
+export async function parsePrompt(req: AuthRequest, res: Response, next: NextFunction) {
   try {
     // 验证请求数据
     const { prompt, model } = parsePromptSchema.parse(req.body);
@@ -95,7 +96,7 @@ export async function parsePrompt(req: Request, res: Response, next: NextFunctio
  * 获取改进建议
  * POST /api/v1/ai/suggest
  */
-export async function suggest(req: Request, res: Response, next: NextFunction) {
+export async function suggest(req: AuthRequest, res: Response, next: NextFunction) {
   try {
     // 验证请求数据
     const { prompt, model } = suggestSchema.parse(req.body);
