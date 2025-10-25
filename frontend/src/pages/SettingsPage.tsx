@@ -1,7 +1,7 @@
 import { useState, useEffect, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getCurrentUser, logout } from '../services/auth.service';
-import { User, Mail, Lock, Save, Trash2, LogOut } from 'lucide-react';
+import { User, Lock, Save, Trash2, LogOut } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 function SettingsPage() {

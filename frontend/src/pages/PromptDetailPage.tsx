@@ -10,7 +10,6 @@ import {
   User,
   Calendar,
   Tag,
-  Sparkles,
   Share2,
   Edit,
   Loader2,

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Sparkles, Save, Loader2, CheckCircle } from 'lucide-react';
+import { Sparkles, Save, CheckCircle } from 'lucide-react';
 import { generatePrompt } from '../services/ai.service';
 import { 
   getPromptById, 

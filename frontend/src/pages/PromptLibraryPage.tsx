@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Search, Filter, Heart, Eye, Copy, Check } from 'lucide-react';
+import { Search, Heart, Eye, Copy, Check } from 'lucide-react';
 import { Prompt, AIModel, PromptStyle } from '../types/prompt';
 
 const PromptLibraryPage = () => {

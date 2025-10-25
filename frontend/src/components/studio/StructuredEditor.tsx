@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { Copy, Check } from 'lucide-react';
-import { motion } from 'framer-motion';
 import { StructuredPrompt, ShotType, LightingType } from '../../types/prompt';
 
 interface StructuredEditorProps {
