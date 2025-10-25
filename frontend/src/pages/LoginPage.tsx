@@ -42,14 +42,14 @@ function LoginPage() {
       if (axios.isAxiosError(err) && err.response) {
         const errorData = err.response.data;
         if (errorData.error?.code === 'INVALID_CREDENTIALS') {
-          setError('邮箱或密码错误');
+          setError('Invalid email or password');
         } else if (errorData.error?.code === 'VALIDATION_ERROR') {
-          setError('请输入有效的邮箱和密码');
+          setError('Please enter a valid email and password');
         } else {
-          setError(errorData.error?.message || '登录失败，请稍后重试');
+          setError(errorData.error?.message || 'Login failed, please try again later');
         }
       } else {
-        setError(err.message || '网络错误，请检查连接');
+        setError(err.message || 'Network error, please check your connection');
       }
     } finally {
       setLoading(false);
@@ -116,7 +116,7 @@ function LoginPage() {
             className="btn-primary w-full" 
             disabled={loading}
           >
-            {loading ? '登录中...' : 'Sign In'}
+            {loading ? 'Signing in...' : 'Sign In'}
           </button>
 
           <p className="text-center mt-6 text-sm text-gray-600">
