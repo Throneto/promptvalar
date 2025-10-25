@@ -303,10 +303,18 @@ export async function getMyPrompts(req: AuthRequest, res: Response, next: NextFu
       sortOrder,
     });
 
+    // 确保返回的数据结构与前端期望一致
     res.status(200).json({
       success: true,
-      data: result.data,
-      pagination: result.pagination,
+      data: {
+        prompts: result.data?.prompts || [],
+        pagination: result.pagination || {
+          page,
+          limit,
+          total: 0,
+          pages: 0,
+        },
+      },
       meta: {
         timestamp: new Date().toISOString(),
       },
