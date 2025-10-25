@@ -55,7 +55,7 @@ export async function createPrompt(req: AuthRequest, res: Response, next: NextFu
  * 获取提示词列表（带分页和过滤）
  * GET /api/v1/prompts
  */
-export async function getPrompts(req: Request, res: Response, next: NextFunction) {
+export async function getPrompts(req: AuthRequest, res: Response, next: NextFunction) {
   try {
     // 验证查询参数
     const validatedQuery = queryPromptsSchema.parse(req.query);

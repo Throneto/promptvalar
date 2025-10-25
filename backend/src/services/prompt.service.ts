@@ -119,17 +119,26 @@ export async function getPrompts(filters: {
     }
 
     // 排序
-    const sortByField = filters.sortBy as keyof typeof prompts;
     let orderBy;
     
-    // 检查字段是否存在于 prompts schema
-    if (sortByField in prompts) {
-      orderBy = filters.sortOrder === 'desc'
-        ? desc(prompts[sortByField])
-        : asc(prompts[sortByField]);
-    } else {
-      // 默认按创建时间排序
-      orderBy = desc(prompts.createdAt);
+    // 根据排序字段选择对应的列
+    switch (filters.sortBy) {
+      case 'title':
+        orderBy = filters.sortOrder === 'desc' ? desc(prompts.title) : asc(prompts.title);
+        break;
+      case 'viewsCount':
+        orderBy = filters.sortOrder === 'desc' ? desc(prompts.viewsCount) : asc(prompts.viewsCount);
+        break;
+      case 'favoritesCount':
+        orderBy = filters.sortOrder === 'desc' ? desc(prompts.favoritesCount) : asc(prompts.favoritesCount);
+        break;
+      case 'updatedAt':
+        orderBy = filters.sortOrder === 'desc' ? desc(prompts.updatedAt) : asc(prompts.updatedAt);
+        break;
+      case 'createdAt':
+      default:
+        orderBy = filters.sortOrder === 'desc' ? desc(prompts.createdAt) : asc(prompts.createdAt);
+        break;
     }
 
     // 查询提示词列表
