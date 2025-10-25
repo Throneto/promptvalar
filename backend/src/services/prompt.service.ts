@@ -472,19 +472,23 @@ export async function getUserFavorites(userId: string, page: number = 1, limit: 
       .offset(offset);
 
     // 查询总数
-    const [{ count }] = await db
+    const countResult = await db
       .select({ count: sql<number>`count(*)::int` })
       .from(favorites)
       .innerJoin(prompts, eq(favorites.promptId, prompts.id))
       .where(and(eq(favorites.userId, userId), isNull(prompts.deletedAt)));
 
+    const totalCount = countResult[0]?.count || 0;
+
     return {
-      data: favoritesList,
+      data: {
+        prompts: favoritesList || []
+      },
       pagination: {
         page,
         limit,
-        total: count,
-        totalPages: Math.ceil(count / limit),
+        total: totalCount,
+        pages: Math.ceil(totalCount / limit) || 0,
       },
     };
   } catch (error: any) {
