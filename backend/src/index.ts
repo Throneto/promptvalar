@@ -4,6 +4,7 @@ import helmet from 'helmet';
 import dotenv from 'dotenv';
 import authRoutes from './routes/auth.routes.js';
 import aiRoutes from './routes/ai.routes.js';
+import promptRoutes from './routes/prompt.routes.js';
 import { errorHandler } from './middleware/errorHandler.js';
 
 // 加载环境变量
@@ -29,6 +30,7 @@ app.get('/health', (_req, res) => {
 // API路由
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/ai', aiRoutes);
+app.use('/api/v1/prompts', promptRoutes);
 
 // 404处理
 app.use((_req, res) => {

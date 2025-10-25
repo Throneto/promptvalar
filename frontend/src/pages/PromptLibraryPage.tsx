@@ -1,73 +1,71 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Search, Filter, Heart, Eye, Copy, Check } from 'lucide-react';
 import { Prompt, AIModel, PromptStyle } from '../types/prompt';
 
-// 临时模拟数据（后续将从API获取）
-const mockPrompts: Prompt[] = [
-  {
-    id: '1',
-    title: 'Cyberpunk City at Night',
-    description: 'A cinematic view of a futuristic cityscape with neon lights',
-    promptText:
-      'A cinematic wide shot of a futuristic cyberpunk city at night, neon signs reflecting on wet streets, flying cars in the distance, dramatic lighting with purple and blue tones, highly detailed, 8k resolution',
-    model: 'sora',
-    category: 'video',
-    style: 'cyberpunk',
-    tags: ['cityscape', 'futuristic', 'neon', 'night'],
-    previewImageUrl: 'https://images.unsplash.com/photo-1518005068251-37900150dfca?w=800',
-    authorId: 'user1',
-    isPremium: false,
-    isPublished: true,
-    viewsCount: 1234,
-    favoritesCount: 89,
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-  },
-  {
-    id: '2',
-    title: 'Fantasy Dragon Portrait',
-    description: 'Majestic dragon in a mystical forest setting',
-    promptText:
-      'A close-up portrait of a majestic dragon with iridescent scales, surrounded by mystical glowing forest, golden hour lighting, fantasy art style, intricate details, ethereal atmosphere',
-    model: 'midjourney',
-    category: 'image',
-    style: 'fantasy',
-    tags: ['dragon', 'fantasy', 'portrait', 'mystical'],
-    previewImageUrl: 'https://images.unsplash.com/photo-1574169208507-84376144848b?w=800',
-    authorId: 'user2',
-    isPremium: true,
-    isPublished: true,
-    viewsCount: 2456,
-    favoritesCount: 234,
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-  },
-  // 可以添加更多模拟数据
-];
-
 const PromptLibraryPage = () => {
-  const [prompts, setPrompts] = useState<Prompt[]>(mockPrompts);
+  const navigate = useNavigate();
+  const [prompts, setPrompts] = useState<Prompt[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedModel, setSelectedModel] = useState<AIModel | 'all'>('all');
   const [selectedStyle, setSelectedStyle] = useState<PromptStyle | 'all'>('all');
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
-  // 过滤prompts
-  const filteredPrompts = prompts.filter((prompt) => {
-    const matchesSearch =
-      prompt.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      prompt.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      prompt.tags.some((tag) => tag.toLowerCase().includes(searchQuery.toLowerCase()));
+  // 从API获取提示词列表
+  useEffect(() => {
+    const fetchPrompts = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        
+        // 构建查询参数
+        const params = new URLSearchParams();
+        params.append('page', '1');
+        params.append('limit', '50');
+        
+        if (selectedModel !== 'all') {
+          params.append('model', selectedModel);
+        }
+        if (selectedStyle !== 'all') {
+          params.append('style', selectedStyle);
+        }
+        if (searchQuery) {
+          params.append('search', searchQuery);
+        }
 
-    const matchesModel = selectedModel === 'all' || prompt.model === selectedModel;
-    const matchesStyle = selectedStyle === 'all' || prompt.style === selectedStyle;
+        const response = await fetch(`http://localhost:5000/api/v1/prompts?${params.toString()}`);
+        
+        if (!response.ok) {
+          throw new Error('获取提示词列表失败');
+        }
 
-    return matchesSearch && matchesModel && matchesStyle;
-  });
+        const data = await response.json();
+        setPrompts(data.data);
+      } catch (err: any) {
+        setError(err.message || '加载失败');
+        setPrompts([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    // 延迟搜索以减少API调用
+    const timeoutId = setTimeout(() => {
+      fetchPrompts();
+    }, 300);
+
+    return () => clearTimeout(timeoutId);
+  }, [selectedModel, selectedStyle, searchQuery]);
+
+  // 使用从API获取的数据（已经过滤）
+  const filteredPrompts = prompts;
 
   // 复制提示词
-  const handleCopy = async (promptText: string, promptId: string) => {
+  const handleCopy = async (promptText: string, promptId: string, e: React.MouseEvent) => {
+    e.stopPropagation(); // 防止触发卡片点击
     try {
       await navigator.clipboard.writeText(promptText);
       setCopiedId(promptId);
@@ -75,6 +73,11 @@ const PromptLibraryPage = () => {
     } catch (error) {
       console.error('Failed to copy:', error);
     }
+  };
+
+  // 跳转到详情页
+  const handleCardClick = (promptId: string) => {
+    navigate(`/library/${promptId}`);
   };
 
   return (
@@ -166,16 +169,38 @@ const PromptLibraryPage = () => {
           </div>
         </div>
 
-        {/* Prompts 网格 */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredPrompts.map((prompt, index) => (
-            <motion.div
-              key={prompt.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-              className="bg-white/10 backdrop-blur-lg rounded-xl border border-purple-500/30 overflow-hidden hover:border-purple-500/60 transition-all duration-300 group"
+        {/* 加载和错误状态 */}
+        {loading && (
+          <div className="text-center py-12">
+            <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-purple-500"></div>
+            <p className="text-purple-200 mt-4">加载中...</p>
+          </div>
+        )}
+
+        {error && !loading && (
+          <div className="text-center py-12">
+            <p className="text-red-400 text-xl mb-4">{error}</p>
+            <button
+              onClick={() => window.location.reload()}
+              className="text-purple-400 hover:text-purple-300 underline"
             >
+              重试
+            </button>
+          </div>
+        )}
+
+        {/* Prompts 网格 */}
+        {!loading && !error && (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredPrompts.map((prompt, index) => (
+              <motion.div
+                key={prompt.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+                onClick={() => handleCardClick(prompt.id)}
+                className="bg-white/10 backdrop-blur-lg rounded-xl border border-purple-500/30 overflow-hidden hover:border-purple-500/60 transition-all duration-300 group cursor-pointer"
+              >
               {/* 预览图 */}
               <div className="relative h-48 overflow-hidden bg-slate-800">
                 {prompt.previewImageUrl ? (
@@ -227,7 +252,7 @@ const PromptLibraryPage = () => {
                   </div>
 
                   <button
-                    onClick={() => handleCopy(prompt.promptText, prompt.id)}
+                    onClick={(e) => handleCopy(prompt.promptText, prompt.id, e)}
                     className="flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors"
                   >
                     {copiedId === prompt.id ? (
@@ -252,11 +277,12 @@ const PromptLibraryPage = () => {
                 </div>
               </div>
             </motion.div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
 
         {/* 无结果提示 */}
-        {filteredPrompts.length === 0 && (
+        {!loading && !error && filteredPrompts.length === 0 && (
           <div className="text-center py-12">
             <p className="text-xl text-purple-200">No prompts found matching your filters.</p>
             <p className="text-purple-300 mt-2">Try adjusting your search or filters.</p>
