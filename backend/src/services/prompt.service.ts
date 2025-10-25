@@ -175,18 +175,22 @@ export async function getPrompts(filters: {
       .offset(offset);
 
     // 查询总数
-    const [{ count }] = await db
+    const countResult = await db
       .select({ count: sql<number>`count(*)::int` })
       .from(prompts)
       .where(and(...conditions));
 
+    const totalCount = countResult[0]?.count || 0;
+
     return {
-      data: promptsList,
+      data: {
+        prompts: promptsList || []
+      },
       pagination: {
         page: filters.page,
         limit: filters.limit,
-        total: count,
-        totalPages: Math.ceil(count / filters.limit),
+        total: totalCount,
+        pages: Math.ceil(totalCount / filters.limit) || 0,
       },
     };
   } catch (error: any) {
