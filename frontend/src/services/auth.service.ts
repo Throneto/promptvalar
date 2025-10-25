@@ -79,16 +79,33 @@ export async function register(data: RegisterRequest): Promise<AuthResponse> {
  * 用户登录
  */
 export async function login(data: LoginRequest): Promise<AuthResponse> {
-  const response = await apiClient.post<AuthResponse>('/auth/login', data);
+  console.log('📡 发送登录请求到:', apiClient.defaults.baseURL);
+  console.log('📧 邮箱:', data.email);
   
-  // 保存tokens到localStorage
-  if (response.data.success && response.data.data) {
-    localStorage.setItem('accessToken', response.data.data.accessToken);
-    localStorage.setItem('refreshToken', response.data.data.refreshToken);
-    localStorage.setItem('user', JSON.stringify(response.data.data.user));
+  try {
+    const response = await apiClient.post<AuthResponse>('/auth/login', data);
+    console.log('📥 收到响应:', response.status, response.statusText);
+    console.log('📦 响应数据:', response.data);
+    
+    // 保存tokens到localStorage
+    if (response.data.success && response.data.data) {
+      console.log('💾 保存tokens到localStorage...');
+      localStorage.setItem('accessToken', response.data.data.accessToken);
+      localStorage.setItem('refreshToken', response.data.data.refreshToken);
+      localStorage.setItem('user', JSON.stringify(response.data.data.user));
+      console.log('✅ tokens已保存');
+      
+      // 触发自定义事件通知其他组件
+      window.dispatchEvent(new Event('auth-change'));
+    } else {
+      console.warn('⚠️ 响应格式异常:', response.data);
+    }
+    
+    return response.data;
+  } catch (error) {
+    console.error('❌ 登录API调用失败:', error);
+    throw error;
   }
-  
-  return response.data;
 }
 
 /**

@@ -16,12 +16,28 @@ function LoginPage() {
     setError('');
     setLoading(true);
 
+    console.log('🔐 开始登录...', { email, password: '***' });
+
     try {
-      await login({ email, password });
+      const result = await login({ email, password });
+      console.log('✅ 登录成功！', result);
+      
+      // 验证token是否保存
+      const savedToken = localStorage.getItem('accessToken');
+      const savedUser = localStorage.getItem('user');
+      console.log('💾 Token已保存:', !!savedToken);
+      console.log('👤 用户数据已保存:', !!savedUser);
+      
       // 登录成功，跳转到原始页面或工作室页面
       const from = (location.state as any)?.from || '/studio';
+      console.log('🚀 准备跳转到:', from);
+      
       navigate(from, { replace: true });
-    } catch (err) {
+      console.log('✨ 跳转命令已执行');
+    } catch (err: any) {
+      console.error('❌ 登录失败:', err);
+      console.error('错误详情:', err.response?.data);
+      
       // 处理错误
       if (axios.isAxiosError(err) && err.response) {
         const errorData = err.response.data;
@@ -33,7 +49,7 @@ function LoginPage() {
           setError(errorData.error?.message || '登录失败，请稍后重试');
         }
       } else {
-        setError('网络错误，请检查连接');
+        setError(err.message || '网络错误，请检查连接');
       }
     } finally {
       setLoading(false);
