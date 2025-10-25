@@ -36,7 +36,7 @@ function SettingsPage() {
       // 模拟API调用
       await new Promise(resolve => setTimeout(resolve, 1000));
       
-      setMessage({ type: 'success', text: '个人资料更新成功！' });
+      setMessage({ type: 'success', text: 'Profile updated successfully!' });
       
       // 更新localStorage中的用户信息
       const updatedUser = { ...user, username, email };
@@ -46,7 +46,7 @@ function SettingsPage() {
       // 触发自定义事件通知其他组件
       window.dispatchEvent(new Event('auth-change'));
     } catch (err: any) {
-      setMessage({ type: 'error', text: '更新失败，请稍后重试' });
+      setMessage({ type: 'error', text: 'Update failed, please try again later' });
     } finally {
       setLoading(false);
     }
@@ -58,12 +58,12 @@ function SettingsPage() {
 
     // 验证密码
     if (newPassword.length < 6) {
-      setMessage({ type: 'error', text: '新密码至少需要6个字符' });
+      setMessage({ type: 'error', text: 'New password must be at least 6 characters' });
       return;
     }
 
     if (newPassword !== confirmPassword) {
-      setMessage({ type: 'error', text: '两次输入的密码不一致' });
+      setMessage({ type: 'error', text: 'Passwords do not match' });
       return;
     }
 
@@ -76,22 +76,22 @@ function SettingsPage() {
       // 模拟API调用
       await new Promise(resolve => setTimeout(resolve, 1000));
       
-      setMessage({ type: 'success', text: '密码修改成功！' });
+      setMessage({ type: 'success', text: 'Password changed successfully!' });
       setCurrentPassword('');
       setNewPassword('');
       setConfirmPassword('');
     } catch (err: any) {
-      setMessage({ type: 'error', text: '密码修改失败，请检查当前密码是否正确' });
+      setMessage({ type: 'error', text: 'Failed to change password, please check your current password' });
     } finally {
       setLoading(false);
     }
   };
 
   const handleDeleteAccount = () => {
-    if (confirm('确定要删除账号吗？此操作无法撤销，所有数据将被永久删除。')) {
-      if (confirm('再次确认：真的要删除账号吗？')) {
+    if (confirm('Are you sure you want to delete your account? This action cannot be undone and all data will be permanently deleted.')) {
+      if (confirm('Final confirmation: Do you really want to delete your account?')) {
         // TODO: 实现删除账号的API调用
-        alert('账号删除功能即将推出');
+        alert('Account deletion feature coming soon');
       }
     }
   };
@@ -105,7 +105,7 @@ function SettingsPage() {
   if (!user) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <p className="text-gray-600">加载中...</p>
+        <p className="text-gray-600">Loading...</p>
       </div>
     );
   }
@@ -119,8 +119,8 @@ function SettingsPage() {
           animate={{ opacity: 1, y: 0 }}
           className="mb-8"
         >
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">账号设置</h1>
-          <p className="text-gray-600">管理您的账号信息和安全设置</p>
+          <h1 className="text-4xl font-bold text-gray-900 mb-2">Account Settings</h1>
+          <p className="text-gray-600">Manage your account information and security settings</p>
         </motion.div>
 
         {/* 消息提示 */}
@@ -151,13 +151,13 @@ function SettingsPage() {
         >
           <h2 className="text-2xl font-semibold text-gray-900 mb-6 flex items-center gap-3">
             <User className="w-6 h-6 text-purple-600" />
-            个人资料
+            Profile Information
           </h2>
 
           <form onSubmit={handleUpdateProfile} className="space-y-6">
             <div>
               <label htmlFor="username" className="form-label">
-                用户名
+                Username
               </label>
               <input
                 type="text"
@@ -171,7 +171,7 @@ function SettingsPage() {
 
             <div>
               <label htmlFor="email" className="form-label">
-                邮箱地址
+                Email Address
               </label>
               <input
                 type="email"
@@ -190,7 +190,7 @@ function SettingsPage() {
                 className="btn-primary flex items-center gap-2"
               >
                 <Save className="w-5 h-5" />
-                {loading ? '保存中...' : '保存更改'}
+                {loading ? 'Saving...' : 'Save Changes'}
               </button>
             </div>
           </form>
@@ -205,13 +205,13 @@ function SettingsPage() {
         >
           <h2 className="text-2xl font-semibold text-gray-900 mb-6 flex items-center gap-3">
             <Lock className="w-6 h-6 text-purple-600" />
-            修改密码
+            Change Password
           </h2>
 
           <form onSubmit={handleChangePassword} className="space-y-6">
             <div>
               <label htmlFor="currentPassword" className="form-label">
-                当前密码
+                Current Password
               </label>
               <input
                 type="password"
@@ -225,7 +225,7 @@ function SettingsPage() {
 
             <div>
               <label htmlFor="newPassword" className="form-label">
-                新密码
+                New Password
               </label>
               <input
                 type="password"
@@ -236,12 +236,12 @@ function SettingsPage() {
                 required
                 minLength={6}
               />
-              <p className="text-sm text-gray-500 mt-1">至少6个字符</p>
+              <p className="text-sm text-gray-500 mt-1">At least 6 characters</p>
             </div>
 
             <div>
               <label htmlFor="confirmPassword" className="form-label">
-                确认新密码
+                Confirm New Password
               </label>
               <input
                 type="password"
@@ -260,7 +260,7 @@ function SettingsPage() {
                 className="btn-primary flex items-center gap-2"
               >
                 <Lock className="w-5 h-5" />
-                {loading ? '修改中...' : '修改密码'}
+                {loading ? 'Changing...' : 'Change Password'}
               </button>
             </div>
           </form>
@@ -273,14 +273,14 @@ function SettingsPage() {
           transition={{ delay: 0.3 }}
           className="bg-white rounded-xl shadow-lg p-8 border-2 border-red-200"
         >
-          <h2 className="text-2xl font-semibold text-red-600 mb-6">危险区域</h2>
+          <h2 className="text-2xl font-semibold text-red-600 mb-6">Danger Zone</h2>
 
           <div className="space-y-4">
             <div className="flex items-start justify-between p-4 bg-red-50 rounded-lg">
               <div className="flex-1">
-                <h3 className="font-semibold text-gray-900 mb-1">退出登录</h3>
+                <h3 className="font-semibold text-gray-900 mb-1">Log Out</h3>
                 <p className="text-sm text-gray-600">
-                  退出当前账号，返回首页
+                  Sign out from your account and return to homepage
                 </p>
               </div>
               <button
@@ -288,15 +288,15 @@ function SettingsPage() {
                 className="ml-4 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors flex items-center gap-2"
               >
                 <LogOut className="w-4 h-4" />
-                退出登录
+                Log Out
               </button>
             </div>
 
             <div className="flex items-start justify-between p-4 bg-red-50 rounded-lg">
               <div className="flex-1">
-                <h3 className="font-semibold text-gray-900 mb-1">删除账号</h3>
+                <h3 className="font-semibold text-gray-900 mb-1">Delete Account</h3>
                 <p className="text-sm text-gray-600">
-                  永久删除您的账号和所有相关数据，此操作无法撤销
+                  Permanently delete your account and all related data. This action cannot be undone
                 </p>
               </div>
               <button
@@ -304,7 +304,7 @@ function SettingsPage() {
                 className="ml-4 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors flex items-center gap-2"
               >
                 <Trash2 className="w-4 h-4" />
-                删除账号
+                Delete Account
               </button>
             </div>
           </div>

@@ -28,7 +28,7 @@ function MyFavoritesPage() {
       }
     } catch (err: any) {
       console.error('Failed to load favorites:', err);
-      setError('加载收藏失败，请稍后重试');
+      setError('Failed to load favorites, please try again later');
     } finally {
       setLoading(false);
     }
@@ -43,7 +43,7 @@ function MyFavoritesPage() {
       setPrompts(prompts.filter(p => p.id !== promptId));
     } catch (err: any) {
       console.error('Failed to remove favorite:', err);
-      alert('取消收藏失败，请稍后重试');
+      alert('Failed to remove favorite, please try again later');
     } finally {
       setRemovingId(null);
     }
@@ -51,7 +51,7 @@ function MyFavoritesPage() {
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('zh-CN', {
+    return date.toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'short',
       day: 'numeric',
@@ -63,7 +63,7 @@ function MyFavoritesPage() {
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 via-white to-pink-50">
         <div className="text-center">
           <Loader2 className="w-12 h-12 text-purple-600 animate-spin mx-auto mb-4" />
-          <p className="text-gray-600">加载收藏中...</p>
+          <p className="text-gray-600">Loading favorites...</p>
         </div>
       </div>
     );
@@ -78,9 +78,9 @@ function MyFavoritesPage() {
           animate={{ opacity: 1, y: 0 }}
           className="mb-8"
         >
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">我的收藏</h1>
+          <h1 className="text-4xl font-bold text-gray-900 mb-2">My Favorites</h1>
           <p className="text-gray-600">
-            您已收藏了 <span className="font-semibold text-purple-600">{prompts.length}</span> 个提示词
+            You have saved <span className="font-semibold text-purple-600">{prompts.length}</span> prompts
           </p>
         </motion.div>
 
@@ -103,11 +103,11 @@ function MyFavoritesPage() {
             className="text-center py-20"
           >
             <Heart className="w-20 h-20 text-gray-300 mx-auto mb-6" />
-            <h3 className="text-2xl font-semibold text-gray-700 mb-2">还没有收藏</h3>
-            <p className="text-gray-500 mb-8">快去提示词库发现优质内容吧！</p>
+            <h3 className="text-2xl font-semibold text-gray-700 mb-2">No Favorites Yet</h3>
+            <p className="text-gray-500 mb-8">Explore the library to discover quality prompts!</p>
             <Link to="/library" className="btn-primary inline-flex items-center gap-2">
               <Heart className="w-5 h-5" />
-              浏览提示词库
+              Browse Library
             </Link>
           </motion.div>
         ) : (
@@ -153,7 +153,7 @@ function MyFavoritesPage() {
                             onClick={() => handleRemoveFavorite(prompt.id)}
                             disabled={removingId === prompt.id}
                             className="ml-2 p-2 rounded-full hover:bg-red-50 text-red-500 transition-colors disabled:opacity-50"
-                            title="取消收藏"
+                            title="Remove from favorites"
                           >
                             {removingId === prompt.id ? (
                               <Loader2 className="w-5 h-5 animate-spin" />
@@ -211,7 +211,7 @@ function MyFavoritesPage() {
                           to={`/library/${prompt.id}`}
                           className="block w-full text-center py-2 px-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg hover:from-purple-600 hover:to-pink-600 transition-all font-medium"
                         >
-                          查看详情
+                          View Details
                         </Link>
                       </div>
                     </div>
@@ -233,7 +233,7 @@ function MyFavoritesPage() {
                   disabled={page === 1}
                   className="px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
-                  上一页
+                  Previous
                 </button>
                 
                 <div className="flex items-center gap-2">
@@ -270,7 +270,7 @@ function MyFavoritesPage() {
                   disabled={page === totalPages}
                   className="px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
-                  下一页
+                  Next
                 </button>
               </motion.div>
             )}
