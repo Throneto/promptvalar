@@ -112,3 +112,37 @@ export const aiUsageLogs = pgTable('ai_usage_logs', {
   timestamp: timestamp('timestamp').defaultNow().notNull(),
 });
 
+/**
+ * 提示词生成日志表
+ * 记录每次提示词生成的详细信息，用于质量分析和优化
+ */
+export const promptGenerationLogs = pgTable('prompt_generation_logs', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  userId: uuid('user_id').references(() => users.id, { onDelete: 'set null' }),
+  
+  // 输入数据
+  inputIdea: text('input_idea').notNull(),
+  inputModel: varchar('input_model', { length: 50 }).notNull(),
+  inputStyle: varchar('input_style', { length: 50 }),
+  
+  // 输出数据
+  outputPrompt: text('output_prompt').notNull(),
+  outputStructured: jsonb('output_structured'),
+  
+  // 性能指标
+  generationTime: integer('generation_time'), // 毫秒
+  tokensUsed: integer('tokens_used'),
+  aiModelUsed: varchar('ai_model_used', { length: 100 }),
+  
+  // 用户反馈
+  userRating: integer('user_rating'), // 1-5星
+  isSuccessful: boolean('is_successful'),
+  userFeedback: text('user_feedback'),
+  wasCopied: boolean('was_copied').default(false).notNull(),
+  wasSaved: boolean('was_saved').default(false).notNull(),
+  
+  // 时间戳
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  ratedAt: timestamp('rated_at'),
+});
+

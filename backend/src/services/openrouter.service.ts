@@ -1,4 +1,5 @@
 import OpenAI from 'openai';
+import { loggingService } from './loggingService.js';
 
 // 初始化OpenRouter客户端
 const openrouter = new OpenAI({
@@ -22,8 +23,10 @@ const MODELS = {
 export async function generatePromptFromIdea(
   idea: string,
   targetModel: string,
-  style: string
-): Promise<{ prompt: string; structured: StructuredPromptData }> {
+  style: string,
+  userId?: string
+): Promise<{ prompt: string; structured: StructuredPromptData; logId: string }> {
+  const startTime = Date.now();
   const systemPrompt = `You are an expert prompt engineer specializing in AI image and video generation models.
 
 Your task is to transform user ideas into professional, detailed prompts optimized for ${targetModel}.
@@ -64,9 +67,25 @@ Return your response as JSON with two fields: "prompt" (the full prompt text) an
     }
 
     const result = JSON.parse(content);
+    const generationTime = Date.now() - startTime;
+    
+    // 记录生成日志
+    const logId = await loggingService.logGeneration({
+      userId,
+      inputIdea: idea,
+      inputModel: targetModel,
+      inputStyle: style,
+      outputPrompt: result.prompt,
+      outputStructured: result.structured,
+      generationTime,
+      tokensUsed: completion.usage?.total_tokens || 0,
+      aiModelUsed: MODELS.generation,
+    });
+    
     return {
       prompt: result.prompt,
       structured: result.structured,
+      logId,
     };
   } catch (error) {
     console.error('OpenRouter API error:', error);

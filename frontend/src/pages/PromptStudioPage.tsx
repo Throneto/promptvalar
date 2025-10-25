@@ -7,6 +7,7 @@ import StepCard from '../components/studio/StepCard';
 import IdeaInput from '../components/studio/IdeaInput';
 import GeneratedPrompt from '../components/studio/GeneratedPrompt';
 import StructuredEditor from '../components/studio/StructuredEditor';
+import { PromptRating } from '../components/PromptRating';
 
 const PromptStudioPage = () => {
   // Step 1: 用户输入
@@ -18,6 +19,7 @@ const PromptStudioPage = () => {
   const [generatedPrompt, setGeneratedPrompt] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
   const [generationError, setGenerationError] = useState('');
+  const [generationLogId, setGenerationLogId] = useState<string>('');
 
   // Step 3: 结构化编辑
   const [structuredData, setStructuredData] = useState<StructuredPrompt>({
@@ -52,6 +54,7 @@ const PromptStudioPage = () => {
       setGeneratedPrompt(result.prompt);
       setStructuredData(result.structured);
       setFinalPrompt(result.prompt);
+      setGenerationLogId(result.logId || ''); // 保存日志ID供评分使用
     } catch (error) {
       console.error('Failed to generate prompt:', error);
       setGenerationError('Failed to generate prompt. Please try again.');
@@ -129,6 +132,13 @@ const PromptStudioPage = () => {
                 onRegenerate={handleGenerate}
                 isRegenerating={isGenerating}
               />
+              
+              {/* 用户反馈组件 */}
+              {generationLogId && (
+                <div className="mt-6 pt-6 border-t border-gray-700/50">
+                  <PromptRating logId={generationLogId} />
+                </div>
+              )}
             </StepCard>
           )}
 

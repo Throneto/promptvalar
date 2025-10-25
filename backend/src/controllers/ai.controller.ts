@@ -29,11 +29,11 @@ export async function generatePrompt(req: Request, res: Response, next: NextFunc
     // 验证请求数据
     const { idea, model, style } = generatePromptSchema.parse(req.body);
 
-    // 调用OpenRouter服务
-    const result = await openrouterService.generatePromptFromIdea(idea, model, style);
+    // 获取用户ID（可选，用于日志记录）
+    const userId = req.user?.id;
 
-    // 记录AI使用（可选，用于成本追踪）
-    // await logAIUsage(req.user?.id, model, inputTokens, outputTokens, cost);
+    // 调用OpenRouter服务（包含日志记录）
+    const result = await openrouterService.generatePromptFromIdea(idea, model, style, userId);
 
     res.json({
       success: true,

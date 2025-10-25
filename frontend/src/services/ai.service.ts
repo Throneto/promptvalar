@@ -24,10 +24,10 @@ apiClient.interceptors.request.use((config) => {
  */
 export async function generatePrompt(
   request: GeneratePromptRequest
-): Promise<GeneratePromptResponse> {
+): Promise<GeneratePromptResponse & { logId: string }> {
   const response = await apiClient.post<{
     success: boolean;
-    data: GeneratePromptResponse;
+    data: GeneratePromptResponse & { logId: string };
   }>('/ai/generate-prompt', request);
   
   return response.data.data;
