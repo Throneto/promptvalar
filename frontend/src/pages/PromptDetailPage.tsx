@@ -12,143 +12,121 @@ import {
   Tag,
   Sparkles,
   Share2,
+  Edit,
+  Loader2,
 } from 'lucide-react';
-
-// 类型定义
-interface Author {
-  id: string;
-  username: string;
-  avatarUrl?: string;
-  bio?: string;
-}
-
-interface StructuredPrompt {
-  subject?: string;
-  action?: string;
-  setting?: string;
-  shotType?: string;
-  lighting?: string;
-  composition?: string;
-  mood?: string[];
-  parameters?: Record<string, any>;
-}
-
-interface PromptDetail {
-  id: string;
-  title: string;
-  description?: string;
-  promptText: string;
-  model: string;
-  category?: string;
-  style?: string;
-  tags: string[];
-  previewImageUrl?: string;
-  authorId: string;
-  isPremium: boolean;
-  viewsCount: number;
-  favoritesCount: number;
-  createdAt: string;
-  updatedAt: string;
-  author: Author;
-  structured?: StructuredPrompt | null;
-  isFavorited: boolean;
-}
+import { getPromptById, toggleFavorite } from '../services/prompt.service';
+import { getCurrentUser, isAuthenticated } from '../services/auth.service';
 
 const PromptDetailPage = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const [prompt, setPrompt] = useState<PromptDetail | null>(null);
+  const [prompt, setPrompt] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
   const [isFavorited, setIsFavorited] = useState(false);
+  const [currentUser, setCurrentUser] = useState<any>(null);
+  const [isOwner, setIsOwner] = useState(false);
+
+  useEffect(() => {
+    if (isAuthenticated()) {
+      const user = getCurrentUser();
+      setCurrentUser(user);
+    }
+  }, []);
 
   // 获取提示词详情
   useEffect(() => {
     const fetchPromptDetail = async () => {
+      if (!id) return;
+      
       try {
         setLoading(true);
-        const token = localStorage.getItem('authToken');
-        const headers: HeadersInit = {
-          'Content-Type': 'application/json',
-        };
-        if (token) {
-          headers['Authorization'] = `Bearer ${token}`;
+        const response = await getPromptById(id);
+        
+        if (response.success && response.data) {
+          setPrompt(response.data);
+          setIsFavorited(response.data.isFavorited || false);
+          
+          // 检查是否是作者本人
+          if (currentUser && response.data.author) {
+            setIsOwner(currentUser.id === response.data.author.id);
+          }
         }
-
-        const response = await fetch(`http://localhost:5000/api/v1/prompts/${id}`, {
-          headers,
-        });
-
-        if (!response.ok) {
-          throw new Error('获取提示词详情失败');
-        }
-
-        const data = await response.json();
-        setPrompt(data.data);
-        setIsFavorited(data.data.isFavorited);
       } catch (err: any) {
-        setError(err.message || '加载失败');
+        console.error('Failed to load prompt:', err);
+        setError('加载失败，请稍后重试');
       } finally {
         setLoading(false);
       }
     };
 
-    if (id) {
-      fetchPromptDetail();
-    }
-  }, [id]);
+    fetchPromptDetail();
+  }, [id, currentUser]);
 
   // 复制提示词
   const handleCopy = async () => {
     if (!prompt) return;
     try {
-      await navigator.clipboard.writeText(prompt.promptText);
+      await navigator.clipboard.writeText(prompt.content);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
       console.error('复制失败:', err);
+      alert('复制失败，请手动复制');
     }
   };
 
   // 切换收藏状态
   const handleToggleFavorite = async () => {
-    if (!prompt) return;
-    const token = localStorage.getItem('authToken');
-    if (!token) {
-      navigate('/login');
+    if (!prompt || !id) return;
+    
+    if (!isAuthenticated()) {
+      navigate('/login', { state: { from: `/library/${id}` } });
       return;
     }
 
     try {
-      const response = await fetch(`http://localhost:5000/api/v1/prompts/${id}/favorite`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-      });
+      const response = await toggleFavorite(id);
+      
+      if (response.success) {
+        const newFavoritedState = response.data.isFavorited;
+        setIsFavorited(newFavoritedState);
 
-      if (!response.ok) {
-        throw new Error('收藏操作失败');
+        // 更新收藏数量
+        setPrompt((prev: any) =>
+          prev
+            ? {
+                ...prev,
+                favoriteCount: newFavoritedState
+                  ? prev.favoriteCount + 1
+                  : prev.favoriteCount - 1,
+              }
+            : null
+        );
       }
-
-      const data = await response.json();
-      setIsFavorited(data.data.isFavorited);
-
-      // 更新收藏数量
-      setPrompt((prev) =>
-        prev
-          ? {
-              ...prev,
-              favoritesCount: data.data.isFavorited
-                ? prev.favoritesCount + 1
-                : prev.favoritesCount - 1,
-            }
-          : null
-      );
     } catch (err) {
       console.error('收藏失败:', err);
+      alert('操作失败，请稍后重试');
+    }
+  };
+
+  // 编辑提示词
+  const handleEdit = () => {
+    if (id) {
+      navigate(`/studio?edit=${id}`);
+    }
+  };
+
+  // 分享提示词
+  const handleShare = async () => {
+    const url = window.location.href;
+    try {
+      await navigator.clipboard.writeText(url);
+      alert('链接已复制到剪贴板！');
+    } catch (err) {
+      console.error('分享失败:', err);
     }
   };
 
@@ -164,20 +142,23 @@ const PromptDetailPage = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 flex items-center justify-center">
-        <div className="text-white text-xl">加载中...</div>
+      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50 flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="w-12 h-12 text-purple-600 animate-spin mx-auto mb-4" />
+          <p className="text-gray-600">加载中...</p>
+        </div>
       </div>
     );
   }
 
   if (error || !prompt) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50 flex items-center justify-center">
         <div className="text-center">
-          <p className="text-red-400 text-xl mb-4">{error || '提示词不存在'}</p>
+          <p className="text-red-600 text-xl mb-4">{error || '提示词不存在'}</p>
           <Link
             to="/library"
-            className="text-cyan-400 hover:text-cyan-300 underline transition-colors"
+            className="text-purple-600 hover:text-purple-700 underline transition-colors"
           >
             返回提示词库
           </Link>
@@ -187,18 +168,32 @@ const PromptDetailPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 py-12 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50 py-12 px-4">
       <div className="max-w-6xl mx-auto">
-        {/* 返回按钮 */}
-        <motion.button
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          onClick={() => navigate(-1)}
-          className="mb-6 flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
-        >
-          <ArrowLeft size={20} />
-          <span>返回</span>
-        </motion.button>
+        {/* 返回按钮和编辑按钮 */}
+        <div className="mb-6 flex items-center justify-between">
+          <motion.button
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            onClick={() => navigate(-1)}
+            className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
+          >
+            <ArrowLeft size={20} />
+            <span>返回</span>
+          </motion.button>
+
+          {isOwner && (
+            <motion.button
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              onClick={handleEdit}
+              className="flex items-center gap-2 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+            >
+              <Edit size={18} />
+              <span>编辑</span>
+            </motion.button>
+          )}
+        </div>
 
         {/* 主内容区域 */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -209,58 +204,64 @@ const PromptDetailPage = () => {
             className="lg:col-span-1 space-y-6"
           >
             {/* 预览图 */}
-            {prompt.previewImageUrl && (
-              <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl overflow-hidden border border-gray-700">
+            {prompt.previewImage ? (
+              <div className="bg-white rounded-xl overflow-hidden border border-gray-200 shadow-lg">
                 <img
-                  src={prompt.previewImageUrl}
+                  src={prompt.previewImage}
                   alt={prompt.title}
                   className="w-full h-auto object-cover"
                 />
               </div>
+            ) : (
+              <div className="bg-gradient-to-br from-purple-400 to-pink-400 rounded-xl overflow-hidden border border-gray-200 shadow-lg h-64 flex items-center justify-center">
+                <span className="text-white text-6xl font-bold">
+                  {prompt.title.charAt(0).toUpperCase()}
+                </span>
+              </div>
             )}
 
             {/* 作者卡片 */}
-            <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700">
-              <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
-                <User size={20} className="text-cyan-400" />
-                作者信息
-              </h3>
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center text-white font-bold">
-                  {prompt.author.username[0].toUpperCase()}
-                </div>
-                <div>
-                  <p className="text-white font-medium">{prompt.author.username}</p>
-                  {prompt.author.bio && (
-                    <p className="text-gray-400 text-sm">{prompt.author.bio}</p>
-                  )}
+            {prompt.author && (
+              <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-lg">
+                <h3 className="text-gray-900 font-semibold mb-4 flex items-center gap-2">
+                  <User size={20} className="text-purple-600" />
+                  作者信息
+                </h3>
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white font-bold">
+                    {prompt.author.username[0].toUpperCase()}
+                  </div>
+                  <div>
+                    <p className="text-gray-900 font-medium">{prompt.author.username}</p>
+                    <p className="text-gray-500 text-sm">{prompt.author.email}</p>
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
 
             {/* 统计信息 */}
-            <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700">
+            <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-lg">
               <div className="space-y-3">
-                <div className="flex items-center justify-between text-gray-400">
+                <div className="flex items-center justify-between text-gray-600">
                   <span className="flex items-center gap-2">
                     <Eye size={18} />
                     浏览量
                   </span>
-                  <span className="text-white font-semibold">{prompt.viewsCount}</span>
+                  <span className="text-gray-900 font-semibold">{prompt.viewCount}</span>
                 </div>
-                <div className="flex items-center justify-between text-gray-400">
+                <div className="flex items-center justify-between text-gray-600">
                   <span className="flex items-center gap-2">
                     <Heart size={18} />
                     收藏数
                   </span>
-                  <span className="text-white font-semibold">{prompt.favoritesCount}</span>
+                  <span className="text-gray-900 font-semibold">{prompt.favoriteCount}</span>
                 </div>
-                <div className="flex items-center justify-between text-gray-400">
+                <div className="flex items-center justify-between text-gray-600">
                   <span className="flex items-center gap-2">
                     <Calendar size={18} />
                     创建时间
                   </span>
-                  <span className="text-white text-sm">{formatDate(prompt.createdAt)}</span>
+                  <span className="text-gray-900 text-sm">{formatDate(prompt.createdAt)}</span>
                 </div>
               </div>
             </div>
@@ -274,45 +275,39 @@ const PromptDetailPage = () => {
             className="lg:col-span-2 space-y-6"
           >
             {/* 标题和操作按钮 */}
-            <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-8 border border-gray-700">
+            <div className="bg-white rounded-xl p-8 border border-gray-200 shadow-lg">
               <div className="flex items-start justify-between mb-4">
                 <div className="flex-1">
-                  <h1 className="text-3xl font-bold text-white mb-3">{prompt.title}</h1>
+                  <h1 className="text-3xl font-bold text-gray-900 mb-3">{prompt.title}</h1>
                   {prompt.description && (
-                    <p className="text-gray-400 text-lg">{prompt.description}</p>
+                    <p className="text-gray-600 text-lg">{prompt.description}</p>
                   )}
                 </div>
-                {prompt.isPremium && (
-                  <span className="ml-4 px-3 py-1 bg-gradient-to-r from-yellow-500 to-orange-500 text-white text-sm font-semibold rounded-full flex items-center gap-1">
-                    <Sparkles size={14} />
-                    PRO
-                  </span>
-                )}
               </div>
 
               {/* 标签和元信息 */}
-              <div className="flex flex-wrap gap-4 mb-6">
-                <span className="px-3 py-1 bg-cyan-500/20 text-cyan-400 rounded-full text-sm font-medium">
-                  {prompt.model}
+              <div className="flex flex-wrap gap-3 mb-6">
+                <span className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">
+                  {prompt.modelType}
                 </span>
                 {prompt.style && (
-                  <span className="px-3 py-1 bg-purple-500/20 text-purple-400 rounded-full text-sm font-medium">
+                  <span className="px-3 py-1 bg-pink-100 text-pink-700 rounded-full text-sm font-medium">
                     {prompt.style}
                   </span>
                 )}
                 {prompt.category && (
-                  <span className="px-3 py-1 bg-blue-500/20 text-blue-400 rounded-full text-sm font-medium">
+                  <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">
                     {prompt.category}
                   </span>
                 )}
               </div>
 
               {/* 标签列表 */}
-              {prompt.tags.length > 0 && (
+              {prompt.tags && prompt.tags.length > 0 && (
                 <div className="flex items-center gap-2 flex-wrap mb-6">
-                  <Tag size={16} className="text-gray-400" />
-                  {prompt.tags.map((tag, index) => (
-                    <span key={index} className="text-gray-400 text-sm">
+                  <Tag size={16} className="text-gray-500" />
+                  {prompt.tags.map((tag: string, index: number) => (
+                    <span key={index} className="text-gray-600 text-sm">
                       #{tag}
                     </span>
                   ))}
@@ -323,7 +318,7 @@ const PromptDetailPage = () => {
               <div className="flex gap-3">
                 <button
                   onClick={handleCopy}
-                  className="flex-1 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 flex items-center justify-center gap-2"
+                  className="flex-1 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 flex items-center justify-center gap-2"
                 >
                   {copied ? <Check size={20} /> : <Copy size={20} />}
                   {copied ? '已复制！' : '复制提示词'}
@@ -332,88 +327,31 @@ const PromptDetailPage = () => {
                   onClick={handleToggleFavorite}
                   className={`px-6 py-3 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 font-semibold ${
                     isFavorited
-                      ? 'bg-red-500/20 text-red-400 hover:bg-red-500/30'
-                      : 'bg-gray-700/50 text-gray-400 hover:bg-gray-700 hover:text-white'
+                      ? 'bg-red-100 text-red-600 hover:bg-red-200'
+                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                   }`}
                 >
                   <Heart size={20} fill={isFavorited ? 'currentColor' : 'none'} />
                   {isFavorited ? '已收藏' : '收藏'}
                 </button>
-                <button className="px-6 py-3 rounded-lg bg-gray-700/50 text-gray-400 hover:bg-gray-700 hover:text-white transition-all duration-200 flex items-center justify-center">
+                <button 
+                  onClick={handleShare}
+                  className="px-6 py-3 rounded-lg bg-gray-100 text-gray-600 hover:bg-gray-200 transition-all duration-200 flex items-center justify-center"
+                >
                   <Share2 size={20} />
                 </button>
               </div>
             </div>
 
             {/* 提示词内容 */}
-            <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-8 border border-gray-700">
-              <h3 className="text-white font-semibold mb-4 text-lg">完整提示词</h3>
-              <div className="bg-gray-900/50 rounded-lg p-6 border border-gray-700">
-                <p className="text-gray-300 leading-relaxed whitespace-pre-wrap">
-                  {prompt.promptText}
+            <div className="bg-white rounded-xl p-8 border border-gray-200 shadow-lg">
+              <h3 className="text-gray-900 font-semibold mb-4 text-lg">完整提示词</h3>
+              <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
+                <p className="text-gray-800 leading-relaxed whitespace-pre-wrap">
+                  {prompt.content}
                 </p>
               </div>
             </div>
-
-            {/* 结构化内容（如果有） */}
-            {prompt.structured && (
-              <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-8 border border-gray-700">
-                <h3 className="text-white font-semibold mb-4 text-lg">结构化组件</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {prompt.structured.subject && (
-                    <div>
-                      <p className="text-gray-400 text-sm mb-1">主题 (Subject)</p>
-                      <p className="text-white">{prompt.structured.subject}</p>
-                    </div>
-                  )}
-                  {prompt.structured.action && (
-                    <div>
-                      <p className="text-gray-400 text-sm mb-1">动作 (Action)</p>
-                      <p className="text-white">{prompt.structured.action}</p>
-                    </div>
-                  )}
-                  {prompt.structured.setting && (
-                    <div>
-                      <p className="text-gray-400 text-sm mb-1">场景 (Setting)</p>
-                      <p className="text-white">{prompt.structured.setting}</p>
-                    </div>
-                  )}
-                  {prompt.structured.shotType && (
-                    <div>
-                      <p className="text-gray-400 text-sm mb-1">镜头类型 (Shot Type)</p>
-                      <p className="text-white">{prompt.structured.shotType}</p>
-                    </div>
-                  )}
-                  {prompt.structured.lighting && (
-                    <div>
-                      <p className="text-gray-400 text-sm mb-1">光照 (Lighting)</p>
-                      <p className="text-white">{prompt.structured.lighting}</p>
-                    </div>
-                  )}
-                  {prompt.structured.composition && (
-                    <div>
-                      <p className="text-gray-400 text-sm mb-1">构图 (Composition)</p>
-                      <p className="text-white">{prompt.structured.composition}</p>
-                    </div>
-                  )}
-                  {prompt.structured.mood && prompt.structured.mood.length > 0 && (
-                    <div className="md:col-span-2">
-                      <p className="text-gray-400 text-sm mb-2">氛围 (Mood)</p>
-                      <div className="flex flex-wrap gap-2">
-                        {prompt.structured.mood.map((m, index) => (
-                          <span
-                            key={index}
-                            className="px-3 py-1 bg-purple-500/20 text-purple-400 rounded-full text-sm"
-                          >
-                            {m}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
           </motion.div>
         </div>
       </div>

@@ -1,14 +1,43 @@
 import { useState, FormEvent } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { login } from '../services/auth.service';
+import axios from 'axios';
 
 function LoginPage() {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    // TODO: 实现登录逻辑
-    console.log('Login:', { email, password });
+    setError('');
+    setLoading(true);
+
+    try {
+      await login({ email, password });
+      // 登录成功，跳转到原始页面或工作室页面
+      const from = (location.state as any)?.from || '/studio';
+      navigate(from, { replace: true });
+    } catch (err) {
+      // 处理错误
+      if (axios.isAxiosError(err) && err.response) {
+        const errorData = err.response.data;
+        if (errorData.error?.code === 'INVALID_CREDENTIALS') {
+          setError('邮箱或密码错误');
+        } else if (errorData.error?.code === 'VALIDATION_ERROR') {
+          setError('请输入有效的邮箱和密码');
+        } else {
+          setError(errorData.error?.message || '登录失败，请稍后重试');
+        }
+      } else {
+        setError('网络错误，请检查连接');
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -20,6 +49,12 @@ function LoginPage() {
         </div>
 
         <form onSubmit={handleSubmit} className="bg-white p-8 rounded-lg border border-border">
+          {error && (
+            <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+              <p className="text-sm text-red-600">{error}</p>
+            </div>
+          )}
+
           <div className="mb-6">
             <label htmlFor="email" className="form-label">
               Email Address
@@ -60,8 +95,12 @@ function LoginPage() {
             </a>
           </div>
 
-          <button type="submit" className="btn-primary w-full">
-            Sign In
+          <button 
+            type="submit" 
+            className="btn-primary w-full" 
+            disabled={loading}
+          >
+            {loading ? '登录中...' : 'Sign In'}
           </button>
 
           <p className="text-center mt-6 text-sm text-gray-600">
