@@ -11,6 +11,8 @@ import DashboardPage from './pages/DashboardPage';
 import MyFavoritesPage from './pages/MyFavoritesPage';
 import MyPromptsPage from './pages/MyPromptsPage';
 import SettingsPage from './pages/SettingsPage';
+import PricingPage from './pages/PricingPage';
+import SubscriptionManagementPage from './pages/SubscriptionManagementPage';
 
 function App() {
   return (
@@ -23,6 +25,7 @@ function App() {
           <Route path="/library/:id" element={<PromptDetailPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
+          <Route path="/pricing" element={<PricingPage />} />
           
           {/* 受保护的路由 - 需要登录 */}
           <Route 
@@ -62,6 +65,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <SettingsPage />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/dashboard/subscription" 
+            element={
+              <ProtectedRoute>
+                <SubscriptionManagementPage />
               </ProtectedRoute>
             } 
           />

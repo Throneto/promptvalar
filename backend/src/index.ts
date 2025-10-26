@@ -6,6 +6,7 @@ import authRoutes from './routes/auth.routes.js';
 import aiRoutes from './routes/ai.routes.js';
 import promptRoutes from './routes/prompt.routes.js';
 import feedbackRoutes from './routes/feedback.routes.js';
+import subscriptionRoutes from './routes/subscription.routes.js';
 import { errorHandler } from './middleware/errorHandler.js';
 
 import { fileURLToPath } from 'url';
@@ -31,6 +32,14 @@ app.use(cors({
   ],
   credentials: true,
 }));
+
+// Stripe webhook 需要 raw body，所以在 express.json() 之前注册
+app.post(
+  '/api/v1/subscriptions/webhook',
+  express.raw({ type: 'application/json' }),
+  subscriptionRoutes
+);
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -44,6 +53,7 @@ app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/ai', aiRoutes);
 app.use('/api/v1/prompts', promptRoutes);
 app.use('/api/v1/feedback', feedbackRoutes);
+app.use('/api/v1/subscriptions', subscriptionRoutes);
 
 // 404处理
 app.use((_req, res) => {

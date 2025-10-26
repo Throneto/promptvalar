@@ -13,6 +13,7 @@ export const users = pgTable('users', {
   avatarUrl: text('avatar_url'),
   bio: text('bio'),
   subscriptionTier: varchar('subscription_tier', { length: 20 }).notNull().default('free'),
+  stripeCustomerId: varchar('stripe_customer_id', { length: 255 }),
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });
