@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Search, Heart, Eye, Copy, Check } from 'lucide-react';
+import { Search, Heart, Eye, Copy, Check, Filter, SortAsc, SortDesc, Grid, List } from 'lucide-react';
 import { Prompt, AIModel, PromptStyle } from '../types/prompt';
 
 const PromptLibraryPage = () => {
@@ -12,6 +12,11 @@ const PromptLibraryPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedModel, setSelectedModel] = useState<AIModel | 'all'>('all');
   const [selectedStyle, setSelectedStyle] = useState<PromptStyle | 'all'>('all');
+  const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [sortBy, setSortBy] = useState<'createdAt' | 'viewsCount' | 'favoritesCount' | 'title'>('createdAt');
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
   // 从API获取提示词列表
@@ -25,12 +30,17 @@ const PromptLibraryPage = () => {
         const params = new URLSearchParams();
         params.append('page', '1');
         params.append('limit', '50');
+        params.append('sortBy', sortBy);
+        params.append('sortOrder', sortOrder);
         
         if (selectedModel !== 'all') {
           params.append('model', selectedModel);
         }
         if (selectedStyle !== 'all') {
           params.append('style', selectedStyle);
+        }
+        if (selectedCategory !== 'all') {
+          params.append('category', selectedCategory);
         }
         if (searchQuery) {
           params.append('search', searchQuery);
@@ -58,7 +68,7 @@ const PromptLibraryPage = () => {
     }, 300);
 
     return () => clearTimeout(timeoutId);
-  }, [selectedModel, selectedStyle, searchQuery]);
+  }, [selectedModel, selectedStyle, selectedCategory, searchQuery, sortBy, sortOrder]);
 
   // 使用从API获取的数据（已经过滤）
   const filteredPrompts = Array.isArray(prompts) ? prompts : [];
@@ -97,19 +107,55 @@ const PromptLibraryPage = () => {
 
         {/* 搜索和过滤 */}
         <div className="mb-8 space-y-4">
-          {/* 搜索栏 */}
-          <div className="relative">
-            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-purple-300" />
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search prompts by title, description, or tags..."
-              className="w-full pl-12 pr-4 py-4 bg-white/10 backdrop-blur-sm border border-purple-500/30 rounded-xl text-white placeholder-purple-300/50 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20"
-            />
+          {/* 搜索栏和工具栏 */}
+          <div className="flex flex-col lg:flex-row gap-4">
+            <div className="relative flex-1">
+              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-purple-300" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search prompts by title, description, or tags..."
+                className="w-full pl-12 pr-4 py-4 bg-white/10 backdrop-blur-sm border border-purple-500/30 rounded-xl text-white placeholder-purple-300/50 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20"
+              />
+            </div>
+            
+            {/* 工具栏 */}
+            <div className="flex gap-2">
+              <button
+                onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
+                className={`px-4 py-3 rounded-lg transition-all duration-200 flex items-center gap-2 ${
+                  showAdvancedFilters
+                    ? 'bg-purple-600 text-white'
+                    : 'bg-white/10 text-purple-300 hover:bg-white/20'
+                }`}
+              >
+                <Filter className="w-4 h-4" />
+                Filters
+              </button>
+              
+              <div className="flex bg-white/10 rounded-lg overflow-hidden">
+                <button
+                  onClick={() => setViewMode('grid')}
+                  className={`px-3 py-3 transition-colors ${
+                    viewMode === 'grid' ? 'bg-purple-600 text-white' : 'text-purple-300 hover:bg-white/20'
+                  }`}
+                >
+                  <Grid className="w-4 h-4" />
+                </button>
+                <button
+                  onClick={() => setViewMode('list')}
+                  className={`px-3 py-3 transition-colors ${
+                    viewMode === 'list' ? 'bg-purple-600 text-white' : 'text-purple-300 hover:bg-white/20'
+                  }`}
+                >
+                  <List className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
           </div>
 
-          {/* 过滤器 */}
+          {/* 基础过滤器 */}
           <div className="flex flex-wrap gap-4">
             <div className="flex-1 min-w-[200px]">
               <select
@@ -117,21 +163,11 @@ const PromptLibraryPage = () => {
                 onChange={(e) => setSelectedModel(e.target.value as AIModel | 'all')}
                 className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-purple-500/30 rounded-lg text-white focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20"
               >
-                <option value="all" className="bg-slate-800">
-                  All Models
-                </option>
-                <option value="sora" className="bg-slate-800">
-                  Sora
-                </option>
-                <option value="veo" className="bg-slate-800">
-                  Veo
-                </option>
-                <option value="midjourney" className="bg-slate-800">
-                  Midjourney
-                </option>
-                <option value="stable_diffusion" className="bg-slate-800">
-                  Stable Diffusion
-                </option>
+                <option value="all" className="bg-slate-800">All Models</option>
+                <option value="sora" className="bg-slate-800">Sora</option>
+                <option value="veo" className="bg-slate-800">Veo</option>
+                <option value="midjourney" className="bg-slate-800">Midjourney</option>
+                <option value="stable_diffusion" className="bg-slate-800">Stable Diffusion</option>
               </select>
             </div>
 
@@ -141,31 +177,89 @@ const PromptLibraryPage = () => {
                 onChange={(e) => setSelectedStyle(e.target.value as PromptStyle | 'all')}
                 className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-purple-500/30 rounded-lg text-white focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20"
               >
-                <option value="all" className="bg-slate-800">
-                  All Styles
-                </option>
-                <option value="cinematic" className="bg-slate-800">
-                  Cinematic
-                </option>
-                <option value="photorealistic" className="bg-slate-800">
-                  Photorealistic
-                </option>
-                <option value="anime" className="bg-slate-800">
-                  Anime
-                </option>
-                <option value="cyberpunk" className="bg-slate-800">
-                  Cyberpunk
-                </option>
-                <option value="fantasy" className="bg-slate-800">
-                  Fantasy
-                </option>
+                <option value="all" className="bg-slate-800">All Styles</option>
+                <option value="cinematic" className="bg-slate-800">Cinematic</option>
+                <option value="photorealistic" className="bg-slate-800">Photorealistic</option>
+                <option value="anime" className="bg-slate-800">Anime</option>
+                <option value="cyberpunk" className="bg-slate-800">Cyberpunk</option>
+                <option value="fantasy" className="bg-slate-800">Fantasy</option>
+              </select>
+            </div>
+
+            <div className="flex-1 min-w-[200px]">
+              <select
+                value={selectedCategory}
+                onChange={(e) => setSelectedCategory(e.target.value)}
+                className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-purple-500/30 rounded-lg text-white focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20"
+              >
+                <option value="all" className="bg-slate-800">All Categories</option>
+                <option value="video" className="bg-slate-800">Video</option>
+                <option value="image" className="bg-slate-800">Image</option>
+                <option value="creative" className="bg-slate-800">Creative</option>
+                <option value="commercial" className="bg-slate-800">Commercial</option>
               </select>
             </div>
           </div>
 
+          {/* 高级过滤器 */}
+          {showAdvancedFilters && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              className="bg-white/5 backdrop-blur-sm border border-purple-500/20 rounded-xl p-6"
+            >
+              <div className="flex flex-wrap gap-4">
+                <div className="flex-1 min-w-[200px]">
+                  <label className="block text-purple-200 text-sm font-medium mb-2">Sort By</label>
+                  <select
+                    value={sortBy}
+                    onChange={(e) => setSortBy(e.target.value as any)}
+                    className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-purple-500/30 rounded-lg text-white focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20"
+                  >
+                    <option value="createdAt" className="bg-slate-800">Date Created</option>
+                    <option value="updatedAt" className="bg-slate-800">Last Updated</option>
+                    <option value="viewsCount" className="bg-slate-800">Most Viewed</option>
+                    <option value="favoritesCount" className="bg-slate-800">Most Favorited</option>
+                    <option value="title" className="bg-slate-800">Title A-Z</option>
+                  </select>
+                </div>
+
+                <div className="flex-1 min-w-[200px]">
+                  <label className="block text-purple-200 text-sm font-medium mb-2">Order</label>
+                  <div className="flex bg-white/10 rounded-lg overflow-hidden">
+                    <button
+                      onClick={() => setSortOrder('desc')}
+                      className={`flex-1 px-4 py-3 transition-colors flex items-center justify-center gap-2 ${
+                        sortOrder === 'desc' ? 'bg-purple-600 text-white' : 'text-purple-300 hover:bg-white/20'
+                      }`}
+                    >
+                      <SortDesc className="w-4 h-4" />
+                      Desc
+                    </button>
+                    <button
+                      onClick={() => setSortOrder('asc')}
+                      className={`flex-1 px-4 py-3 transition-colors flex items-center justify-center gap-2 ${
+                        sortOrder === 'asc' ? 'bg-purple-600 text-white' : 'text-purple-300 hover:bg-white/20'
+                      }`}
+                    >
+                      <SortAsc className="w-4 h-4" />
+                      Asc
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          )}
+
           {/* 结果统计 */}
-          <div className="text-purple-200">
-            Showing {filteredPrompts.length} prompt{filteredPrompts.length !== 1 ? 's' : ''}
+          <div className="flex justify-between items-center text-purple-200">
+            <span>
+              Showing {filteredPrompts.length} prompt{filteredPrompts.length !== 1 ? 's' : ''}
+            </span>
+            <span className="text-sm text-purple-300">
+              {viewMode === 'grid' ? 'Grid View' : 'List View'}
+            </span>
           </div>
         </div>
 
@@ -191,7 +285,10 @@ const PromptLibraryPage = () => {
 
         {/* Prompts 网格 */}
         {!loading && !error && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className={viewMode === 'grid' 
+            ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" 
+            : "space-y-4"
+          }>
             {filteredPrompts.map((prompt, index) => (
               <motion.div
                 key={prompt.id}
@@ -199,84 +296,92 @@ const PromptLibraryPage = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
                 onClick={() => handleCardClick(prompt.id)}
-                className="bg-white/10 backdrop-blur-lg rounded-xl border border-purple-500/30 overflow-hidden hover:border-purple-500/60 transition-all duration-300 group cursor-pointer"
+                className={`bg-white/10 backdrop-blur-lg rounded-xl border border-purple-500/30 overflow-hidden hover:border-purple-500/60 transition-all duration-300 group cursor-pointer ${
+                  viewMode === 'list' ? 'flex' : ''
+                }`}
               >
-              {/* 预览图 */}
-              <div className="relative h-48 overflow-hidden bg-slate-800">
-                {prompt.previewImageUrl ? (
-                  <img
-                    src={prompt.previewImageUrl}
-                    alt={prompt.title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center text-purple-300">
-                    No Preview
-                  </div>
-                )}
-                {prompt.isPremium && (
-                  <div className="absolute top-2 right-2 bg-gradient-to-r from-yellow-500 to-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full">
-                    PRO
-                  </div>
-                )}
-              </div>
+                {/* 预览图 */}
+                <div className={`relative overflow-hidden bg-slate-800 ${
+                  viewMode === 'list' ? 'w-48 h-32 flex-shrink-0' : 'h-48'
+                }`}>
+                  {prompt.previewImageUrl ? (
+                    <img
+                      src={prompt.previewImageUrl}
+                      alt={prompt.title}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-purple-300">
+                      No Preview
+                    </div>
+                  )}
+                  {prompt.isPremium && (
+                    <div className="absolute top-2 right-2 bg-gradient-to-r from-yellow-500 to-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full">
+                      PRO
+                    </div>
+                  )}
+                </div>
 
-              {/* 内容 */}
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-white mb-2 line-clamp-1">{prompt.title}</h3>
-                <p className="text-purple-200 text-sm mb-4 line-clamp-2">{prompt.description}</p>
+                {/* 内容 */}
+                <div className={`p-6 ${viewMode === 'list' ? 'flex-1' : ''}`}>
+                  <h3 className="text-xl font-bold text-white mb-2 line-clamp-1">{prompt.title}</h3>
+                  <p className={`text-purple-200 text-sm mb-4 ${
+                    viewMode === 'list' ? 'line-clamp-3' : 'line-clamp-2'
+                  }`}>
+                    {prompt.description}
+                  </p>
 
-                {/* 标签 */}
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {prompt.tags.slice(0, 3).map((tag) => (
-                    <span
-                      key={tag}
-                      className="text-xs px-2 py-1 bg-purple-600/30 border border-purple-500/50 rounded-full text-purple-100"
+                  {/* 标签 */}
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {prompt.tags.slice(0, viewMode === 'list' ? 5 : 3).map((tag) => (
+                      <span
+                        key={tag}
+                        className="text-xs px-2 py-1 bg-purple-600/30 border border-purple-500/50 rounded-full text-purple-100"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* 统计和操作 */}
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-4 text-sm text-purple-300">
+                      <span className="flex items-center gap-1">
+                        <Eye className="w-4 h-4" />
+                        {prompt.viewsCount}
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <Heart className="w-4 h-4" />
+                        {prompt.favoritesCount}
+                      </span>
+                    </div>
+
+                    <button
+                      onClick={(e) => handleCopy(prompt.promptText, prompt.id, e)}
+                      className="flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors"
                     >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-
-                {/* 统计和操作 */}
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-4 text-sm text-purple-300">
-                    <span className="flex items-center gap-1">
-                      <Eye className="w-4 h-4" />
-                      {prompt.viewsCount}
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <Heart className="w-4 h-4" />
-                      {prompt.favoritesCount}
-                    </span>
+                      {copiedId === prompt.id ? (
+                        <>
+                          <Check className="w-4 h-4" />
+                          Copied
+                        </>
+                      ) : (
+                        <>
+                          <Copy className="w-4 h-4" />
+                          Copy
+                        </>
+                      )}
+                    </button>
                   </div>
 
-                  <button
-                    onClick={(e) => handleCopy(prompt.promptText, prompt.id, e)}
-                    className="flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors"
-                  >
-                    {copiedId === prompt.id ? (
-                      <>
-                        <Check className="w-4 h-4" />
-                        Copied
-                      </>
-                    ) : (
-                      <>
-                        <Copy className="w-4 h-4" />
-                        Copy
-                      </>
-                    )}
-                  </button>
+                  {/* 模型标签 */}
+                  <div className="mt-4 pt-4 border-t border-purple-500/30">
+                    <span className="text-xs font-medium text-purple-300 uppercase">
+                      {prompt.model}
+                    </span>
+                  </div>
                 </div>
-
-                {/* 模型标签 */}
-                <div className="mt-4 pt-4 border-t border-purple-500/30">
-                  <span className="text-xs font-medium text-purple-300 uppercase">
-                    {prompt.model}
-                  </span>
-                </div>
-              </div>
-            </motion.div>
+              </motion.div>
             ))}
           </div>
         )}

@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { db, users } from '../db/index.js';
-import { eq } from 'drizzle-orm';
+import { eq, and, sql } from 'drizzle-orm';
 import { AppError } from '../middleware/errorHandler.js';
 
 const SALT_ROUNDS = 12;
@@ -186,5 +186,104 @@ function generateTokens(userId: string, email: string, subscription: string): To
   );
 
   return { accessToken, refreshToken };
+}
+
+/**
+ * 更新用户资料
+ */
+export async function updateProfile(userId: string, data: {
+  username?: string;
+  email?: string;
+  bio?: string;
+  avatarUrl?: string;
+}) {
+  try {
+    // 检查用户名是否已被其他用户使用
+    if (data.username) {
+      const existingUsername = await db.query.users.findFirst({
+        where: and(eq(users.username, data.username), sql`${users.id} != ${userId}`),
+      });
+
+      if (existingUsername) {
+        throw new AppError(409, 'USERNAME_EXISTS', 'Username is already taken');
+      }
+    }
+
+    // 检查邮箱是否已被其他用户使用
+    if (data.email) {
+      const existingEmail = await db.query.users.findFirst({
+        where: and(eq(users.email, data.email), sql`${users.id} != ${userId}`),
+      });
+
+      if (existingEmail) {
+        throw new AppError(409, 'EMAIL_EXISTS', 'Email is already registered');
+      }
+    }
+
+    // 更新用户资料
+    const [updatedUser] = await db
+      .update(users)
+      .set({
+        ...data,
+        updatedAt: new Date(),
+      })
+      .where(eq(users.id, userId))
+      .returning({
+        id: users.id,
+        username: users.username,
+        email: users.email,
+        bio: users.bio,
+        avatarUrl: users.avatarUrl,
+        subscriptionTier: users.subscriptionTier,
+        createdAt: users.createdAt,
+        updatedAt: users.updatedAt,
+      });
+
+    return updatedUser;
+  } catch (error: any) {
+    if (error instanceof AppError) throw error;
+    console.error('更新用户资料失败:', error);
+    throw new AppError(500, 'DATABASE_ERROR', '更新用户资料失败');
+  }
+}
+
+/**
+ * 更改用户密码
+ */
+export async function changePassword(userId: string, currentPassword: string, newPassword: string) {
+  try {
+    // 查找用户
+    const user = await db.query.users.findFirst({
+      where: eq(users.id, userId),
+    });
+
+    if (!user) {
+      throw new AppError(404, 'USER_NOT_FOUND', 'User not found');
+    }
+
+    // 验证当前密码
+    const isCurrentPasswordValid = await bcrypt.compare(currentPassword, user.passwordHash);
+    if (!isCurrentPasswordValid) {
+      throw new AppError(400, 'INVALID_PASSWORD', 'Current password is incorrect');
+    }
+
+    // 加密新密码
+    const newPasswordHash = await bcrypt.hash(newPassword, SALT_ROUNDS);
+
+    // 更新密码
+    await db
+      .update(users)
+      .set({
+        passwordHash: newPasswordHash,
+        updatedAt: new Date(),
+      })
+      .where(eq(users.id, userId));
+
+    return { message: 'Password changed successfully' };
+  } catch (error: any) {
+    if (error instanceof AppError) throw error;
+    console.error('更改密码失败:', error);
+    throw new AppError(500, 'DATABASE_ERROR', '更改密码失败');
+  }
 }
 

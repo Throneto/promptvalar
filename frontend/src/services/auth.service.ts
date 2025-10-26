@@ -59,6 +59,18 @@ export interface ErrorResponse {
   };
 }
 
+export interface UpdateProfileRequest {
+  username?: string;
+  email?: string;
+  bio?: string;
+  avatarUrl?: string;
+}
+
+export interface ChangePasswordRequest {
+  currentPassword: string;
+  newPassword: string;
+}
+
 /**
  * 用户注册
  */
@@ -143,5 +155,31 @@ export function isAuthenticated(): boolean {
  */
 export function getAccessToken(): string | null {
   return localStorage.getItem('accessToken');
+}
+
+/**
+ * 更新用户资料
+ */
+export async function updateProfile(data: UpdateProfileRequest): Promise<any> {
+  const response = await apiClient.put('/auth/profile', data);
+  
+  // 更新localStorage中的用户信息
+  if (response.data.success && response.data.data) {
+    const currentUser = getCurrentUser();
+    if (currentUser) {
+      const updatedUser = { ...currentUser, ...response.data.data };
+      localStorage.setItem('user', JSON.stringify(updatedUser));
+    }
+  }
+  
+  return response.data;
+}
+
+/**
+ * 更改密码
+ */
+export async function changePassword(data: ChangePasswordRequest): Promise<any> {
+  const response = await apiClient.put('/auth/password', data);
+  return response.data;
 }
 

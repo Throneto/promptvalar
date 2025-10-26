@@ -14,7 +14,7 @@ import {
   Edit,
   Loader2,
 } from 'lucide-react';
-import { getPromptById, toggleFavorite } from '../services/prompt.service';
+import { getPromptById, toggleFavorite, getPrompts } from '../services/prompt.service';
 import { getCurrentUser, isAuthenticated } from '../services/auth.service';
 
 const PromptDetailPage = () => {
@@ -27,6 +27,8 @@ const PromptDetailPage = () => {
   const [isFavorited, setIsFavorited] = useState(false);
   const [currentUser, setCurrentUser] = useState<any>(null);
   const [isOwner, setIsOwner] = useState(false);
+  const [relatedPrompts, setRelatedPrompts] = useState<any[]>([]);
+  const [loadingRelated, setLoadingRelated] = useState(false);
 
   useEffect(() => {
     if (isAuthenticated()) {
@@ -52,6 +54,9 @@ const PromptDetailPage = () => {
           if (currentUser && response.data.author) {
             setIsOwner(currentUser.id === response.data.author.id);
           }
+          
+          // 获取相关提示词
+          fetchRelatedPrompts(response.data);
         }
       } catch (err: any) {
         console.error('Failed to load prompt:', err);
@@ -126,6 +131,32 @@ const PromptDetailPage = () => {
       alert('链接已复制到剪贴板！');
     } catch (err) {
       console.error('分享失败:', err);
+    }
+  };
+
+  // 获取相关提示词
+  const fetchRelatedPrompts = async (currentPrompt: any) => {
+    if (!currentPrompt) return;
+    
+    try {
+      setLoadingRelated(true);
+      const response = await getPrompts({
+        page: 1,
+        limit: 6,
+        model: currentPrompt.model,
+        style: currentPrompt.style,
+        category: currentPrompt.category,
+      });
+      
+      if (response.success && response.data) {
+        // 过滤掉当前提示词
+        const related = response.data.prompts.filter((p: any) => p.id !== currentPrompt.id);
+        setRelatedPrompts(related.slice(0, 4)); // 只显示4个相关提示词
+      }
+    } catch (error) {
+      console.error('Failed to fetch related prompts:', error);
+    } finally {
+      setLoadingRelated(false);
     }
   };
 
@@ -352,6 +383,84 @@ const PromptDetailPage = () => {
               </div>
             </div>
           </motion.div>
+
+          {/* 相关推荐 */}
+          {relatedPrompts.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              className="mt-12"
+            >
+              <h3 className="text-2xl font-bold text-gray-900 mb-6">Related Prompts</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {relatedPrompts.map((relatedPrompt, index) => (
+                  <motion.div
+                    key={relatedPrompt.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.4 + index * 0.1 }}
+                    onClick={() => navigate(`/library/${relatedPrompt.id}`)}
+                    className="bg-white rounded-xl border border-gray-200 shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 group cursor-pointer"
+                  >
+                    {/* 预览图 */}
+                    <div className="relative h-32 overflow-hidden bg-gray-100">
+                      {relatedPrompt.previewImageUrl ? (
+                        <img
+                          src={relatedPrompt.previewImageUrl}
+                          alt={relatedPrompt.title}
+                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center text-gray-400">
+                          No Preview
+                        </div>
+                      )}
+                      {relatedPrompt.isPremium && (
+                        <div className="absolute top-2 right-2 bg-gradient-to-r from-yellow-500 to-orange-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                          PRO
+                        </div>
+                      )}
+                    </div>
+
+                    {/* 内容 */}
+                    <div className="p-4">
+                      <h4 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-1">
+                        {relatedPrompt.title}
+                      </h4>
+                      <p className="text-gray-600 text-sm mb-3 line-clamp-2">
+                        {relatedPrompt.description}
+                      </p>
+                      
+                      {/* 标签 */}
+                      <div className="flex flex-wrap gap-1 mb-3">
+                        {relatedPrompt.tags.slice(0, 2).map((tag: string) => (
+                          <span
+                            key={tag}
+                            className="text-xs px-2 py-1 bg-purple-100 text-purple-700 rounded-full"
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+
+                      {/* 统计 */}
+                      <div className="flex items-center justify-between text-sm text-gray-500">
+                        <span className="flex items-center gap-1">
+                          <Eye className="w-4 h-4" />
+                          {relatedPrompt.viewsCount}
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <Heart className="w-4 h-4" />
+                          {relatedPrompt.favoritesCount}
+                        </span>
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          )}
         </div>
       </div>
     </div>
