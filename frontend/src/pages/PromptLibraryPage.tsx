@@ -43,7 +43,7 @@ const PromptLibraryPage = () => {
         }
 
         const data = await response.json();
-        setPrompts(data.data);
+        setPrompts(data.data?.prompts || []);
       } catch (err: any) {
         setError(err.message || '加载失败');
         setPrompts([]);
