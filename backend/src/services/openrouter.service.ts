@@ -1,5 +1,13 @@
 import OpenAI from 'openai';
 import { loggingService } from './loggingService.js';
+import dotenv from 'dotenv';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+
+// 加载环境变量
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+dotenv.config({ path: join(__dirname, '../../.env') });
 
 // 初始化OpenRouter客户端
 const openrouter = new OpenAI({

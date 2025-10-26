@@ -227,10 +227,7 @@ export async function testModeActivate(req: Request, res: Response) {
 
     const result = await subscriptionService.testModeActivateSubscription(userId);
 
-    res.json({
-      success: true,
-      ...result,
-    });
+    res.json(result);
   } catch (error) {
     console.error('Test mode activate error:', error);
     res.status(500).json({

@@ -14,7 +14,7 @@ let stripe: Stripe | null = null;
 
 if (!isTestMode && process.env.STRIPE_SECRET_KEY) {
   stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-    apiVersion: '2024-10-28.acacia',
+    apiVersion: '2023-10-16',
   });
 }
 
@@ -404,14 +404,15 @@ async function handleSubscriptionUpdate(subscription: Stripe.Subscription) {
     return;
   }
 
+  const subscriptionData: any = subscription;
   await createOrUpdateSubscription({
     userId,
     planType: 'pro',
     status: subscription.status,
     stripeSubscriptionId: subscription.id,
     stripeCustomerId: subscription.customer as string,
-    currentPeriodStart: new Date(subscription.current_period_start * 1000),
-    currentPeriodEnd: new Date(subscription.current_period_end * 1000),
+    currentPeriodStart: subscriptionData.current_period_start ? new Date(subscriptionData.current_period_start * 1000) : new Date(),
+    currentPeriodEnd: subscriptionData.current_period_end ? new Date(subscriptionData.current_period_end * 1000) : new Date(),
   });
 
   // 根据订阅状态更新用户层级
