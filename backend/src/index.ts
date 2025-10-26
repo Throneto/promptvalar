@@ -17,7 +17,11 @@ const PORT = process.env.PORT || 5000;
 // 中间件配置
 app.use(helmet()); // 安全头部
 app.use(cors({
-  origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
+  origin: [
+    process.env.CORS_ORIGIN || 'http://localhost:3000',
+    'https://tablevision.top',
+    'http://tablevision.top'
+  ],
   credentials: true,
 }));
 app.use(express.json());
