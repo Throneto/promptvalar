@@ -11,3 +11,5 @@ Re-optimizing dependencies because lockfile has changed
 11:48:29 PM [vite] hmr update /src/pages/AdminDashboardPage.tsx, /src/index.css
 11:48:29 PM [vite] hmr update /src/pages/AdminPromptsPage.tsx, /src/index.css
 11:48:29 PM [vite] hmr update /src/pages/AdminUsersPage.tsx, /src/index.css
+11:51:26 PM [vite] .env.development changed, restarting server...
+11:51:27 PM [vite] server restarted.
