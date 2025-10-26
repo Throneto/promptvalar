@@ -1,0 +1,29 @@
+
+> promptvalar-backend@1.0.0 dev
+> tsx watch src/index.ts
+
+node:events:502
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: listen EADDRINUSE: address already in use :::5000
+    at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+    at listenInCluster (node:net:1965:12)
+    at Server.listen (node:net:2067:7)
+    at Function.listen (/root/promptvalar/node_modules/express/lib/application.js:635:24)
+    at <anonymous> (/root/promptvalar/backend/src/index.ts:84:5)
+    at ModuleJob.run (node:internal/modules/esm/module_job:32511:48:29 PM [tsx] change in ./src/services/subscription.service.ts Rerunning...
+c  at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+Emitted 'error' event on Server instance at:
+    at emitErrorNT (node:net:1944:8)
+    at process.processTicksAndRejections (node:internal/process/task_queues:82:21) {
+  code: 'EADDRINUSE',
+  errno: -98,
+  syscall: 'listen',
+  address: '::',
+  port: 5000
+}
+
+Node.js v20.19.5
+11:48:29 PM [tsx] change in ./src/services/subscription.service.ts Rerunning...
+c

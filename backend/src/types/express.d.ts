@@ -5,9 +5,9 @@ declare global {
     interface Request {
       user?: {
         id: string;
-        username: string;
         email: string;
-        subscriptionTier?: string;
+        subscription: 'free' | 'pro';
+        role: 'user' | 'admin';
       };
       subscription?: {
         tier: string;

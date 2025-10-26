@@ -8,10 +8,9 @@ import {
   Eye,
   Heart,
   UserPlus,
-  FileUp,
   Activity
 } from 'lucide-react';
-import { getDashboardStats, getUserGrowth, getTopPrompts, type DashboardStats, type TopPrompt } from '../services/admin';
+import { getDashboardStats, getTopPrompts, type DashboardStats, type TopPrompt } from '../services/admin';
 
 export default function AdminDashboardPage() {
   const [stats, setStats] = useState<DashboardStats | null>(null);
