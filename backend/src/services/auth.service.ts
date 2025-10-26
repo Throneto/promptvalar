@@ -105,6 +105,7 @@ export async function login(data: LoginData) {
       subscriptionTier: user.subscriptionTier,
       avatarUrl: user.avatarUrl,
       bio: user.bio,
+      createdAt: user.createdAt,
     },
     ...tokens,
   };

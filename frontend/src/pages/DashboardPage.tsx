@@ -43,7 +43,17 @@ function DashboardPage() {
   };
 
   const formatDate = (dateString: string) => {
+    if (!dateString) {
+      return 'Unknown';
+    }
+    
     const date = new Date(dateString);
+    
+    // 检查日期是否有效
+    if (isNaN(date.getTime())) {
+      return 'Invalid Date';
+    }
+    
     return date.toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'long',

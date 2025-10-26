@@ -28,7 +28,6 @@ const PromptDetailPage = () => {
   const [currentUser, setCurrentUser] = useState<any>(null);
   const [isOwner, setIsOwner] = useState(false);
   const [relatedPrompts, setRelatedPrompts] = useState<any[]>([]);
-  const [loadingRelated, setLoadingRelated] = useState(false);
 
   useEffect(() => {
     if (isAuthenticated()) {
@@ -139,11 +138,10 @@ const PromptDetailPage = () => {
     if (!currentPrompt) return;
     
     try {
-      setLoadingRelated(true);
       const response = await getPrompts({
         page: 1,
         limit: 6,
-        model: currentPrompt.model,
+        modelType: currentPrompt.model,
         style: currentPrompt.style,
         category: currentPrompt.category,
       });
@@ -155,8 +153,6 @@ const PromptDetailPage = () => {
       }
     } catch (error) {
       console.error('Failed to fetch related prompts:', error);
-    } finally {
-      setLoadingRelated(false);
     }
   };
 
