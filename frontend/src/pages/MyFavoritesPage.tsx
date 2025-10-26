@@ -21,7 +21,7 @@ function MyFavoritesPage() {
 
   // 本地搜索和排序
   useEffect(() => {
-    let filtered = [...prompts];
+    let filtered = Array.isArray(prompts) ? [...prompts] : [];
 
     // 搜索过滤
     if (searchQuery) {
@@ -213,7 +213,7 @@ function MyFavoritesPage() {
             {/* 收藏列表 */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               <AnimatePresence mode="popLayout">
-                {filteredPrompts.map((prompt, index) => (
+                {Array.isArray(filteredPrompts) ? filteredPrompts.map((prompt, index) => (
                   <motion.div
                     key={prompt.id}
                     initial={{ opacity: 0, y: 20 }}
@@ -314,7 +314,7 @@ function MyFavoritesPage() {
                       </div>
                     </div>
                   </motion.div>
-                ))}
+                )) : null}
               </AnimatePresence>
             </div>
 

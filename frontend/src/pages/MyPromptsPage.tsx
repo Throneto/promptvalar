@@ -204,7 +204,7 @@ function MyPromptsPage() {
             {/* 提示词列表 */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               <AnimatePresence mode="popLayout">
-                {prompts.map((prompt, index) => (
+                {Array.isArray(prompts) ? prompts.map((prompt, index) => (
                   <motion.div
                     key={prompt.id}
                     initial={{ opacity: 0, y: 20 }}
@@ -346,7 +346,7 @@ function MyPromptsPage() {
                       </div>
                     </div>
                   </motion.div>
-                ))}
+                )) : null}
               </AnimatePresence>
             </div>
 

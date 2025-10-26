@@ -9,7 +9,7 @@ import feedbackRoutes from './routes/feedback.routes.js';
 import { errorHandler } from './middleware/errorHandler.js';
 
 // 加载环境变量
-dotenv.config();
+dotenv.config({ path: '.env' });
 
 const app = express();
 const PORT = process.env.PORT || 5000;

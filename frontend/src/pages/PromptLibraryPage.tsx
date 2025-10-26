@@ -61,7 +61,7 @@ const PromptLibraryPage = () => {
   }, [selectedModel, selectedStyle, searchQuery]);
 
   // 使用从API获取的数据（已经过滤）
-  const filteredPrompts = prompts;
+  const filteredPrompts = Array.isArray(prompts) ? prompts : [];
 
   // 复制提示词
   const handleCopy = async (promptText: string, promptId: string, e: React.MouseEvent) => {
