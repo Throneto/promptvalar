@@ -1,4 +1,4 @@
-import { pgTable, uuid, varchar, text, timestamp, boolean, integer, jsonb } from 'drizzle-orm/pg-core';
+import { pgTable, uuid, varchar, text, timestamp, boolean, integer, jsonb, index } from 'drizzle-orm/pg-core';
 import { sql } from 'drizzle-orm';
 
 /**
@@ -12,11 +12,19 @@ export const users = pgTable('users', {
   passwordHash: varchar('password_hash', { length: 255 }).notNull(),
   avatarUrl: text('avatar_url'),
   bio: text('bio'),
+  role: varchar('role', { length: 20 }).notNull().default('user'), // 'user', 'admin'
   subscriptionTier: varchar('subscription_tier', { length: 20 }).notNull().default('free'),
   stripeCustomerId: varchar('stripe_customer_id', { length: 255 }),
+  isActive: boolean('is_active').default(true).notNull(), // 用于禁用/启用用户
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
-});
+}, (table) => ({
+  emailIdx: index('users_email_idx').on(table.email),
+  usernameIdx: index('users_username_idx').on(table.username),
+  roleIdx: index('users_role_idx').on(table.role),
+  subscriptionIdx: index('users_subscription_tier_idx').on(table.subscriptionTier),
+  createdAtIdx: index('users_created_at_idx').on(table.createdAt),
+}));
 
 /**
  * 提示词表
@@ -42,7 +50,15 @@ export const prompts = pgTable('prompts', {
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
   deletedAt: timestamp('deleted_at'),
-});
+}, (table) => ({
+  authorIdx: index('prompts_author_id_idx').on(table.authorId),
+  modelIdx: index('prompts_model_idx').on(table.model),
+  categoryIdx: index('prompts_category_idx').on(table.category),
+  isPublishedIdx: index('prompts_is_published_idx').on(table.isPublished),
+  viewsCountIdx: index('prompts_views_count_idx').on(table.viewsCount),
+  favoritesCountIdx: index('prompts_favorites_count_idx').on(table.favoritesCount),
+  createdAtIdx: index('prompts_created_at_idx').on(table.createdAt),
+}));
 
 /**
  * 结构化提示词表
@@ -77,7 +93,11 @@ export const favorites = pgTable('favorites', {
     .references(() => prompts.id, { onDelete: 'cascade' })
     .notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
-});
+}, (table) => ({
+  userIdx: index('favorites_user_id_idx').on(table.userId),
+  promptIdx: index('favorites_prompt_id_idx').on(table.promptId),
+  userPromptIdx: index('favorites_user_prompt_idx').on(table.userId, table.promptId),
+}));
 
 /**
  * 订阅表
@@ -97,7 +117,11 @@ export const subscriptions = pgTable('subscriptions', {
   cancelAtPeriodEnd: boolean('cancel_at_period_end').default(false).notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
-});
+}, (table) => ({
+  userIdx: index('subscriptions_user_id_idx').on(table.userId),
+  statusIdx: index('subscriptions_status_idx').on(table.status),
+  stripeSubIdx: index('subscriptions_stripe_sub_id_idx').on(table.stripeSubscriptionId),
+}));
 
 /**
  * AI使用日志表
@@ -145,5 +169,23 @@ export const promptGenerationLogs = pgTable('prompt_generation_logs', {
   // 时间戳
   createdAt: timestamp('created_at').defaultNow().notNull(),
   ratedAt: timestamp('rated_at'),
+});
+
+/**
+ * 管理员操作日志表
+ * 记录管理员的所有操作，用于审计和追踪
+ */
+export const adminActionLogs = pgTable('admin_action_logs', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  adminId: uuid('admin_id')
+    .references(() => users.id, { onDelete: 'set null' })
+    .notNull(),
+  action: varchar('action', { length: 100 }).notNull(), // 操作类型
+  targetType: varchar('target_type', { length: 50 }), // 'user', 'prompt', 'subscription'
+  targetId: uuid('target_id'), // 操作对象的ID
+  details: jsonb('details'), // 操作详情
+  ipAddress: varchar('ip_address', { length: 45 }),
+  userAgent: text('user_agent'),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
 });
 

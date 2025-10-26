@@ -1,8 +1,14 @@
 import { Link } from 'react-router-dom';
+import SEO from '../components/SEO';
 
 function HomePage() {
   return (
     <div>
+      <SEO 
+        title="PromptValar - AI Prompt Engineering Made Easy"
+        description="Create professional AI prompts for Sora, Veo, Midjourney and more. AI-powered optimization, structured editing, and a vast library of community prompts."
+        url="https://promptvalar.com"
+      />
       {/* Hero Section */}
       <section className="bg-gradient-to-b from-primary-light/20 to-white py-20">
         <div className="container mx-auto px-4 text-center">

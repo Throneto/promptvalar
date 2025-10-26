@@ -6,6 +6,7 @@ export interface AuthRequest extends Request {
     id: string;
     email: string;
     subscription: 'free' | 'pro';
+    role: 'user' | 'admin';
   };
 }
 

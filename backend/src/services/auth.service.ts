@@ -64,8 +64,8 @@ export async function register(data: RegisterData) {
       createdAt: users.createdAt,
     });
 
-  // 生成JWT tokens
-  const tokens = generateTokens(newUser.id, newUser.email, newUser.subscriptionTier);
+  // 生成JWT tokens（新用户默认为普通用户角色）
+  const tokens = generateTokens(newUser.id, newUser.email, newUser.subscriptionTier, 'user');
 
   return {
     user: newUser,
@@ -95,13 +95,14 @@ export async function login(data: LoginData) {
   }
 
   // 生成JWT tokens
-  const tokens = generateTokens(user.id, user.email, user.subscriptionTier);
+  const tokens = generateTokens(user.id, user.email, user.subscriptionTier, user.role || 'user');
 
   return {
     user: {
       id: user.id,
       username: user.username,
       email: user.email,
+      role: user.role || 'user',
       subscriptionTier: user.subscriptionTier,
       avatarUrl: user.avatarUrl,
       bio: user.bio,
@@ -128,6 +129,7 @@ export async function refreshAccessToken(refreshToken: string): Promise<{ access
       sub: string;
       email: string;
       subscription: string;
+      role: string;
     };
 
     // 生成新的access token
@@ -141,6 +143,7 @@ export async function refreshAccessToken(refreshToken: string): Promise<{ access
         sub: payload.sub,
         email: payload.email,
         subscription: payload.subscription,
+        role: payload.role || 'user',
       },
       JWT_SECRET,
       { expiresIn: '15m' }
@@ -157,7 +160,7 @@ export async function refreshAccessToken(refreshToken: string): Promise<{ access
  * Access token: 15分钟过期
  * Refresh token: 7天过期
  */
-function generateTokens(userId: string, email: string, subscription: string): TokenPair {
+function generateTokens(userId: string, email: string, subscription: string, role: string): TokenPair {
   const JWT_SECRET = process.env.JWT_SECRET;
   const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET;
 
@@ -170,6 +173,7 @@ function generateTokens(userId: string, email: string, subscription: string): To
       sub: userId,
       email,
       subscription,
+      role,
     },
     JWT_SECRET,
     { expiresIn: '15m' }
@@ -180,6 +184,7 @@ function generateTokens(userId: string, email: string, subscription: string): To
       sub: userId,
       email,
       subscription,
+      role,
       tokenType: 'refresh',
     },
     JWT_REFRESH_SECRET,

@@ -7,6 +7,7 @@ interface JwtPayload {
   sub: string;
   email: string;
   subscription: 'free' | 'pro';
+  role: 'user' | 'admin';
 }
 
 /**
@@ -40,6 +41,7 @@ export const authenticate = (
       id: payload.sub,
       email: payload.email,
       subscription: payload.subscription,
+      role: payload.role || 'user', // 默认为普通用户
     };
 
     next();
@@ -74,6 +76,7 @@ export const optionalAuth = (
           id: payload.sub,
           email: payload.email,
           subscription: payload.subscription,
+          role: payload.role || 'user',
         };
       }
     }
@@ -81,6 +84,30 @@ export const optionalAuth = (
   } catch (_error) {
     // 可选认证失败时不报错,继续执行
     next();
+  }
+};
+
+/**
+ * 管理员权限中间件
+ * 要求用户已认证且具有管理员角色
+ */
+export const requireAdmin = (
+  req: AuthRequest,
+  _res: Response,
+  next: NextFunction
+) => {
+  try {
+    if (!req.user) {
+      throw new AppError(401, 'UNAUTHORIZED', 'Authentication required');
+    }
+
+    if (req.user.role !== 'admin') {
+      throw new AppError(403, 'FORBIDDEN', 'Admin access required');
+    }
+
+    next();
+  } catch (error) {
+    next(error);
   }
 };
 

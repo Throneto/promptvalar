@@ -151,6 +151,14 @@ export function isAuthenticated(): boolean {
 }
 
 /**
+ * 检查是否为管理员
+ */
+export function isAdmin(): boolean {
+  const user = getCurrentUser();
+  return user?.role === 'admin';
+}
+
+/**
  * 获取访问token
  */
 export function getAccessToken(): string | null {

@@ -7,6 +7,8 @@ import aiRoutes from './routes/ai.routes.js';
 import promptRoutes from './routes/prompt.routes.js';
 import feedbackRoutes from './routes/feedback.routes.js';
 import subscriptionRoutes from './routes/subscription.routes.js';
+import adminRoutes from './routes/admin.routes.js';
+import sitemapRoutes from './routes/sitemap.routes.js';
 import { errorHandler } from './middleware/errorHandler.js';
 
 import { fileURLToPath } from 'url';
@@ -48,12 +50,16 @@ app.get('/health', (_req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
+// SEO 路由
+app.use('/', sitemapRoutes);
+
 // API路由
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/ai', aiRoutes);
 app.use('/api/v1/prompts', promptRoutes);
 app.use('/api/v1/feedback', feedbackRoutes);
 app.use('/api/v1/subscriptions', subscriptionRoutes);
+app.use('/api/v1/admin', adminRoutes);
 
 // 测试路由
 app.get('/api/v1/test/subscription', (req, res) => {

@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Layout from './components/layout/Layout';
 import ProtectedRoute from './components/auth/ProtectedRoute';
+import AdminRoute from './components/auth/AdminRoute';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
@@ -13,6 +14,9 @@ import MyPromptsPage from './pages/MyPromptsPage';
 import SettingsPage from './pages/SettingsPage';
 import PricingPage from './pages/PricingPage';
 import SubscriptionManagementPage from './pages/SubscriptionManagementPage';
+import AdminDashboardPage from './pages/AdminDashboardPage';
+import AdminUsersPage from './pages/AdminUsersPage';
+import AdminPromptsPage from './pages/AdminPromptsPage';
 
 function App() {
   return (
@@ -74,6 +78,32 @@ function App() {
               <ProtectedRoute>
                 <SubscriptionManagementPage />
               </ProtectedRoute>
+            } 
+          />
+          
+          {/* 管理员路由 - 需要管理员权限 */}
+          <Route 
+            path="/admin" 
+            element={
+              <AdminRoute>
+                <AdminDashboardPage />
+              </AdminRoute>
+            } 
+          />
+          <Route 
+            path="/admin/users" 
+            element={
+              <AdminRoute>
+                <AdminUsersPage />
+              </AdminRoute>
+            } 
+          />
+          <Route 
+            path="/admin/prompts" 
+            element={
+              <AdminRoute>
+                <AdminPromptsPage />
+              </AdminRoute>
             } 
           />
         </Routes>
