@@ -1,5 +1,10 @@
 import OpenAI from 'openai';
 import { loggingService } from './loggingService.js';
+import { 
+  getSystemPrompt, 
+  getModelTemperature, 
+  getModelMaxTokens 
+} from '../config/modelPromptStrategies.js';
 import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
@@ -26,7 +31,13 @@ const MODELS = {
 } as const;
 
 /**
- * 从用户想法生成专业提示词
+ * 从用户想法生成专业提示词（基于8要素框架和导演式思维）
+ * 
+ * 优化亮点：
+ * 1. 根据目标模型动态选择专用System Prompt
+ * 2. 强制要求8要素结构化输出
+ * 3. 针对不同模型调整生成参数（temperature, max_tokens）
+ * 4. 引导AI像导演一样思考，而非关键词生成器
  */
 export async function generatePromptFromIdea(
   idea: string,
@@ -35,37 +46,34 @@ export async function generatePromptFromIdea(
   userId?: string
 ): Promise<{ prompt: string; structured: StructuredPromptData; logId: string }> {
   const startTime = Date.now();
-  const systemPrompt = `You are an expert prompt engineer specializing in AI image and video generation models.
+  
+  // 🎯 核心优化：根据模型选择专门的System Prompt
+  const systemPrompt = getSystemPrompt(targetModel, style);
+  
+  // 构建用户消息，引导AI进行结构化思考
+  const userMessage = `用户创意想法：${idea}
 
-Your task is to transform user ideas into professional, detailed prompts optimized for ${targetModel}.
+目标模型：${targetModel}
+期望风格：${style}
 
-Guidelines:
-- Be specific and descriptive
-- Include relevant technical details (shot type, lighting, composition)
-- Match the ${style} style aesthetic
-- Use appropriate terminology for ${targetModel}
-- Structure the prompt logically
+请按照8要素框架（Subject, Setting, Action, Camera, Style, Audio, Timeline, Constraints）生成专业的提示词。
 
-Also provide a structured breakdown with these components:
-- subject: Main subject/character
-- action: What's happening
-- setting: Location/environment
-- shotType: Camera angle/framing
-- lighting: Lighting conditions
-- composition: Composition details
-- mood: Array of mood descriptors
-- parameters: Model-specific parameters (if applicable)
-
-Return your response as JSON with two fields: "prompt" (the full prompt text) and "structured" (the breakdown object).`;
+特别注意：
+${targetModel === 'sora' ? '- 这是视频生成，需要考虑时间轴和动作连贯性\n- 添加物理约束以确保真实感' : ''}
+${targetModel === 'veo' ? '- 这是视频+音频生成，必须详细描述音频元素（对话/音效/配乐）\n- 考虑多场景时可使用timeline' : ''}
+${targetModel === 'nano_banana' ? '- 使用摄影师视角，描述场景而非罗列关键词\n- 包含相机和镜头细节' : ''}
+${targetModel === 'seedream' ? '- 这是图像编辑，需要精准的指令\n- 强调质量和细节保留' : ''}`;
 
   try {
     const completion = await openrouter.chat.completions.create({
       model: MODELS.generation,
       messages: [
         { role: 'system', content: systemPrompt },
-        { role: 'user', content: idea },
+        { role: 'user', content: userMessage },
       ],
-      temperature: 0.7,
+      // 🎯 根据模型类型动态调整参数
+      temperature: getModelTemperature(targetModel),
+      max_tokens: getModelMaxTokens(targetModel),
       response_format: { type: 'json_object' },
     });
 
@@ -75,6 +83,29 @@ Return your response as JSON with two fields: "prompt" (the full prompt text) an
     }
 
     const result = JSON.parse(content);
+    
+    // 验证必需字段是否存在
+    if (!result.prompt || !result.structured) {
+      throw new Error('Invalid response format from AI');
+    }
+    
+    // 确保structured对象包含所有必需的基础字段
+    const structured: StructuredPromptData = {
+      subject: result.structured.subject || '',
+      setting: result.structured.setting || '',
+      action: result.structured.action || '',
+      shotType: result.structured.shotType || '',
+      cameraMovement: result.structured.cameraMovement,
+      style: result.structured.style,
+      lighting: result.structured.lighting || '',
+      audio: result.structured.audio,
+      timeline: result.structured.timeline,
+      constraints: result.structured.constraints,
+      composition: result.structured.composition || '',
+      mood: result.structured.mood || [],
+      parameters: result.structured.parameters || '',
+    };
+    
     const generationTime = Date.now() - startTime;
     
     // 记录生成日志
@@ -84,7 +115,7 @@ Return your response as JSON with two fields: "prompt" (the full prompt text) an
       inputModel: targetModel,
       inputStyle: style,
       outputPrompt: result.prompt,
-      outputStructured: result.structured,
+      outputStructured: structured,
       generationTime,
       tokensUsed: completion.usage?.total_tokens || 0,
       aiModelUsed: MODELS.generation,
@@ -92,7 +123,7 @@ Return your response as JSON with two fields: "prompt" (the full prompt text) an
     
     return {
       prompt: result.prompt,
-      structured: result.structured,
+      structured,
       logId,
     };
   } catch (error) {
@@ -182,13 +213,43 @@ Return your response as JSON with a "suggestions" array containing string items.
   }
 }
 
-// 类型定义
+// 时间轴场景类型
+export interface TimelineScene {
+  start: number; // 开始时间（秒）
+  end: number; // 结束时间（秒）
+  description: string; // 场景描述
+}
+
+// 结构化提示词数据类型 (8要素框架)
+// 基于导演式视频生成优化理论
 export interface StructuredPromptData {
+  // 要素1: Subject - 主题
   subject: string;
-  action: string;
+  
+  // 要素2: Setting - 环境
   setting: string;
+  
+  // 要素3: Action - 动作
+  action: string;
+  
+  // 要素4: Camera - 摄影
   shotType: string;
+  cameraMovement?: string;
+  
+  // 要素5: Style - 视觉风格
+  style?: string;
   lighting: string;
+  
+  // 要素6: Audio - 音效（Veo特别重要）
+  audio?: string;
+  
+  // 要素7: Timeline - 时间轴（多场景视频）
+  timeline?: TimelineScene[];
+  
+  // 要素8: Constraints - 约束条件
+  constraints?: string;
+  
+  // 传统字段（保留兼容性）
   composition: string;
   mood: string[];
   parameters: string;

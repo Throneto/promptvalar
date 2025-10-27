@@ -16,14 +16,34 @@ export const createPromptSchema = z.object({
   previewImageUrl: z.string().url('无效的图片URL').optional(),
   isPremium: z.boolean().default(false),
   isPublished: z.boolean().default(true),
-  // 结构化数据（可选）
+  // 结构化数据（8要素框架）
   structured: z
     .object({
+      // 核心要素
       subject: z.string().optional(),
-      action: z.string().optional(),
       setting: z.string().optional(),
+      action: z.string().optional(),
+      
+      // 摄影要素
       shotType: z.string().optional(),
+      cameraMovement: z.string().optional(),
+      
+      // 视觉与音频
+      style: z.string().optional(),
       lighting: z.string().optional(),
+      audio: z.string().optional(),
+      
+      // 时间轴
+      timeline: z.array(z.object({
+        start: z.number(),
+        end: z.number(),
+        description: z.string(),
+      })).optional(),
+      
+      // 约束条件
+      constraints: z.string().optional(),
+      
+      // 传统字段
       composition: z.string().optional(),
       mood: z.array(z.string()).default([]),
       parameters: z.record(z.any()).optional(),

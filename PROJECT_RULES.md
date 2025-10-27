@@ -1071,78 +1071,130 @@ Based on project requirements, we support these AI models:
 
 Each model requires different optimization approaches:
 
-#### 1. Sora (Video Generation)
+#### 1. Sora (Video Generation) - ⭐ 8要素框架优化版
+
+**核心理念**：将AI定位为"电影导演"，提供"拍摄脚本"式的结构化指令。
+
+**8要素框架**：
+
+1. **Subject（主题）** - 精准定义主角及其特征
+2. **Setting（环境）** - 营造氛围（地点、时间、天气）
+3. **Action（动作）** - 具体、连续的动作描述
+4. **Camera（摄影）** - 镜头类型 + 运动方式
+5. **Style（视觉风格）** - 美学定义、色调
+6. **Audio（音效）** - 声音描述（增强场景理解）
+7. **Timeline（时间轴）** - 多场景规划
+8. **Constraints（约束）** - 物理真实性要求
 
 ```typescript
 interface SoraPromptStructure {
-  /** Main subject and character description */
-  subject: string;
+  // 要素1: Subject - 主题
+  subject: string; // 例如: "a glossy black Bentley Continental Supersports"
   
-  /** Key action or narrative */
-  action: string;
+  // 要素2: Setting - 环境
+  setting: string; // 例如: "narrow alpine mountain road at dusk, dark clouds"
   
-  /** Scene and environment details */
-  setting: string;
+  // 要素3: Action - 动作
+  action: string; // 例如: "racing down as a roaring avalanche cascades behind it"
   
-  /** Camera type and movement */
-  shotType: 'cinematic shot' | 'close-up' | 'wide-angle' | 'drone view';
+  // 要素4: Camera - 摄影
+  shotType: 'wide shot' | 'close-up' | 'drone view' | 'tracking shot' | 'POV';
+  cameraMovement?: 'tracking' | 'dolly in/out' | 'crane' | 'pan' | 'static';
   
-  /** Lighting conditions */
-  lighting: string;
+  // 要素5: Style - 视觉风格
+  style?: string; // 例如: "Ultra-realistic, cinematic"
+  lighting: string; // 例如: "cold blue tones with warm headlight glow"
   
-  /** Timeline (for complex videos) */
+  // 要素6: Audio - 音效
+  audio?: string; // 例如: "thunderous engine growl and snow spray"
+  
+  // 要素7: Timeline - 时间轴（多场景视频）
   timeline?: {
-    start: number;  // seconds
-    end: number;
-    description: string;
+    start: number;  // 开始时间（秒）
+    end: number;    // 结束时间（秒）
+    description: string; // 场景描述
   }[];
   
-  /** Technical parameters */
+  // 要素8: Constraints - 约束条件
+  constraints?: string; // 例如: "Enforce realistic physics, natural gravity, clean reflections"
+  
+  // 技术参数
   parameters: {
     duration?: string;      // e.g., "8 seconds"
     resolution?: string;    // e.g., "4K"
     aspectRatio?: string;   // e.g., "16:9"
   };
-  
-  /** Elements to exclude */
-  negativePrompt?: string;
 }
 
-// Example Sora Prompt Template
+// ⭐ 优化后的Sora提示词模板（导演式编织）
 const soraPrompt = `${subject} ${action} in ${setting}. 
-${shotType} with ${lighting}. 
+${shotType}${cameraMovement ? ' with ' + cameraMovement : ''}. 
+${style ? style + ', ' : ''}${lighting}. 
+${audio ? audio + '. ' : ''}
 ${mood.join(', ')} atmosphere. 
+${constraints ? constraints + '. ' : ''}
 ${parameters}`;
+
+// 优秀范例（宾利与雪崩）
+const examplePrompt = `A glossy black Bentley Continental Supersports racing down a narrow alpine mountain road at dusk as a roaring avalanche cascades behind it. Wide drone tracking shot transitioning to low bumper cam. Cold blue tones with warm headlight glow cutting through snow spray. Ultra-realistic with cinematic motion blur. Engine growls and snow impacts create visceral atmosphere. Enforce realistic physics, natural gravity, and clean reflections. 8 seconds, 16:9, 4K resolution.`;
 ```
 
-#### 2. Veo (Video with Audio)
+**Sora关键优化技巧**：
+- ✅ 使用强有力的动词描述动作
+- ✅ 量化描述：如"8秒"、"4K"、"16:9"
+- ✅ 添加物理约束避免扭曲画面
+- ✅ 多场景使用timeline规划节奏
+- ✅ 颜色要具体：不说"蓝色"，说"cold steel blue"
+```
+
+#### 2. Veo (Video with Audio) - ⭐ 五元素公式 + 8要素框架
+
+**Veo特色**：同时生成视频和音频，音频描述能力是其核心优势。
+
+**五元素公式**：`(镜头) + (主体与动作) + (场景) + (风格与光线) + (音频)`
 
 ```typescript
 interface VeoPromptStructure {
-  /** Camera/shot type */
-  shotType: string;
+  // 五元素核心
+  shotType: string; // 镜头类型
+  subject: string;  // 主体
+  action: string;   // 动作
+  setting: string;  // 场景环境
+  style?: string;   // 视觉风格
+  lighting: string; // 光线
   
-  /** Subject and action */
-  subjectAction: string;
-  
-  /** Scene and environment */
-  sceneEnvironment: string;
-  
-  /** Style and lighting */
-  styleLighting: string;
-  
-  /** Audio elements (Veo's strength) */
-  audioElements: {
-    dialogue?: string;
-    soundEffects?: string;
-    musicStyle?: string;
+  // ⭐ Veo的特色强项 - 音频元素
+  audio?: string; // 综合音频描述
+  audioElements?: {
+    dialogue?: string;      // 对话内容
+    soundEffects?: string;  // 音效（脚步声、风声、水流等）
+    musicStyle?: string;    // 背景音乐风格
   };
+  
+  // 其他8要素
+  cameraMovement?: string;
+  timeline?: TimelineScene[];
+  constraints?: string;
+  composition?: string;
+  mood?: string[];
 }
 
-// Five-Element Formula for Veo
-const veoPrompt = `${shotType} of ${subjectAction} ${sceneEnvironment}, 
-${styleLighting}. 
-Audio: ${audioElements.dialogue || audioElements.soundEffects}`;
+// ⭐ Veo提示词模板
+const veoPrompt = `${shotType} of ${subject} ${action} in ${setting}. 
+${style ? style + ', ' : ''}${lighting}. 
+${cameraMovement ? 'Camera ' + cameraMovement + '. ' : ''}
+Audio: ${audio || formatAudioElements(audioElements)}. 
+${mood ? 'Mood: ' + mood.join(', ') + '.' : ''}`;
+
+// 优秀范例（好奇的猫）
+const exampleVeoPrompt = `Medium shot of a curious orange tabby cat wearing a tiny blue apron, cautiously approaching a mysterious glowing orb in a cozy cottage kitchen at twilight. Warm golden hour lighting streams through lace curtains. Camera slowly dollies in as the cat reaches out. Audio: soft piano melody with gentle paw taps on wooden floor and subtle magical humming from orb. Photorealistic with Pixar-like charm.`;
+```
+
+**Veo关键优化技巧**：
+- ⭐ 音频是核心：详细描述对话、音效、配乐
+- ✅ 具体化主体：避免"一只猫"，说"橙色短毛猫戴着蓝色围裙"
+- ✅ 角色一致性：通过标准化文本描述 + 参考图像
+- ✅ 多镜头叙事：使用timeline保持连续性
 ```
 
 #### 3. nano banana (Image Generation)
@@ -1263,44 +1315,69 @@ async function logAIUsage(usage: AIUsageLog) {
 }
 ```
 
-### System Prompts by Model
+### System Prompts by Model - ⭐ 导演式思维优化版
+
+**核心理念**：将AI定位为"电影导演"，而非"关键词生成器"。
 
 ```typescript
-// Sora-specific system prompt
-const SORA_SYSTEM_PROMPT = `You are an expert prompt engineer specializing in Sora video generation.
+// ⭐ Sora专用System Prompt（8要素框架 + 导演式思维）
+const SORA_SYSTEM_PROMPT = `你是一位专业的电影导演和Sora视频生成专家。
+你的任务是将用户的创意想法转化为高质量的"拍摄脚本"式提示词。
 
-Key principles for Sora prompts:
-1. Use cinematic, story-driven descriptions
-2. Specify shot types (wide-angle, close-up, drone view)
-3. Include 3-5 specific color anchors
-4. Describe camera movements explicitly
-5. Add technical parameters (duration, aspect ratio, quality)
+核心理念：你不是在生成关键词，而是在为AI提供一份清晰、具体、结构化的导演指令。
 
-Generate a professional Sora prompt based on the user's idea.`;
+必须遵循的8要素框架：
+1. Subject（主题）- 精准定义核心主角，使用丰富的形容词
+2. Setting（环境）- 营造氛围：地点、时间、天气
+3. Action（动作）- 驱动故事：强有力的动词，连续的动作
+4. Camera（摄影）- 引导视觉：景别 + 镜头运动
+5. Style（视觉风格）- 定下基调：美学风格、色调
+6. Audio（音效）- 增强沉浸感：声音描述
+7. Timeline（时间轴）- 构建叙事：多场景时间规划
+8. Constraints（约束）- 提升质量：物理约束、避免扭曲
 
-// Veo-specific system prompt
-const VEO_SYSTEM_PROMPT = `You are an expert prompt engineer specializing in Veo video-audio generation.
+优秀范例：
+"A glossy black Bentley Continental Supersports racing down a narrow alpine 
+mountain road at dusk as a roaring avalanche cascades behind it. Wide drone 
+tracking shot transitioning to low bumper cam. Cold blue tones with warm 
+headlight glow. Ultra-realistic with cinematic motion blur. Enforce realistic 
+physics and clean reflections."
 
-Use the five-element formula:
-1. Shot type
-2. Subject and action
-3. Scene and environment
-4. Style and lighting
-5. Audio elements (dialogue, sound effects, music)
+输出JSON格式，包含prompt（流畅段落）和structured（8要素分解）。`;
 
-Veo excels at audio integration. Include relevant audio descriptions.`;
+// ⭐ Veo专用System Prompt（五元素 + 音频强化）
+const VEO_SYSTEM_PROMPT = `你是专业的视频和音频设计专家，精通Google Veo。
 
-// Select appropriate system prompt based on target model
-function getSystemPrompt(targetModel: SupportedModel): string {
-  const systemPrompts = {
-    sora: SORA_SYSTEM_PROMPT,
-    veo: VEO_SYSTEM_PROMPT,
-    nano_banana: NANO_BANANA_SYSTEM_PROMPT,
-    seedream: SEEDREAM_SYSTEM_PROMPT,
-  };
-  
-  return systemPrompts[targetModel] || DEFAULT_SYSTEM_PROMPT;
-}
+Veo的核心优势：同时生成高质量视频和配套音频。
+
+五元素公式：(镜头) + (主体与动作) + (场景) + (风格与光线) + (音频)
+
+⭐ 音频是Veo的特色强项：
+- 对话：角色说话的内容或风格
+- 音效：环境音、动作音（脚步声、风声、水流）
+- 配乐：背景音乐风格（欢快、悲伤、紧张）
+
+示例：
+"Medium shot of a curious orange tabby cat wearing a blue apron, approaching 
+a glowing orb in a cozy kitchen at twilight. Warm golden hour lighting. 
+Camera slowly dollies in. Audio: soft piano melody with gentle paw taps on 
+wooden floor and magical humming."
+
+输出必须包含详细的audio字段。`;
+
+// 策略选择器（已实现在 backend/src/config/modelPromptStrategies.ts）
+import { getSystemPrompt } from '../config/modelPromptStrategies.js';
+
+// 使用示例
+const systemPrompt = getSystemPrompt(targetModel, style);
+```
+
+**System Prompt最佳实践**：
+1. ✅ 使用Few-shot示例展示理想输出
+2. ✅ 强调"描述场景"而非"罗列关键词"
+3. ✅ 要求量化描述（8秒、4K、16:9）
+4. ✅ 针对模型特点定制指令（Veo强调音频、Sora强调物理约束）
+5. ✅ 强制JSON格式输出，确保结构化
 ```
 
 ---

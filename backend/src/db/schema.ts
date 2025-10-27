@@ -61,22 +61,42 @@ export const prompts = pgTable('prompts', {
 }));
 
 /**
- * 结构化提示词表
+ * 结构化提示词表 (8要素框架)
  * 存储解析后的提示词组件,用于结构化编辑器
+ * 基于导演式提示词优化理论的8要素模型：
+ * Subject, Setting, Action, Camera, Style, Audio, Timeline, Constraints
  */
 export const structuredPrompts = pgTable('structured_prompts', {
   id: uuid('id').primaryKey().defaultRandom(),
   promptId: uuid('prompt_id')
     .references(() => prompts.id, { onDelete: 'cascade' })
     .notNull(),
-  subject: text('subject'),
-  action: text('action'),
-  setting: text('setting'),
-  shotType: varchar('shot_type', { length: 50 }),
-  lighting: varchar('lighting', { length: 100 }),
+  
+  // 核心要素 (1-3)
+  subject: text('subject'), // 要素1: 主题 - 主角及其特征
+  setting: text('setting'), // 要素2: 环境 - 场景、时间、天气、氛围
+  action: text('action'), // 要素3: 动作 - 具体连续的动作描述
+  
+  // 摄影要素 (4)
+  shotType: varchar('shot_type', { length: 50 }), // 要素4a: 镜头类型 - close-up, wide-angle, drone view等
+  cameraMovement: varchar('camera_movement', { length: 100 }), // 要素4b: 镜头运动 - tracking, dolly, crane等
+  
+  // 视觉与音频 (5-6)
+  style: text('style'), // 要素5: 视觉风格 - 美学风格、色调、光线
+  lighting: varchar('lighting', { length: 100 }), // 光线条件（style的子集，保留兼容性）
+  audio: text('audio'), // 要素6: 音效 - 对话、音效、配乐（Veo特别重要）
+  
+  // 叙事结构 (7)
+  timeline: jsonb('timeline'), // 要素7: 时间轴 - [{start: 0, end: 3, description: "..."}]
+  
+  // 质量控制 (8)
+  constraints: text('constraints'), // 要素8: 约束条件 - 物理约束、负面提示词
+  
+  // 传统字段（保留兼容性）
   composition: text('composition'),
   mood: text('mood').array().default(sql`ARRAY[]::text[]`),
-  parameters: jsonb('parameters'), // 存储模型特定参数
+  parameters: jsonb('parameters'), // 存储模型特定参数（duration, resolution, aspectRatio等）
+  
   createdAt: timestamp('created_at').defaultNow().notNull(),
 });
 

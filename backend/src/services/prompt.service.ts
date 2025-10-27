@@ -19,11 +19,31 @@ export async function createPrompt(data: {
   isPremium?: boolean;
   isPublished?: boolean;
   structured?: {
+    // 核心要素
     subject?: string;
-    action?: string;
     setting?: string;
+    action?: string;
+    
+    // 摄影要素
     shotType?: string;
+    cameraMovement?: string;
+    
+    // 视觉与音频
+    style?: string;
     lighting?: string;
+    audio?: string;
+    
+    // 时间轴
+    timeline?: Array<{
+      start: number;
+      end: number;
+      description: string;
+    }>;
+    
+    // 约束条件
+    constraints?: string;
+    
+    // 传统字段
     composition?: string;
     mood?: string[];
     parameters?: Record<string, any>;
@@ -48,15 +68,26 @@ export async function createPrompt(data: {
       })
       .returning();
 
-    // 如果有结构化数据,插入到 structured_prompts 表
+    // 如果有结构化数据,插入到 structured_prompts 表（8要素框架）
     if (data.structured && prompt) {
       await db.insert(structuredPrompts).values({
         promptId: prompt.id,
+        // 核心要素
         subject: data.structured.subject,
-        action: data.structured.action,
         setting: data.structured.setting,
+        action: data.structured.action,
+        // 摄影要素
         shotType: data.structured.shotType,
+        cameraMovement: data.structured.cameraMovement,
+        // 视觉与音频
+        style: data.structured.style,
         lighting: data.structured.lighting,
+        audio: data.structured.audio,
+        // 时间轴
+        timeline: data.structured.timeline as any,
+        // 约束条件
+        constraints: data.structured.constraints,
+        // 传统字段
         composition: data.structured.composition,
         mood: data.structured.mood || [],
         parameters: data.structured.parameters,
