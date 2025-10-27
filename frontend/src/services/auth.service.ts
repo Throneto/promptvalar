@@ -36,7 +36,10 @@ export interface AuthResponse {
       id: string;
       username: string;
       email: string;
+      role: 'user' | 'admin';
       subscriptionTier: string;
+      avatarUrl?: string;
+      bio?: string;
       createdAt: string;
     };
     accessToken: string;
