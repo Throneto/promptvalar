@@ -197,7 +197,7 @@ export async function getUsers(params: {
         isActive: users.isActive,
         createdAt: users.createdAt,
         updatedAt: users.updatedAt,
-        generationCount: sql<number>`COALESCE(COUNT(${promptGenerationLogs.id}), 0)`,
+        generationCount: sql<number>`CAST(COALESCE(COUNT(${promptGenerationLogs.id}), 0) AS INTEGER)`,
       })
       .from(users)
       .leftJoin(promptGenerationLogs, eq(users.id, promptGenerationLogs.userId))
@@ -215,12 +215,12 @@ export async function getUsers(params: {
       .orderBy(
         sortOrder === 'desc' 
           ? sortBy === 'generationCount' 
-            ? desc(sql`COALESCE(COUNT(${promptGenerationLogs.id}), 0)`)
+            ? desc(sql`CAST(COALESCE(COUNT(${promptGenerationLogs.id}), 0) AS INTEGER)`)
             : sortBy === 'username'
             ? desc(users.username)
             : desc(users.createdAt)
           : sortBy === 'generationCount'
-          ? asc(sql`COALESCE(COUNT(${promptGenerationLogs.id}), 0)`)
+          ? asc(sql`CAST(COALESCE(COUNT(${promptGenerationLogs.id}), 0) AS INTEGER)`)
           : sortBy === 'username'
           ? asc(users.username)
           : asc(users.createdAt)

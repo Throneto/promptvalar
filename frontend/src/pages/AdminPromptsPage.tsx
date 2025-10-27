@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { 
   Search, 
   Edit, 
@@ -10,7 +11,10 @@ import {
   Heart,
   Check,
   X,
-  Crown
+  Crown,
+  LayoutDashboard,
+  UserCircle,
+  BookText
 } from 'lucide-react';
 import { getPrompts, updatePrompt, deletePrompt, type AdminPrompt, type PaginationInfo } from '../services/admin';
 
@@ -116,10 +120,42 @@ export default function AdminPromptsPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
+        {/* 导航菜单 */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-6"
+        >
+          <div className="flex gap-4 overflow-x-auto pb-2">
+            <Link
+              to="/admin"
+              className="flex items-center gap-2 px-6 py-3 bg-white/10 backdrop-blur-lg text-white rounded-xl font-semibold hover:bg-white/20 transition-colors whitespace-nowrap"
+            >
+              <LayoutDashboard className="w-5 h-5" />
+              📊 仪表板
+            </Link>
+            <Link
+              to="/admin/users"
+              className="flex items-center gap-2 px-6 py-3 bg-white/10 backdrop-blur-lg text-white rounded-xl font-semibold hover:bg-white/20 transition-colors whitespace-nowrap"
+            >
+              <UserCircle className="w-5 h-5" />
+              👥 用户管理
+            </Link>
+            <Link
+              to="/admin/prompts"
+              className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-xl font-semibold hover:opacity-90 transition-opacity whitespace-nowrap"
+            >
+              <BookText className="w-5 h-5" />
+              📝 提示词管理
+            </Link>
+          </div>
+        </motion.div>
+
         {/* 页面标题 */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
           className="mb-8"
         >
           <h1 className="text-4xl font-bold text-white mb-2">提示词管理</h1>

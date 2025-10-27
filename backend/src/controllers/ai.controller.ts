@@ -6,7 +6,7 @@ import { z } from 'zod';
 
 // 验证schemas
 const generatePromptSchema = z.object({
-  idea: z.string().min(10, 'Idea must be at least 10 characters'),
+  idea: z.string().min(3, 'Idea must be at least 3 characters'),
   model: z.string(),
   style: z.string(),
 });
