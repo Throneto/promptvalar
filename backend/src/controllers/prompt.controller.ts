@@ -29,7 +29,7 @@ export async function createPrompt(req: AuthRequest, res: Response, next: NextFu
     const prompt = await promptService.createPrompt({
       ...validatedData,
       authorId,
-    });
+    } as Parameters<typeof promptService.createPrompt>[0]);
 
     res.status(201).json({
       success: true,
@@ -67,7 +67,7 @@ export async function getPrompts(req: AuthRequest, res: Response, next: NextFunc
     const result = await promptService.getPrompts({
       ...validatedQuery,
       tags,
-    });
+    } as Parameters<typeof promptService.getPrompts>[0]);
 
     res.status(200).json({
       success: true,

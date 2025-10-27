@@ -12,7 +12,7 @@ import { z } from 'zod';
 export async function register(req: Request, res: Response, next: NextFunction) {
   try {
     // 验证请求数据
-    const validatedData = registerSchema.parse(req.body);
+    const validatedData = registerSchema.parse(req.body) as Parameters<typeof authService.register>[0];
 
     // 调用注册服务
     const result = await authService.register(validatedData);
@@ -44,7 +44,7 @@ export async function register(req: Request, res: Response, next: NextFunction) 
 export async function login(req: Request, res: Response, next: NextFunction) {
   try {
     // 验证请求数据
-    const validatedData = loginSchema.parse(req.body);
+    const validatedData = loginSchema.parse(req.body) as Parameters<typeof authService.login>[0];
 
     // 调用登录服务
     const result = await authService.login(validatedData);
