@@ -42,6 +42,7 @@ export interface AdminUser {
   isActive: boolean;
   createdAt: string;
   updatedAt: string;
+  generationCount: number;
 }
 
 export interface UserDetail extends AdminUser {
@@ -146,6 +147,8 @@ export async function getUsers(
     role?: 'user' | 'admin';
     isActive?: boolean;
     subscriptionTier?: 'free' | 'pro';
+    sortBy?: 'createdAt' | 'generationCount' | 'username';
+    sortOrder?: 'asc' | 'desc';
   }
 ): Promise<{ users: AdminUser[]; pagination: PaginationInfo }> {
   const response = await axios.get(`${API_BASE_URL}/admin/users`, {

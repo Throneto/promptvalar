@@ -1,5 +1,5 @@
-import { db, users, prompts, subscriptions, aiUsageLogs, adminActionLogs, favorites } from '../db/index.js';
-import { eq, desc, sql, and, gte, lte, count, or, ilike } from 'drizzle-orm';
+import { db, users, prompts, subscriptions, aiUsageLogs, adminActionLogs, favorites, promptGenerationLogs } from '../db/index.js';
+import { eq, desc, asc, sql, and, gte, lte, count, or, ilike } from 'drizzle-orm';
 import { AppError } from '../middleware/errorHandler.js';
 import bcrypt from 'bcrypt';
 import { cache, CacheKeys } from '../utils/cache.js';
@@ -141,7 +141,7 @@ export async function getTopPrompts(limit: number = 10) {
 }
 
 /**
- * 获取用户列表（分页、搜索、筛选）
+ * 获取用户列表（分页、搜索、筛选、排序）
  */
 export async function getUsers(params: {
   page?: number;
@@ -150,11 +150,15 @@ export async function getUsers(params: {
   role?: 'user' | 'admin';
   isActive?: boolean;
   subscriptionTier?: 'free' | 'pro';
+  sortBy?: 'createdAt' | 'generationCount' | 'username';
+  sortOrder?: 'asc' | 'desc';
 }) {
   try {
     const page = params.page || 1;
     const limit = params.limit || 20;
     const offset = (page - 1) * limit;
+    const sortBy = params.sortBy || 'createdAt';
+    const sortOrder = params.sortOrder || 'desc';
 
     // 构建查询条件
     const conditions = [];
@@ -182,7 +186,7 @@ export async function getUsers(params: {
 
     const whereClause = conditions.length > 0 ? and(...conditions) : undefined;
 
-    // 获取用户列表
+    // 获取用户列表，包含生成次数统计
     const userList = await db
       .select({
         id: users.id,
@@ -193,10 +197,34 @@ export async function getUsers(params: {
         isActive: users.isActive,
         createdAt: users.createdAt,
         updatedAt: users.updatedAt,
+        generationCount: sql<number>`COALESCE(COUNT(${promptGenerationLogs.id}), 0)`,
       })
       .from(users)
+      .leftJoin(promptGenerationLogs, eq(users.id, promptGenerationLogs.userId))
       .where(whereClause)
-      .orderBy(desc(users.createdAt))
+      .groupBy(
+        users.id,
+        users.username,
+        users.email,
+        users.role,
+        users.subscriptionTier,
+        users.isActive,
+        users.createdAt,
+        users.updatedAt
+      )
+      .orderBy(
+        sortOrder === 'desc' 
+          ? sortBy === 'generationCount' 
+            ? desc(sql`COALESCE(COUNT(${promptGenerationLogs.id}), 0)`)
+            : sortBy === 'username'
+            ? desc(users.username)
+            : desc(users.createdAt)
+          : sortBy === 'generationCount'
+          ? asc(sql`COALESCE(COUNT(${promptGenerationLogs.id}), 0)`)
+          : sortBy === 'username'
+          ? asc(users.username)
+          : asc(users.createdAt)
+      )
       .limit(limit)
       .offset(offset);
 

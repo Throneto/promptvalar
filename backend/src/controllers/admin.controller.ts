@@ -83,6 +83,8 @@ export async function getUsers(
     const role = req.query.role as 'user' | 'admin' | undefined;
     const isActive = req.query.isActive === 'true' ? true : req.query.isActive === 'false' ? false : undefined;
     const subscriptionTier = req.query.subscriptionTier as 'free' | 'pro' | undefined;
+    const sortBy = req.query.sortBy as 'createdAt' | 'generationCount' | 'username' | undefined;
+    const sortOrder = req.query.sortOrder as 'asc' | 'desc' | undefined;
 
     const result = await adminService.getUsers({
       page,
@@ -91,6 +93,8 @@ export async function getUsers(
       role,
       isActive,
       subscriptionTier,
+      sortBy,
+      sortOrder,
     });
 
     res.json({

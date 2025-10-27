@@ -9,7 +9,10 @@ import {
   ChevronRight,
   UserCheck,
   UserX,
-  Shield
+  Shield,
+  ArrowUpDown,
+  ArrowUp,
+  ArrowDown
 } from 'lucide-react';
 import { getUsers, updateUser, deleteUser, resetUserPassword, type AdminUser, type PaginationInfo } from '../services/admin';
 
@@ -26,20 +29,24 @@ export default function AdminUsersPage() {
   const [showEditModal, setShowEditModal] = useState(false);
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [newPassword, setNewPassword] = useState('');
+  const [sortBy, setSortBy] = useState<'createdAt' | 'generationCount' | 'username'>('createdAt');
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
 
   useEffect(() => {
     loadUsers();
-  }, [currentPage, searchTerm, roleFilter, statusFilter, tierFilter]);
+  }, [currentPage, searchTerm, roleFilter, statusFilter, tierFilter, sortBy, sortOrder]);
 
   const loadUsers = async () => {
     try {
       setLoading(true);
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('accessToken');
       if (!token) return;
 
       const params: any = {
         page: currentPage,
         limit: 20,
+        sortBy,
+        sortOrder,
       };
 
       if (searchTerm) params.search = searchTerm;
@@ -66,7 +73,7 @@ export default function AdminUsersPage() {
     if (!editingUser) return;
 
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('accessToken');
       if (!token) return;
 
       await updateUser(token, editingUser.id, {
@@ -90,7 +97,7 @@ export default function AdminUsersPage() {
     if (!editingUser || !newPassword) return;
 
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('accessToken');
       if (!token) return;
 
       await resetUserPassword(token, editingUser.id, newPassword);
@@ -108,7 +115,7 @@ export default function AdminUsersPage() {
     if (!confirm('确定要禁用此用户吗？')) return;
 
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('accessToken');
       if (!token) return;
 
       await deleteUser(token, userId);
@@ -117,6 +124,29 @@ export default function AdminUsersPage() {
       console.error('删除用户失败:', err);
       alert('删除用户失败');
     }
+  };
+
+  const handleSort = (field: 'createdAt' | 'generationCount' | 'username') => {
+    if (sortBy === field) {
+      // 切换排序方向
+      setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+    } else {
+      // 切换到新字段，默认降序
+      setSortBy(field);
+      setSortOrder('desc');
+    }
+    setCurrentPage(1); // 重置到第一页
+  };
+
+  const SortIcon = ({ field }: { field: 'createdAt' | 'generationCount' | 'username' }) => {
+    if (sortBy !== field) {
+      return <ArrowUpDown className="w-4 h-4 ml-1 inline opacity-50" />;
+    }
+    return sortOrder === 'asc' ? (
+      <ArrowUp className="w-4 h-4 ml-1 inline text-purple-400" />
+    ) : (
+      <ArrowDown className="w-4 h-4 ml-1 inline text-purple-400" />
+    );
   };
 
   return (
@@ -166,9 +196,9 @@ export default function AdminUsersPage() {
               }}
               className="px-4 py-2 bg-white/10 border border-white/20 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
             >
-              <option value="all">所有角色</option>
-              <option value="user">普通用户</option>
-              <option value="admin">管理员</option>
+              <option value="all" className="bg-slate-800">所有角色</option>
+              <option value="user" className="bg-slate-800">普通用户</option>
+              <option value="admin" className="bg-slate-800">管理员</option>
             </select>
 
             {/* 状态筛选 */}
@@ -180,9 +210,9 @@ export default function AdminUsersPage() {
               }}
               className="px-4 py-2 bg-white/10 border border-white/20 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
             >
-              <option value="all">所有状态</option>
-              <option value="active">活跃</option>
-              <option value="inactive">非活跃</option>
+              <option value="all" className="bg-slate-800">所有状态</option>
+              <option value="active" className="bg-slate-800">活跃</option>
+              <option value="inactive" className="bg-slate-800">非活跃</option>
             </select>
 
             {/* 订阅筛选 */}
@@ -194,9 +224,9 @@ export default function AdminUsersPage() {
               }}
               className="px-4 py-2 bg-white/10 border border-white/20 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
             >
-              <option value="all">所有订阅</option>
-              <option value="free">免费</option>
-              <option value="pro">Pro</option>
+              <option value="all" className="bg-slate-800">所有订阅</option>
+              <option value="free" className="bg-slate-800">免费</option>
+              <option value="pro" className="bg-slate-800">Pro</option>
             </select>
           </div>
         </motion.div>
@@ -218,12 +248,31 @@ export default function AdminUsersPage() {
                 <table className="w-full">
                   <thead className="bg-white/5">
                     <tr>
-                      <th className="text-left py-4 px-6 text-purple-200 font-semibold">用户名</th>
+                      <th 
+                        className="text-left py-4 px-6 text-purple-200 font-semibold cursor-pointer hover:text-white transition-colors"
+                        onClick={() => handleSort('username')}
+                      >
+                        用户名
+                        <SortIcon field="username" />
+                      </th>
                       <th className="text-left py-4 px-6 text-purple-200 font-semibold">邮箱</th>
                       <th className="text-center py-4 px-6 text-purple-200 font-semibold">角色</th>
                       <th className="text-center py-4 px-6 text-purple-200 font-semibold">订阅</th>
                       <th className="text-center py-4 px-6 text-purple-200 font-semibold">状态</th>
-                      <th className="text-center py-4 px-6 text-purple-200 font-semibold">注册时间</th>
+                      <th 
+                        className="text-center py-4 px-6 text-purple-200 font-semibold cursor-pointer hover:text-white transition-colors"
+                        onClick={() => handleSort('generationCount')}
+                      >
+                        生成次数
+                        <SortIcon field="generationCount" />
+                      </th>
+                      <th 
+                        className="text-center py-4 px-6 text-purple-200 font-semibold cursor-pointer hover:text-white transition-colors"
+                        onClick={() => handleSort('createdAt')}
+                      >
+                        注册时间
+                        <SortIcon field="createdAt" />
+                      </th>
                       <th className="text-center py-4 px-6 text-purple-200 font-semibold">操作</th>
                     </tr>
                   </thead>
@@ -259,6 +308,11 @@ export default function AdminUsersPage() {
                           ) : (
                             <UserX className="w-5 h-5 text-red-400 mx-auto" />
                           )}
+                        </td>
+                        <td className="py-4 px-6 text-center">
+                          <span className="inline-block px-3 py-1 rounded-full text-sm font-semibold bg-blue-500/30 text-blue-200">
+                            {user.generationCount}
+                          </span>
                         </td>
                         <td className="py-4 px-6 text-center text-purple-200 text-sm">
                           {new Date(user.createdAt).toLocaleDateString('zh-CN')}
@@ -361,8 +415,8 @@ export default function AdminUsersPage() {
                   onChange={(e) => setEditingUser({ ...editingUser, role: e.target.value as any })}
                   className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-xl text-white"
                 >
-                  <option value="user">用户</option>
-                  <option value="admin">管理员</option>
+                  <option value="user" className="bg-slate-800 text-white">用户</option>
+                  <option value="admin" className="bg-slate-800 text-white">管理员</option>
                 </select>
               </div>
               <div>
@@ -372,8 +426,8 @@ export default function AdminUsersPage() {
                   onChange={(e) => setEditingUser({ ...editingUser, subscriptionTier: e.target.value as any })}
                   className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-xl text-white"
                 >
-                  <option value="free">免费</option>
-                  <option value="pro">Pro</option>
+                  <option value="free" className="bg-slate-800 text-white">免费</option>
+                  <option value="pro" className="bg-slate-800 text-white">Pro</option>
                 </select>
               </div>
               <div>
