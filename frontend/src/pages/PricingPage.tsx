@@ -22,7 +22,7 @@ export default function PricingPage() {
   const [isTestMode, setIsTestMode] = useState(false);
 
   // 获取认证 token
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem('accessToken');
   const isLoggedIn = !!token;
 
   useEffect(() => {

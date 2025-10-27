@@ -33,7 +33,7 @@ export default function SubscriptionManagementPage() {
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [isTestMode, setIsTestMode] = useState(false);
 
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem('accessToken');
   const userStr = localStorage.getItem('user');
   const user = userStr ? JSON.parse(userStr) : null;
 

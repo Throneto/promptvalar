@@ -32,7 +32,7 @@ export default function AdminPromptsPage() {
   const loadPrompts = async () => {
     try {
       setLoading(true);
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('accessToken');
       if (!token) return;
 
       const params: any = {
@@ -63,7 +63,7 @@ export default function AdminPromptsPage() {
     if (!editingPrompt) return;
 
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('accessToken');
       if (!token) return;
 
       await updatePrompt(token, editingPrompt.id, {
@@ -86,7 +86,7 @@ export default function AdminPromptsPage() {
     if (!confirm('确定要删除此提示词吗？')) return;
 
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('accessToken');
       if (!token) return;
 
       await deletePrompt(token, promptId);
@@ -99,7 +99,7 @@ export default function AdminPromptsPage() {
 
   const handleTogglePublish = async (prompt: AdminPrompt) => {
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('accessToken');
       if (!token) return;
 
       await updatePrompt(token, prompt.id, {
@@ -160,11 +160,11 @@ export default function AdminPromptsPage() {
               }}
               className="px-4 py-2 bg-white/10 border border-white/20 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
             >
-              <option value="all">所有模型</option>
-              <option value="sora">Sora</option>
-              <option value="veo">Veo</option>
-              <option value="nano_banana">Nano Banana</option>
-              <option value="seedream">SeeDream</option>
+              <option value="all" className="bg-slate-800">所有模型</option>
+              <option value="sora" className="bg-slate-800">Sora</option>
+              <option value="veo" className="bg-slate-800">Veo</option>
+              <option value="nano_banana" className="bg-slate-800">Nano Banana</option>
+              <option value="seedream" className="bg-slate-800">SeeDream</option>
             </select>
 
             {/* 发布状态筛选 */}
@@ -176,9 +176,9 @@ export default function AdminPromptsPage() {
               }}
               className="px-4 py-2 bg-white/10 border border-white/20 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
             >
-              <option value="all">所有状态</option>
-              <option value="published">已发布</option>
-              <option value="unpublished">未发布</option>
+              <option value="all" className="bg-slate-800">所有状态</option>
+              <option value="published" className="bg-slate-800">已发布</option>
+              <option value="unpublished" className="bg-slate-800">未发布</option>
             </select>
           </div>
         </motion.div>
