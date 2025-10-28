@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api/v1';
 
 /**
  * 订阅 API 服务
@@ -41,7 +41,7 @@ export interface Subscription {
  * 获取订阅计划信息
  */
 export async function getSubscriptionPlans(): Promise<SubscriptionPlans> {
-  const response = await axios.get(`${API_BASE_URL}/api/v1/subscriptions/plans`);
+  const response = await axios.get(`${API_BASE_URL}/subscriptions/plans`);
   return response.data.plans;
 }
 
@@ -49,7 +49,7 @@ export async function getSubscriptionPlans(): Promise<SubscriptionPlans> {
  * 获取当前用户的订阅信息
  */
 export async function getCurrentSubscription(token: string): Promise<Subscription | null> {
-  const response = await axios.get(`${API_BASE_URL}/api/v1/subscriptions/current`, {
+  const response = await axios.get(`${API_BASE_URL}/subscriptions/current`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -65,7 +65,7 @@ export async function createCheckoutSession(
   priceId: string
 ): Promise<{ sessionId: string; url: string; testMode: boolean }> {
   const response = await axios.post(
-    `${API_BASE_URL}/api/v1/subscriptions/checkout`,
+    `${API_BASE_URL}/subscriptions/checkout`,
     { priceId },
     {
       headers: {
@@ -83,7 +83,7 @@ export async function createPortalSession(
   token: string
 ): Promise<{ url: string; testMode: boolean }> {
   const response = await axios.post(
-    `${API_BASE_URL}/api/v1/subscriptions/portal`,
+    `${API_BASE_URL}/subscriptions/portal`,
     {},
     {
       headers: {
@@ -102,7 +102,7 @@ export async function cancelSubscription(
   immediate = false
 ): Promise<{ success: boolean; message: string; testMode: boolean }> {
   const response = await axios.post(
-    `${API_BASE_URL}/api/v1/subscriptions/cancel`,
+    `${API_BASE_URL}/subscriptions/cancel`,
     { immediate },
     {
       headers: {
@@ -120,7 +120,7 @@ export async function resumeSubscription(
   token: string
 ): Promise<{ success: boolean; message: string; testMode: boolean }> {
   const response = await axios.post(
-    `${API_BASE_URL}/api/v1/subscriptions/resume`,
+    `${API_BASE_URL}/subscriptions/resume`,
     {},
     {
       headers: {
@@ -139,7 +139,7 @@ export async function checkFeatureAccess(
   feature: string
 ): Promise<{ hasAccess: boolean; feature: string }> {
   const response = await axios.get(
-    `${API_BASE_URL}/api/v1/subscriptions/check-access`,
+    `${API_BASE_URL}/subscriptions/check-access`,
     {
       params: { feature },
       headers: {
@@ -157,7 +157,7 @@ export async function testModeActivateSubscription(
   token: string
 ): Promise<{ success: boolean; message: string }> {
   const response = await axios.post(
-    `${API_BASE_URL}/api/v1/subscriptions/test/activate`,
+    `${API_BASE_URL}/subscriptions/test/activate`,
     {},
     {
       headers: {
