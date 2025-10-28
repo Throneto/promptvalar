@@ -107,13 +107,19 @@ npm ci --quiet
 
 # 构建前端
 echo "  - 构建前端..."
-npm run build
+VITE_API_BASE_URL=https://api.promptvalar.com/api/v1 npm run build
 
 # 检查构建结果
 if [ -d "dist" ] && [ -f "dist/index.html" ]; then
     echo -e "  ${GREEN}✓ 前端构建完成${NC}"
     echo "  构建文件大小:"
     du -sh dist/
+    
+    # 同步到Nginx服务目录
+    echo "  - 同步文件到Nginx服务目录..."
+    mkdir -p /var/www/promptvalar/frontend
+    rsync -av --delete dist/ /var/www/promptvalar/frontend/dist/
+    echo -e "  ${GREEN}✓ 文件已同步到 /var/www/promptvalar/frontend/dist/${NC}"
 else
     echo -e "  ${RED}❌ 前端构建失败${NC}"
     exit 1

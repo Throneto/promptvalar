@@ -39,7 +39,7 @@ export const SUBSCRIPTION_PLANS = {
   },
   pro: {
     name: 'Pro',
-    price: 19.99,
+    price: 15.99,
     priceId: process.env.STRIPE_PRO_PRICE_ID || 'price_test_pro',
     features: [
       '无限次 AI 生成',
@@ -48,7 +48,6 @@ export const SUBSCRIPTION_PLANS = {
       '优先客户支持',
       '高级编辑器功能',
       '提示词历史记录',
-      'API 访问权限',
     ],
     limits: {
       aiGenerationsPerMonth: -1, // unlimited

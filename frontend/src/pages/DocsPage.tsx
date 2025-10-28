@@ -90,9 +90,6 @@ export default function DocsPage() {
                     <a href="#subscription" className="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors">
                       Subscription & Billing
                     </a>
-                    <a href="#api" className="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors">
-                      API Reference
-                    </a>
                     <a href="#faq" className="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors">
                       FAQ
                     </a>
@@ -402,18 +399,6 @@ export default function DocsPage() {
                       </ul>
                     </div>
 
-                    <div>
-                      <h4 className="text-xl font-semibold text-gray-900 mb-3">API Access (Pro)</h4>
-                      <p className="text-gray-600 mb-3">
-                        Pro users can access our API to integrate PromptValar into their workflows:
-                      </p>
-                      <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4">
-                        <li>Generate API keys</li>
-                        <li>Monitor usage and rate limits</li>
-                        <li>Access API documentation</li>
-                        <li>Webhook configuration</li>
-                      </ul>
-                    </div>
                   </div>
                 </section>
 
@@ -445,7 +430,6 @@ export default function DocsPage() {
                             <li>• Premium library access</li>
                             <li>• Unlimited prompt storage</li>
                             <li>• Priority support</li>
-                            <li>• API access</li>
                           </ul>
                         </div>
                       </div>
@@ -474,56 +458,6 @@ export default function DocsPage() {
                         You can cancel your subscription at any time. You'll continue to have Pro access until the end 
                         of your billing period. See our <Link to="/refund-policy" className="text-blue-600 hover:underline">Refund Policy</Link> for 
                         more details.
-                      </p>
-                    </div>
-                  </div>
-                </section>
-
-                {/* API Reference */}
-                <section id="api" className="bg-white rounded-xl shadow-lg p-8">
-                  <div className="flex items-center gap-3 mb-6">
-                    <Code className="w-8 h-8 text-indigo-600" />
-                    <h2 className="text-3xl font-bold text-gray-900">API Reference</h2>
-                  </div>
-                  
-                  <div className="space-y-6">
-                    <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4">
-                      <p className="text-yellow-800">
-                        <strong>Note:</strong> API access is available for Pro plan subscribers only.
-                      </p>
-                    </div>
-
-                    <div>
-                      <h4 className="text-xl font-semibold text-gray-900 mb-3">Authentication</h4>
-                      <div className="bg-gray-900 text-gray-100 rounded-lg p-4 font-mono text-sm overflow-x-auto">
-                        <pre>{`curl https://api.promptvalar.com/v1/prompts \\
-  -H "Authorization: Bearer YOUR_API_KEY" \\
-  -H "Content-Type: application/json"`}</pre>
-                      </div>
-                    </div>
-
-                    <div>
-                      <h4 className="text-xl font-semibold text-gray-900 mb-3">Generate Prompt</h4>
-                      <p className="text-gray-600 mb-3">POST /v1/prompts/generate</p>
-                      <div className="bg-gray-900 text-gray-100 rounded-lg p-4 font-mono text-sm overflow-x-auto">
-                        <pre>{`{
-  "input": "A futuristic cityscape at sunset",
-  "model": "sora",
-  "style": "cinematic"
-}`}</pre>
-                      </div>
-                    </div>
-
-                    <div>
-                      <h4 className="text-xl font-semibold text-gray-900 mb-3">Rate Limits</h4>
-                      <p className="text-gray-600">
-                        Pro plan: 1000 requests per hour. Contact us for higher limits.
-                      </p>
-                    </div>
-
-                    <div className="bg-blue-50 rounded-lg p-6">
-                      <p className="text-gray-700">
-                        <strong>Full API documentation</strong> is available in your account dashboard after upgrading to Pro.
                       </p>
                     </div>
                   </div>

@@ -407,14 +407,13 @@ export default function SubscriptionManagementPage() {
           >
             <h3 className="text-xl font-bold text-white mb-6">你的 Pro 权益</h3>
             <div className="grid md:grid-cols-2 gap-4">
-              {[
+              {              [
                 '无限次 AI 生成',
                 '访问所有高级提示词',
                 '所有 AI 模型支持',
                 '优先客户支持',
                 '高级编辑器功能',
                 '提示词历史记录',
-                'API 访问权限',
                 '无广告体验',
               ].map((feature, index) => (
                 <div key={index} className="flex items-center gap-3">

@@ -8,7 +8,6 @@ import {
   ArrowRight, 
   Star,
   Infinity,
-  Shield,
   TrendingUp,
   Users,
   Clock,
@@ -411,20 +410,6 @@ export default function PricingPage() {
                     <div className="flex items-center gap-2">
                       <Award className="w-5 h-5 text-purple-400" />
                       Priority Support
-                    </div>
-                  </td>
-                  <td className="p-6 text-center text-gray-300">
-                    <span className="text-red-400 text-xl">✗</span>
-                  </td>
-                  <td className="p-6 text-center text-white bg-purple-600/10">
-                    <Check className="w-6 h-6 text-green-400 mx-auto" />
-                  </td>
-                </tr>
-                <tr className="border-b border-white/10 hover:bg-white/5 transition-colors">
-                  <td className="p-6 text-gray-300 font-medium">
-                    <div className="flex items-center gap-2">
-                      <Shield className="w-5 h-5 text-blue-400" />
-                      API Access
                     </div>
                   </td>
                   <td className="p-6 text-center text-gray-300">
