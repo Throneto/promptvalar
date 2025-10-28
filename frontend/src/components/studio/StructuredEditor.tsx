@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
-import { Copy, Check } from 'lucide-react';
+import { Copy, Check, Crown, Lock } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { StructuredPrompt, ShotType, LightingType } from '../../types/prompt';
+import { getCurrentUser } from '../../services/auth.service';
 
 interface StructuredEditorProps {
   structuredData: StructuredPrompt;
@@ -33,18 +35,25 @@ const StructuredEditor = ({ structuredData, onUpdate, finalPrompt }: StructuredE
   const [localData, setLocalData] = useState<StructuredPrompt>(structuredData);
   const [copied, setCopied] = useState(false);
   const [moodInput, setMoodInput] = useState('');
+  
+  // 检查用户是否为 Pro 用户
+  const user = getCurrentUser();
+  const isPro = user?.subscriptionTier === 'pro';
+  const isDisabled = !isPro;
 
   useEffect(() => {
     setLocalData(structuredData);
   }, [structuredData]);
 
   const handleChange = (field: keyof StructuredPrompt, value: string | string[]) => {
+    if (isDisabled) return; // Pro Only 限制
     const updated = { ...localData, [field]: value };
     setLocalData(updated);
     onUpdate(updated);
   };
 
   const handleAddMood = () => {
+    if (isDisabled) return; // Pro Only 限制
     if (moodInput.trim() && !localData.mood.includes(moodInput.trim())) {
       const updated = { ...localData, mood: [...localData.mood, moodInput.trim()] };
       setLocalData(updated);
@@ -54,6 +63,7 @@ const StructuredEditor = ({ structuredData, onUpdate, finalPrompt }: StructuredE
   };
 
   const handleRemoveMood = (moodToRemove: string) => {
+    if (isDisabled) return; // Pro Only 限制
     const updated = { ...localData, mood: localData.mood.filter((m) => m !== moodToRemove) };
     setLocalData(updated);
     onUpdate(updated);
@@ -71,8 +81,36 @@ const StructuredEditor = ({ structuredData, onUpdate, finalPrompt }: StructuredE
 
   return (
     <div className="space-y-6">
+      {/* Pro Only 提示横幅 */}
+      {!isPro && (
+        <div className="bg-gradient-to-r from-amber-500/20 to-orange-500/20 border-2 border-amber-500/50 rounded-xl p-6 backdrop-blur-sm">
+          <div className="flex items-start gap-4">
+            <div className="flex-shrink-0">
+              <Lock className="w-8 h-8 text-amber-400" />
+            </div>
+            <div className="flex-1">
+              <h3 className="text-xl font-bold text-amber-300 mb-2 flex items-center gap-2">
+                <Crown className="w-5 h-5" />
+                Pro 功能专享
+              </h3>
+              <p className="text-amber-100/90 mb-4">
+                结构化编辑器是 Pro 用户专属功能。升级到 Pro 计划以解锁精细化调整能力，
+                包括主题、动作、场景设置、镜头类型、光照、构图和氛围等全方位控制。
+              </p>
+              <Link
+                to="/pricing"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold rounded-lg transition-all shadow-lg hover:shadow-xl transform hover:scale-105"
+              >
+                <Crown className="w-5 h-5" />
+                立即升级到 Pro
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
+      
       {/* 结构化字段编辑 */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className={`grid grid-cols-1 md:grid-cols-2 gap-6 ${isDisabled ? 'opacity-50 pointer-events-none' : ''}`}>
         {/* Subject */}
         <div>
           <label className="block text-sm font-medium text-purple-200 mb-2">Subject</label>
@@ -81,7 +119,8 @@ const StructuredEditor = ({ structuredData, onUpdate, finalPrompt }: StructuredE
             value={localData.subject}
             onChange={(e) => handleChange('subject', e.target.value)}
             placeholder="Main subject of your prompt"
-            className="w-full px-4 py-3 bg-white/5 border border-purple-500/30 rounded-lg text-white placeholder-purple-300/50 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20"
+            disabled={isDisabled}
+            className="w-full px-4 py-3 bg-white/5 border border-purple-500/30 rounded-lg text-white placeholder-purple-300/50 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 disabled:cursor-not-allowed"
           />
         </div>
 
@@ -93,7 +132,8 @@ const StructuredEditor = ({ structuredData, onUpdate, finalPrompt }: StructuredE
             value={localData.action}
             onChange={(e) => handleChange('action', e.target.value)}
             placeholder="What is happening"
-            className="w-full px-4 py-3 bg-white/5 border border-purple-500/30 rounded-lg text-white placeholder-purple-300/50 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20"
+            disabled={isDisabled}
+            className="w-full px-4 py-3 bg-white/5 border border-purple-500/30 rounded-lg text-white placeholder-purple-300/50 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 disabled:cursor-not-allowed"
           />
         </div>
 
@@ -105,7 +145,8 @@ const StructuredEditor = ({ structuredData, onUpdate, finalPrompt }: StructuredE
             value={localData.setting}
             onChange={(e) => handleChange('setting', e.target.value)}
             placeholder="Location or environment"
-            className="w-full px-4 py-3 bg-white/5 border border-purple-500/30 rounded-lg text-white placeholder-purple-300/50 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20"
+            disabled={isDisabled}
+            className="w-full px-4 py-3 bg-white/5 border border-purple-500/30 rounded-lg text-white placeholder-purple-300/50 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 disabled:cursor-not-allowed"
           />
         </div>
 
@@ -115,7 +156,8 @@ const StructuredEditor = ({ structuredData, onUpdate, finalPrompt }: StructuredE
           <select
             value={localData.shotType}
             onChange={(e) => handleChange('shotType', e.target.value)}
-            className="w-full px-4 py-3 bg-white/5 border border-purple-500/30 rounded-lg text-white focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20"
+            disabled={isDisabled}
+            className="w-full px-4 py-3 bg-white/5 border border-purple-500/30 rounded-lg text-white focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 disabled:cursor-not-allowed"
           >
             <option value="" className="bg-slate-800">
               Select shot type
@@ -134,7 +176,8 @@ const StructuredEditor = ({ structuredData, onUpdate, finalPrompt }: StructuredE
           <select
             value={localData.lighting}
             onChange={(e) => handleChange('lighting', e.target.value)}
-            className="w-full px-4 py-3 bg-white/5 border border-purple-500/30 rounded-lg text-white focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20"
+            disabled={isDisabled}
+            className="w-full px-4 py-3 bg-white/5 border border-purple-500/30 rounded-lg text-white focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 disabled:cursor-not-allowed"
           >
             <option value="" className="bg-slate-800">
               Select lighting
@@ -155,13 +198,14 @@ const StructuredEditor = ({ structuredData, onUpdate, finalPrompt }: StructuredE
             value={localData.composition}
             onChange={(e) => handleChange('composition', e.target.value)}
             placeholder="Composition details"
-            className="w-full px-4 py-3 bg-white/5 border border-purple-500/30 rounded-lg text-white placeholder-purple-300/50 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20"
+            disabled={isDisabled}
+            className="w-full px-4 py-3 bg-white/5 border border-purple-500/30 rounded-lg text-white placeholder-purple-300/50 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 disabled:cursor-not-allowed"
           />
         </div>
       </div>
 
       {/* Mood Tags */}
-      <div>
+      <div className={isDisabled ? 'opacity-50 pointer-events-none' : ''}>
         <label className="block text-sm font-medium text-purple-200 mb-2">Mood</label>
         <div className="flex gap-2 mb-2">
           <input
@@ -170,11 +214,13 @@ const StructuredEditor = ({ structuredData, onUpdate, finalPrompt }: StructuredE
             onChange={(e) => setMoodInput(e.target.value)}
             onKeyPress={(e) => e.key === 'Enter' && handleAddMood()}
             placeholder="Add mood tag (press Enter)"
-            className="flex-1 px-4 py-3 bg-white/5 border border-purple-500/30 rounded-lg text-white placeholder-purple-300/50 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20"
+            disabled={isDisabled}
+            className="flex-1 px-4 py-3 bg-white/5 border border-purple-500/30 rounded-lg text-white placeholder-purple-300/50 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 disabled:cursor-not-allowed"
           />
           <button
             onClick={handleAddMood}
-            className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-colors"
+            disabled={isDisabled}
+            className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-colors disabled:cursor-not-allowed disabled:opacity-50"
           >
             Add
           </button>
@@ -198,7 +244,7 @@ const StructuredEditor = ({ structuredData, onUpdate, finalPrompt }: StructuredE
       </div>
 
       {/* Parameters */}
-      <div>
+      <div className={isDisabled ? 'opacity-50 pointer-events-none' : ''}>
         <label className="block text-sm font-medium text-purple-200 mb-2">
           Parameters (Model-specific)
         </label>
@@ -207,7 +253,8 @@ const StructuredEditor = ({ structuredData, onUpdate, finalPrompt }: StructuredE
           value={localData.parameters}
           onChange={(e) => handleChange('parameters', e.target.value)}
           placeholder="e.g., --ar 16:9 --style raw"
-          className="w-full px-4 py-3 bg-white/5 border border-purple-500/30 rounded-lg text-white placeholder-purple-300/50 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20"
+          disabled={isDisabled}
+          className="w-full px-4 py-3 bg-white/5 border border-purple-500/30 rounded-lg text-white placeholder-purple-300/50 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 disabled:cursor-not-allowed"
         />
       </div>
 
