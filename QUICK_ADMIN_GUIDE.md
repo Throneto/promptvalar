@@ -3,7 +3,7 @@
 ## ✅ 管理员账户已创建
 
 **账户信息:**
-- **邮箱**: test@tablevision.top
+- **邮箱**: test@promptvalar.com
 - **用户名**: testuser
 - **角色**: admin ✅
 - **密码**: (注册时设置的密码)
@@ -17,14 +17,14 @@
 #### 开发环境
 访问: http://localhost:3000/login
 ```
-邮箱: test@tablevision.top
+邮箱: test@promptvalar.com
 密码: [你注册时设置的密码]
 ```
 
 #### 生产环境
-访问: https://tablevision.top/login
+访问: https://promptvalar.com/login
 ```
-邮箱: test@tablevision.top
+邮箱: test@promptvalar.com
 密码: [你注册时设置的密码]
 ```
 
@@ -38,9 +38,9 @@
 - **提示词管理**: http://localhost:3000/admin/prompts
 
 #### 生产环境
-- **仪表板**: https://tablevision.top/admin
-- **用户管理**: https://tablevision.top/admin/users
-- **提示词管理**: https://tablevision.top/admin/prompts
+- **仪表板**: https://promptvalar.com/admin
+- **用户管理**: https://promptvalar.com/admin/users
+- **提示词管理**: https://promptvalar.com/admin/prompts
 
 ---
 
@@ -95,7 +95,7 @@ cd /root/promptvalar
 
 ### 方法 2: 通过数据库
 ```bash
-sudo -u postgres psql -d promptvalar -c "SELECT username, email, role FROM users WHERE email = 'test@tablevision.top';"
+sudo -u postgres psql -d promptvalar -c "SELECT username, email, role FROM users WHERE email = 'test@promptvalar.com';"
 ```
 
 应该看到 `role` 字段为 `admin`
@@ -206,7 +206,7 @@ sudo -u postgres psql -d promptvalar -c "SELECT username, email, role, subscript
 
 现在您可以：
 
-1. ✅ 使用 test@tablevision.top 登录
+1. ✅ 使用 test@promptvalar.com 登录
 2. ✅ 访问 /admin 查看管理后台
 3. ✅ 管理用户和提示词
 4. ✅ 查看系统统计数据

@@ -5,10 +5,10 @@
 **报告时间**: 2025-10-27  
 **问题状态**: ✅ 已修复
 
-用户报告生产环境 tablevision.top 的所有管理员页面均显示为空白：
-- 📊 仪表板: https://tablevision.top/admin
-- 👥 用户管理: https://tablevision.top/admin/users  
-- 📝 提示词管理: https://tablevision.top/admin/prompts
+用户报告生产环境 promptvalar.com 的所有管理员页面均显示为空白：
+- 📊 仪表板: https://promptvalar.com/admin
+- 👥 用户管理: https://promptvalar.com/admin/users  
+- 📝 提示词管理: https://promptvalar.com/admin/prompts
 
 ---
 
@@ -97,7 +97,7 @@ sudo chown -R promptvalar:promptvalar /var/www/promptvalar
 
 # 3. 构建生产环境前端
 cd /var/www/promptvalar/frontend
-sudo -u promptvalar bash -c "VITE_API_BASE_URL=https://api.tablevision.top/api/v1 npm run build"
+sudo -u promptvalar bash -c "VITE_API_BASE_URL=https://api.promptvalar.com/api/v1 npm run build"
 
 # 4. 重新加载 Nginx
 sudo systemctl reload nginx
@@ -119,7 +119,7 @@ sudo systemctl reload nginx
 | 字段 | 值 |
 |------|-----|
 | 用户名 | testuser |
-| 邮箱 | test@tablevision.top |
+| 邮箱 | test@promptvalar.com |
 | 角色 | admin |
 | 创建时间 | 2025-10-25 17:27:18 |
 
@@ -131,14 +131,14 @@ sudo systemctl reload nginx
    ```
 
 2. **重新登录**
-   - 访问: https://tablevision.top/login
-   - 邮箱: test@tablevision.top
+   - 访问: https://promptvalar.com/login
+   - 邮箱: test@promptvalar.com
    - 输入正确密码
 
 3. **访问管理后台**
-   - 仪表板: https://tablevision.top/admin
-   - 用户管理: https://tablevision.top/admin/users
-   - 提示词管理: https://tablevision.top/admin/prompts
+   - 仪表板: https://promptvalar.com/admin
+   - 用户管理: https://promptvalar.com/admin/users
+   - 提示词管理: https://promptvalar.com/admin/prompts
 
 4. **验证用户信息**
    
@@ -161,7 +161,7 @@ sudo systemctl reload nginx
 {
   "id": "...",
   "username": "testuser",
-  "email": "test@tablevision.top",
+  "email": "test@promptvalar.com",
   "subscriptionTier": "free",
   "createdAt": "..."
   // ❌ 没有 role 字段
@@ -173,7 +173,7 @@ sudo systemctl reload nginx
 {
   "id": "...",
   "username": "testuser", 
-  "email": "test@tablevision.top",
+  "email": "test@promptvalar.com",
   "role": "admin",              // ✅ 包含 role 字段
   "subscriptionTier": "free",
   "createdAt": "..."
@@ -220,12 +220,12 @@ if (!user?.role) {
 1. 确认数据库中用户角色为 admin：
    ```bash
    sudo -u postgres psql -d promptvalar -c \
-     "SELECT email, role FROM users WHERE email = 'test@tablevision.top';"
+     "SELECT email, role FROM users WHERE email = 'test@promptvalar.com';"
    ```
 2. 如果角色不是 admin，运行设置脚本：
    ```bash
    cd /root/promptvalar
-   ./set-admin.sh test@tablevision.top
+   ./set-admin.sh test@promptvalar.com
    ```
 3. 退出登录并重新登录
 
@@ -385,7 +385,7 @@ SELECT username, email, role FROM users WHERE email = 'your-email@example.com';
 - [x] 生产环境代码已更新 - **已完成**
 - [x] 生产环境前端已重新构建 - **已完成**
 - [x] Nginx 已重新加载 - **已完成**
-- [x] 管理员账户存在 - **已确认** (test@tablevision.top)
+- [x] 管理员账户存在 - **已确认** (test@promptvalar.com)
 - [ ] 用户重新登录获取新 token - **待用户操作**
 
 ---
@@ -403,7 +403,7 @@ SELECT username, email, role FROM users WHERE email = 'your-email@example.com';
 ### 下一步操作
 
 1. 清除浏览器缓存和 localStorage
-2. 使用管理员账户重新登录 (test@tablevision.top)
+2. 使用管理员账户重新登录 (test@promptvalar.com)
 3. 访问管理后台验证功能正常
 
 ### 测试工具
@@ -416,7 +416,7 @@ file:///root/promptvalar/test-admin-access.html
 # 或复制到生产环境 public 目录
 sudo cp /root/promptvalar/test-admin-access.html \
        /var/www/promptvalar/frontend/dist/test-admin.html
-# 访问: https://tablevision.top/test-admin.html
+# 访问: https://promptvalar.com/test-admin.html
 ```
 
 ---

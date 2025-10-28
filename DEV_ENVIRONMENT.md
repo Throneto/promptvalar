@@ -3,8 +3,8 @@
 ## 📋 环境概览
 
 ### 生产环境
-- **前端域名**: https://tablevision.top
-- **后端API域名**: https://api.tablevision.top
+- **前端域名**: https://promptvalar.com
+- **后端API域名**: https://api.promptvalar.com
 - **部署位置**: `/var/www/promptvalar/`
 - **服务用户**: `promptvalar`
 
@@ -83,18 +83,18 @@ VITE_API_BASE_URL=http://localhost:5000/api/v1
 #### 生产环境
 位置: `/root/promptvalar/frontend/.env.production`
 ```bash
-VITE_API_BASE_URL=https://api.tablevision.top/api/v1
+VITE_API_BASE_URL=https://api.promptvalar.com/api/v1
 ```
 
 ## 🌐 Nginx 配置
 
 ### 前端配置
-- **域名**: tablevision.top
+- **域名**: promptvalar.com
 - **根目录**: `/var/www/promptvalar/frontend/dist`
 - **SSL证书**: Let's Encrypt
 
 ### 后端API配置
-- **域名**: api.tablevision.top
+- **域名**: api.promptvalar.com
 - **代理地址**: http://localhost:5000
 - **SSL证书**: Let's Encrypt
 

@@ -2,7 +2,7 @@
 
 **检查时间**: 2025-10-26  
 **检查人**: AI 助手  
-**域名**: tablevision.top
+**域名**: promptvalar.com
 
 ---
 
@@ -14,7 +14,7 @@
 
 #### 前端服务
 - **状态**: ✅ 运行正常
-- **域名**: https://tablevision.top
+- **域名**: https://promptvalar.com
 - **响应码**: HTTP 200
 - **SSL证书**: 已配置 (Let's Encrypt)
 - **部署位置**: `/var/www/promptvalar/frontend/dist`
@@ -22,7 +22,7 @@
 
 #### 后端API服务
 - **状态**: ✅ 运行正常
-- **域名**: https://api.tablevision.top
+- **域名**: https://api.promptvalar.com
 - **健康检查**: `{"status":"ok","timestamp":"2025-10-26T15:54:34.921Z"}`
 - **端口**: 5000
 - **进程**: 运行中 (PID: 288584)
@@ -32,8 +32,8 @@
 #### Nginx
 - **状态**: ✅ 运行正常 (active)
 - **配置文件**: `/etc/nginx/sites-available/`
-- **前端配置**: tablevision.top → `/var/www/promptvalar/frontend/dist`
-- **后端配置**: api.tablevision.top → http://localhost:5000
+- **前端配置**: promptvalar.com → `/var/www/promptvalar/frontend/dist`
+- **后端配置**: api.promptvalar.com → http://localhost:5000
 
 ---
 
@@ -82,7 +82,7 @@
 ##### 生产环境配置
 - **文件**: `/root/promptvalar/frontend/.env.production`
 - **状态**: ✅ 已创建
-- **配置**: `VITE_API_BASE_URL=https://api.tablevision.top/api/v1`
+- **配置**: `VITE_API_BASE_URL=https://api.promptvalar.com/api/v1`
 
 ---
 
@@ -226,8 +226,8 @@ cd /root/promptvalar
 ### 访问应用
 - **开发前端**: http://localhost:3000
 - **开发API**: http://localhost:5000
-- **生产前端**: https://tablevision.top
-- **生产API**: https://api.tablevision.top
+- **生产前端**: https://promptvalar.com
+- **生产API**: https://api.promptvalar.com
 
 ---
 
@@ -235,7 +235,7 @@ cd /root/promptvalar
 
 **开发环境配置完成，系统运行正常！**
 
-✅ 前端已成功绑定域名 tablevision.top  
+✅ 前端已成功绑定域名 promptvalar.com  
 ✅ 开发环境配置文件已创建  
 ✅ 管理脚本已就绪  
 ✅ 生产环境正常运行  

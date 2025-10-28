@@ -7,7 +7,7 @@
 | 项目 | 开发环境 | 生产环境 | 状态 |
 |------|---------|---------|------|
 | **位置** | `/root/promptvalar` | `/var/www/promptvalar` | ✅ |
-| **域名** | `localhost:3000` | `tablevision.top` | ✅ |
+| **域名** | `localhost:3000` | `promptvalar.com` | ✅ |
 | **最新提交** | bedb0a7 (11分钟前) | c20fab6 (79分钟前) | ⚠️ **不同步** |
 | **前端构建** | 2025-10-25 22:59 | 2025-10-25 22:31 | ⚠️ **需要更新** |
 | **后端状态** | 开发模式 | PM2运行中 | ✅ |
@@ -19,7 +19,7 @@
 
 - ✅ 开发环境已完成英文化（11分钟前提交）
 - ⚠️ 生产环境仍是旧版本（79分钟前提交）
-- ⚠️ 生产环境网站 `https://tablevision.top` 仍然显示中文内容
+- ⚠️ 生产环境网站 `https://promptvalar.com` 仍然显示中文内容
 
 ---
 
@@ -146,26 +146,26 @@ pm2 logs promptvalar-backend --err --lines 20
 
 ```bash
 # 测试后端 API
-curl -I https://api.tablevision.top/health
+curl -I https://api.promptvalar.com/health
 
 # 测试前端访问
-curl -I https://tablevision.top
+curl -I https://promptvalar.com
 
 # 测试具体页面（需要登录）
-curl -s https://tablevision.top | grep -o "<title>.*</title>"
+curl -s https://promptvalar.com | grep -o "<title>.*</title>"
 ```
 
 ### 3. 浏览器测试
 
 **重要：清除浏览器缓存！**
 
-1. 访问 `https://tablevision.top`
+1. 访问 `https://promptvalar.com`
 2. 按 `Ctrl + Shift + Delete` 清除缓存
 3. 或使用硬刷新 `Ctrl + Shift + R`
 4. 登录账户
 5. 访问以下页面验证英文化：
-   - My Prompts: `https://tablevision.top/dashboard/prompts`
-   - My Favorites: `https://tablevision.top/dashboard/favorites`
+   - My Prompts: `https://promptvalar.com/dashboard/prompts`
+   - My Favorites: `https://promptvalar.com/dashboard/favorites`
 
 ### 4. 功能测试清单
 
@@ -307,7 +307,7 @@ git pull origin main
 # === 验证部署 ===
 pm2 status
 pm2 logs --lines 50
-curl -I https://tablevision.top
+curl -I https://promptvalar.com
 
 # === 清除缓存 ===
 sudo systemctl reload nginx
@@ -344,7 +344,7 @@ git reset --hard c20fab6
    ```
 
 3. **网站访问正常**：
-   - ✅ `https://tablevision.top` 正常打开
+   - ✅ `https://promptvalar.com` 正常打开
    - ✅ My Prompts 页面显示英文
    - ✅ My Favorites 页面显示英文
    - ✅ 所有功能正常工作
@@ -361,7 +361,7 @@ git reset --hard c20fab6
 ## 🎯 下一步行动
 
 1. **立即执行**：运行部署脚本更新生产环境
-2. **验证**：访问 https://tablevision.top 确认英文化生效
+2. **验证**：访问 https://promptvalar.com 确认英文化生效
 3. **监控**：观察日志确保无错误
 4. **通知**：如果有用户，告知已更新
 

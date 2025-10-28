@@ -78,16 +78,16 @@ echo ""
 
 # 检查生产环境
 echo -e "${YELLOW}[生产环境]${NC}"
-PROD_FRONTEND=$(curl -Is https://tablevision.top | head -1)
+PROD_FRONTEND=$(curl -Is https://promptvalar.com | head -1)
 if [[ $PROD_FRONTEND == *"200"* ]]; then
-    echo -e "${GREEN}✅ 生产前端可访问: https://tablevision.top${NC}"
+    echo -e "${GREEN}✅ 生产前端可访问: https://promptvalar.com${NC}"
 else
     echo -e "${YELLOW}⚠️  生产前端状态: $PROD_FRONTEND${NC}"
 fi
 
-PROD_API=$(curl -s https://api.tablevision.top/health)
+PROD_API=$(curl -s https://api.promptvalar.com/health)
 if [ ! -z "$PROD_API" ]; then
-    echo -e "${GREEN}✅ 生产API可访问: https://api.tablevision.top${NC}"
+    echo -e "${GREEN}✅ 生产API可访问: https://api.promptvalar.com${NC}"
     echo "   健康检查: $PROD_API"
 else
     echo -e "${RED}❌ 生产API无法访问${NC}"

@@ -50,7 +50,7 @@ if [ "$ROLE" = "admin" ]; then
     echo ""
     echo "📍 管理后台地址:"
     echo "  - 本地开发: http://localhost:3000/admin"
-    echo "  - 生产环境: https://tablevision.top/admin"
+    echo "  - 生产环境: https://promptvalar.com/admin"
     echo ""
     echo "📝 下一步操作:"
     echo "  1. 访问登录页面"

@@ -32,8 +32,8 @@ app.set('trust proxy', true);
 app.use(cors({
   origin: [
     process.env.CORS_ORIGIN || 'http://localhost:3000',
-    'https://tablevision.top',
-    'http://tablevision.top'
+    'https://promptvalar.com',
+    'http://promptvalar.com'
   ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],

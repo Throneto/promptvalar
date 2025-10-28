@@ -13,8 +13,8 @@ PromptValar 提供了完整的管理员后台系统，用于管理用户、提�
 - **API**: http://localhost:5000/api/v1/admin/*
 
 ### 生产环境
-- **地址**: https://tablevision.top/admin
-- **API**: https://api.tablevision.top/api/v1/admin/*
+- **地址**: https://promptvalar.com/admin
+- **API**: https://api.promptvalar.com/api/v1/admin/*
 
 ---
 
@@ -37,7 +37,7 @@ PromptValar 提供了完整的管理员后台系统，用于管理用户、提�
 ### 方法 1: 使用设置脚本（推荐）
 
 1. **先注册一个普通账户**
-   - 访问 https://tablevision.top/register
+   - 访问 https://promptvalar.com/register
    - 或 http://localhost:3000/register
    - 填写用户名、邮箱和密码完成注册
 
@@ -49,7 +49,7 @@ cd /root/promptvalar
 
 示例：
 ```bash
-./set-admin.sh admin@tablevision.top
+./set-admin.sh admin@promptvalar.com
 ```
 
 脚本会自动：

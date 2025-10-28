@@ -11,7 +11,7 @@ async function createTestUser() {
     const existingUser = await db
       .select()
       .from(users)
-      .where(eq(users.email, 'test@tablevision.top'))
+      .where(eq(users.email, 'test@promptvalar.com'))
       .limit(1);
 
     if (existingUser.length > 0) {
@@ -19,14 +19,14 @@ async function createTestUser() {
       console.log('');
       console.log('📋 测试账号信息：');
       console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-      console.log('📧 邮箱: test@tablevision.top');
+      console.log('📧 邮箱: test@promptvalar.com');
       console.log('🔑 密码: Test123456');
       console.log('👤 用户名:', existingUser[0].username);
       console.log('🆔 用户ID:', existingUser[0].id);
       console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━');
       console.log('');
       console.log('🌐 现在可以使用这个账号登录：');
-      console.log('   http://tablevision.top/login');
+      console.log('   http://promptvalar.com/login');
       process.exit(0);
     }
 
@@ -39,7 +39,7 @@ async function createTestUser() {
       .insert(users)
       .values({
         username: 'testuser',
-        email: 'test@tablevision.top',
+        email: 'test@promptvalar.com',
         passwordHash: hashedPassword,
         subscriptionTier: 'free',
       })
@@ -49,18 +49,18 @@ async function createTestUser() {
     console.log('');
     console.log('📋 测试账号信息：');
     console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-    console.log('📧 邮箱: test@tablevision.top');
+    console.log('📧 邮箱: test@promptvalar.com');
     console.log('🔑 密码: Test123456');
     console.log('👤 用户名:', newUser.username);
     console.log('🆔 用户ID:', newUser.id);
     console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━');
     console.log('');
     console.log('🌐 现在可以使用这个账号登录测试：');
-    console.log('   http://tablevision.top/login');
+    console.log('   http://promptvalar.com/login');
     console.log('');
     console.log('📝 测试步骤：');
-    console.log('   1. 访问 http://tablevision.top/login');
-    console.log('   2. 输入邮箱: test@tablevision.top');
+    console.log('   1. 访问 http://promptvalar.com/login');
+    console.log('   2. 输入邮箱: test@promptvalar.com');
     console.log('   3. 输入密码: Test123456');
     console.log('   4. 点击登录');
     console.log('   5. 进入 Studio 开始测试保存功能');

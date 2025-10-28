@@ -12,8 +12,8 @@ NC='\033[0m'
 echo -e "${YELLOW}开始修复 API URL 配置...${NC}"
 
 # 获取域名
-read -p "请输入 API 域名 (例如: api.tablevision.top): " API_DOMAIN
-read -p "请输入前端域名 (例如: tablevision.top): " DOMAIN
+read -p "请输入 API 域名 (例如: api.promptvalar.com): " API_DOMAIN
+read -p "请输入前端域名 (例如: promptvalar.com): " DOMAIN
 
 # 进入前端目录
 cd /var/www/promptvalar/frontend
@@ -37,7 +37,7 @@ echo -e "${GREEN}构建完成！${NC}"
 
 # 验证构建产物中的 API URL
 echo -e "${YELLOW}验证构建产物中的 API URL...${NC}"
-if grep -r "api.tablevision.top/api/v1" dist/ > /dev/null 2>&1; then
+if grep -r "api.promptvalar.com/api/v1" dist/ > /dev/null 2>&1; then
     echo -e "${GREEN}✓ API URL 配置正确${NC}"
 else
     echo -e "${YELLOW}⚠ 警告：在构建产物中未找到完整的 API URL${NC}"

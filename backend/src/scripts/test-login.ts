@@ -8,7 +8,7 @@ async function testLogin() {
   try {
     console.log('🔍 测试登录功能...\n');
 
-    const email = 'test@tablevision.top';
+    const email = 'test@promptvalar.com';
     const password = 'Test123456';
 
     // 1. 查找用户
