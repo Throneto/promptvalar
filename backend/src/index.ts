@@ -24,8 +24,11 @@ dotenv.config({ path: join(__dirname, '../.env') });
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// 信任反向代理（nginx等）
+app.set('trust proxy', true);
+
 // 中间件配置
-app.use(helmet()); // 安全头部
+// CORS必须在helmet之前配置
 app.use(cors({
   origin: [
     process.env.CORS_ORIGIN || 'http://localhost:3000',
@@ -33,6 +36,16 @@ app.use(cors({
     'http://tablevision.top'
   ],
   credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  exposedHeaders: ['Content-Range', 'X-Content-Range'],
+  maxAge: 600,
+}));
+
+// Helmet配置 - 禁用一些可能干扰CORS的选项
+app.use(helmet({
+  crossOriginResourcePolicy: false, // 禁用以避免CORS冲突
+  crossOriginOpenerPolicy: { policy: "same-origin-allow-popups" },
 }));
 
 // Stripe webhook 需要 raw body，所以在 express.json() 之前注册

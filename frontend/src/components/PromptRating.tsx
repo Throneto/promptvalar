@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { Star, ThumbsUp, MessageSquare, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api/v1';
+
 interface PromptRatingProps {
   logId: string;
   onRated?: () => void;
@@ -29,7 +31,7 @@ export const PromptRating: React.FC<PromptRatingProps> = ({ logId, onRated }) =>
     setSubmitting(true);
     
     try {
-      const response = await fetch(`http://localhost:5000/api/v1/feedback/generations/${logId}/rate`, {
+      const response = await fetch(`${API_BASE_URL}/feedback/generations/${logId}/rate`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -65,7 +67,7 @@ export const PromptRating: React.FC<PromptRatingProps> = ({ logId, onRated }) =>
     setSubmitting(true);
     
     try {
-      await fetch(`http://localhost:5000/api/v1/feedback/generations/${logId}/rate`, {
+      await fetch(`${API_BASE_URL}/feedback/generations/${logId}/rate`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

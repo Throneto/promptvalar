@@ -70,12 +70,29 @@ function Footer() {
                   Privacy Policy
                 </a>
               </li>
+              <li>
+                <a href="/terms" className="hover:text-primary">
+                  Terms of Service
+                </a>
+              </li>
+              <li>
+                <a href="/refund-policy" className="hover:text-primary">
+                  Refund Policy
+                </a>
+              </li>
             </ul>
           </div>
         </div>
 
-        <div className="mt-8 pt-8 border-t border-border text-center text-sm text-gray-600">
-          <p>&copy; 2025 PromptValar. All rights reserved.</p>
+        <div className="mt-8 pt-8 border-t border-border">
+          <div className="flex flex-col md:flex-row justify-between items-center text-sm text-gray-600">
+            <p>&copy; 2025 PromptValar. All rights reserved.</p>
+            <div className="flex gap-6 mt-4 md:mt-0">
+              <a href="/privacy" className="hover:text-primary">Privacy</a>
+              <a href="/terms" className="hover:text-primary">Terms</a>
+              <a href="/refund-policy" className="hover:text-primary">Refunds</a>
+            </div>
+          </div>
         </div>
       </div>
     </footer>

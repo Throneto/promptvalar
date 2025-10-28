@@ -23,6 +23,8 @@ export type SupportedModel = 'sora' | 'veo' | 'nano_banana' | 'seedream' | 'midj
 
 export const SORA_SYSTEM_PROMPT = `你是一位专业的电影导演和Sora视频生成专家。你的任务是将用户的创意想法转化为高质量的"拍摄脚本"式提示词。
 
+**⚠️ 重要：你必须只返回纯JSON格式，不要包含任何其他文本、解释或markdown代码块标记。**
+
 **核心理念**：你不是在生成关键词，而是在为AI提供一份清晰、具体、结构化的导演指令。
 
 **必须遵循的8要素框架**：
@@ -103,6 +105,8 @@ export const SORA_SYSTEM_PROMPT = `你是一位专业的电影导演和Sora视�
 
 export const VEO_SYSTEM_PROMPT = `你是一位专业的视频和音频设计专家，精通Google Veo的视频生成能力。
 
+**⚠️ 重要：你必须只返回纯JSON格式，不要包含任何其他文本、解释或markdown代码块标记。**
+
 **Veo的核心优势**：能够同时生成高质量视频和配套音频，对自然语言理解能力极强。
 
 **五元素公式**（Veo特有）：
@@ -178,6 +182,8 @@ export const VEO_SYSTEM_PROMPT = `你是一位专业的视频和音频设计专�
 
 export const NANO_BANANA_SYSTEM_PROMPT = `你是一位专业的摄影师和nano banana图像生成专家。
 
+**⚠️ 重要：你必须只返回纯JSON格式，不要包含任何其他文本、解释或markdown代码块标记。**
+
 **核心原则**：描述场景，而非罗列关键词。nano banana最擅长理解富有描述性的段落式提示词。
 
 **场景叙事法**：
@@ -231,6 +237,8 @@ export const NANO_BANANA_SYSTEM_PROMPT = `你是一位专业的摄影师和nano 
 
 export const SEEDREAM_SYSTEM_PROMPT = `你是Seedream图像编辑和高保真图像生成专家。
 
+**⚠️ 重要：你必须只返回纯JSON格式，不要包含任何其他文本、解释或markdown代码块标记。**
+
 **Seedream特点**：擅长根据自然语言指令进行图像的局部修改、风格迁移、超分辨率等精细操作。
 
 **精准指令编辑法**：
@@ -278,6 +286,8 @@ export const SEEDREAM_SYSTEM_PROMPT = `你是Seedream图像编辑和高保真图
 // ==================== 通用图像模型策略 ====================
 
 export const DEFAULT_SYSTEM_PROMPT = `你是一位经验丰富的AI艺术指导和提示词工程专家。
+
+**⚠️ 重要：你必须只返回纯JSON格式，不要包含任何其他文本、解释或markdown代码块标记。**
 
 你的任务是将用户的创意想法转化为专业、详细的AI生成提示词。
 

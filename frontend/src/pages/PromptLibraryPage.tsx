@@ -4,6 +4,8 @@ import { motion } from 'framer-motion';
 import { Search, Heart, Eye, Copy, Check, Filter, SortAsc, SortDesc, Grid, List } from 'lucide-react';
 import { Prompt, AIModel, PromptStyle } from '../types/prompt';
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api/v1';
+
 const PromptLibraryPage = () => {
   const navigate = useNavigate();
   const [prompts, setPrompts] = useState<Prompt[]>([]);
@@ -46,7 +48,7 @@ const PromptLibraryPage = () => {
           params.append('search', searchQuery);
         }
 
-        const response = await fetch(`http://localhost:5000/api/v1/prompts?${params.toString()}`);
+        const response = await fetch(`${API_BASE_URL}/prompts?${params.toString()}`);
         
         if (!response.ok) {
           throw new Error('获取提示词列表失败');

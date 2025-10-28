@@ -62,7 +62,9 @@ export async function generatePromptFromIdea(
 ${targetModel === 'sora' ? '- 这是视频生成，需要考虑时间轴和动作连贯性\n- 添加物理约束以确保真实感' : ''}
 ${targetModel === 'veo' ? '- 这是视频+音频生成，必须详细描述音频元素（对话/音效/配乐）\n- 考虑多场景时可使用timeline' : ''}
 ${targetModel === 'nano_banana' ? '- 使用摄影师视角，描述场景而非罗列关键词\n- 包含相机和镜头细节' : ''}
-${targetModel === 'seedream' ? '- 这是图像编辑，需要精准的指令\n- 强调质量和细节保留' : ''}`;
+${targetModel === 'seedream' ? '- 这是图像编辑，需要精准的指令\n- 强调质量和细节保留' : ''}
+
+⚠️ 重要：你的回复必须只包含纯JSON对象，不要有任何markdown标记、代码块符号或解释性文字。直接以{开始并以}结束。`;
 
   try {
     const completion = await openrouter.chat.completions.create({
@@ -82,7 +84,24 @@ ${targetModel === 'seedream' ? '- 这是图像编辑，需要精准的指令\n- 
       throw new Error('No response from AI model');
     }
 
-    const result = JSON.parse(content);
+    // 尝试提取JSON（可能被包含在markdown代码块中或有前缀文字）
+    let jsonContent = content.trim();
+    
+    // 如果响应包含markdown代码块，提取其中的JSON
+    const codeBlockMatch = jsonContent.match(/```(?:json)?\s*\n?([\s\S]*?)\n?```/);
+    if (codeBlockMatch) {
+      jsonContent = codeBlockMatch[1].trim();
+    }
+    
+    // 如果响应以非JSON字符开头，尝试找到JSON部分
+    if (!jsonContent.startsWith('{') && !jsonContent.startsWith('[')) {
+      const jsonMatch = jsonContent.match(/(\{[\s\S]*\})/);
+      if (jsonMatch) {
+        jsonContent = jsonMatch[1];
+      }
+    }
+
+    const result = JSON.parse(jsonContent);
     
     // 验证必需字段是否存在
     if (!result.prompt || !result.structured) {

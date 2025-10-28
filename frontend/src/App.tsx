@@ -17,6 +17,12 @@ import SubscriptionManagementPage from './pages/SubscriptionManagementPage';
 import AdminDashboardPage from './pages/AdminDashboardPage';
 import AdminUsersPage from './pages/AdminUsersPage';
 import AdminPromptsPage from './pages/AdminPromptsPage';
+import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
+import TermsOfServicePage from './pages/TermsOfServicePage';
+import RefundPolicyPage from './pages/RefundPolicyPage';
+import AboutPage from './pages/AboutPage';
+import DocsPage from './pages/DocsPage';
+import GuidesPage from './pages/GuidesPage';
 
 function App() {
   return (
@@ -30,6 +36,12 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/pricing" element={<PricingPage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/docs" element={<DocsPage />} />
+          <Route path="/guides" element={<GuidesPage />} />
+          <Route path="/privacy" element={<PrivacyPolicyPage />} />
+          <Route path="/terms" element={<TermsOfServicePage />} />
+          <Route path="/refund-policy" element={<RefundPolicyPage />} />
           
           {/* 受保护的路由 - 需要登录 */}
           <Route 
