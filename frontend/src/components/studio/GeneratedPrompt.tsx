@@ -26,8 +26,8 @@ const GeneratedPrompt = ({ prompt, onRegenerate, isRegenerating }: GeneratedProm
     <div className="space-y-4">
       {/* 提示词显示区域 */}
       <div className="relative">
-        <div className="bg-gradient-to-br from-purple-900/30 to-pink-900/30 backdrop-blur-sm border border-purple-500/30 rounded-xl p-6">
-          <p className="text-white text-lg leading-relaxed whitespace-pre-wrap">{prompt}</p>
+        <div className="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/30 dark:to-pink-900/30 backdrop-blur-sm border border-purple-300 dark:border-purple-500/30 rounded-xl p-6">
+          <p className="text-gray-900 dark:text-white text-lg leading-relaxed whitespace-pre-wrap">{prompt}</p>
         </div>
 
         {/* 复制成功提示 */}
@@ -48,7 +48,7 @@ const GeneratedPrompt = ({ prompt, onRegenerate, isRegenerating }: GeneratedProm
       <div className="flex gap-3">
         <button
           onClick={handleCopy}
-          className="flex items-center gap-2 px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-colors"
+          className="flex items-center gap-2 px-6 py-3 bg-purple-600 hover:bg-purple-700 dark:bg-purple-600 dark:hover:bg-purple-700 text-white font-medium rounded-lg transition-colors"
         >
           <Copy className="w-4 h-4" />
           Copy
@@ -57,7 +57,7 @@ const GeneratedPrompt = ({ prompt, onRegenerate, isRegenerating }: GeneratedProm
         <button
           onClick={onRegenerate}
           disabled={isRegenerating}
-          className="flex items-center gap-2 px-6 py-3 bg-white/10 hover:bg-white/20 text-white font-medium rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="flex items-center gap-2 px-6 py-3 bg-gray-200 hover:bg-gray-300 dark:bg-white/10 dark:hover:bg-white/20 text-gray-900 dark:text-white font-medium rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isRegenerating ? (
             <>

@@ -49,14 +49,14 @@ const IdeaInput = ({
     <div className="space-y-6">
       {/* 文本输入区域 */}
       <div>
-        <label className="block text-sm font-medium text-purple-200 mb-2">
+        <label className="block text-sm font-medium text-gray-900 dark:text-purple-200 mb-2">
           Describe your idea
         </label>
         <textarea
           value={idea}
           onChange={(e) => onIdeaChange(e.target.value)}
           placeholder="Example: A cat astronaut floating in space, playing with colorful planets..."
-          className="w-full h-40 px-4 py-3 bg-white/5 border border-purple-500/30 rounded-xl text-white placeholder-purple-300/50 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 resize-none"
+          className="w-full h-40 px-4 py-3 bg-white dark:bg-white/5 border border-gray-300 dark:border-purple-500/30 rounded-xl text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-purple-300/50 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 resize-none"
           disabled={isGenerating}
         />
       </div>
@@ -65,17 +65,17 @@ const IdeaInput = ({
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* 模型选择 */}
         <div>
-          <label className="block text-sm font-medium text-purple-200 mb-2">
+          <label className="block text-sm font-medium text-gray-900 dark:text-purple-200 mb-2">
             AI Model
           </label>
           <select
             value={selectedModel}
             onChange={(e) => onModelChange(e.target.value as AIModel)}
-            className="w-full px-4 py-3 bg-white/5 border border-purple-500/30 rounded-xl text-white focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20"
+            className="w-full px-4 py-3 bg-white dark:bg-white/5 border border-gray-300 dark:border-purple-500/30 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20"
             disabled={isGenerating}
           >
             {models.map((model) => (
-              <option key={model.value} value={model.value} className="bg-slate-800">
+              <option key={model.value} value={model.value} className="bg-white dark:bg-slate-800 text-gray-900 dark:text-white">
                 {model.label} - {model.description}
               </option>
             ))}
@@ -84,17 +84,17 @@ const IdeaInput = ({
 
         {/* 风格选择 */}
         <div>
-          <label className="block text-sm font-medium text-purple-200 mb-2">
+          <label className="block text-sm font-medium text-gray-900 dark:text-purple-200 mb-2">
             Style
           </label>
           <select
             value={selectedStyle}
             onChange={(e) => onStyleChange(e.target.value as PromptStyle)}
-            className="w-full px-4 py-3 bg-white/5 border border-purple-500/30 rounded-xl text-white focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20"
+            className="w-full px-4 py-3 bg-white dark:bg-white/5 border border-gray-300 dark:border-purple-500/30 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20"
             disabled={isGenerating}
           >
             {styles.map((style) => (
-              <option key={style.value} value={style.value} className="bg-slate-800">
+              <option key={style.value} value={style.value} className="bg-white dark:bg-slate-800 text-gray-900 dark:text-white">
                 {style.label}
               </option>
             ))}
@@ -104,7 +104,7 @@ const IdeaInput = ({
 
       {/* 错误提示 */}
       {error && (
-        <div className="bg-red-500/10 border border-red-500/50 rounded-lg p-4 text-red-200">
+        <div className="bg-red-50 dark:bg-red-500/10 border border-red-300 dark:border-red-500/50 rounded-lg p-4 text-red-700 dark:text-red-200">
           {error}
         </div>
       )}

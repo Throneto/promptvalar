@@ -8,7 +8,7 @@ import SEO from '../components/SEO';
  */
 export default function TermsOfServicePage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-gray-100">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-gray-100 dark:from-gray-900">
       <SEO 
         title="Terms of Service - PromptValar"
         description="Read the terms and conditions for using PromptValar's AI prompt engineering platform."
@@ -38,7 +38,7 @@ export default function TermsOfServicePage() {
       {/* Content */}
       <section className="py-16">
         <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl p-8 md:p-12">
+          <div className="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 md:p-12">
             
             {/* Agreement */}
             <motion.div
@@ -47,19 +47,19 @@ export default function TermsOfServicePage() {
               transition={{ delay: 0.1 }}
               className="mb-12"
             >
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">Agreement to Terms</h2>
-              <p className="text-gray-600 leading-relaxed mb-4">
+              <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4">Agreement to Terms</h2>
+              <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-4">
                 These Terms of Service ("Terms") constitute a legally binding agreement between you and PromptValar 
                 ("Company," "we," "us," or "our") concerning your access to and use of the PromptValar website 
                 (https://promptvalar.com) and any related services (collectively, the "Services").
               </p>
-              <p className="text-gray-600 leading-relaxed mb-4">
+              <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-4">
                 By accessing or using our Services, you agree to be bound by these Terms. If you do not agree to these 
                 Terms, you must not access or use our Services.
               </p>
-              <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+              <div className="bg-yellow-50 dark:bg-yellow-900/30 border-l-4 border-yellow-400 p-4 mt-4">
                 <div className="flex">
-                  <AlertCircle className="w-6 h-6 text-yellow-600 mr-3 flex-shrink-0" />
+                  <AlertCircle className="w-6 h-6 text-yellow-600 dark:text-yellow-400 mr-3 flex-shrink-0" />
                   <p className="text-yellow-800">
                     <strong>Important:</strong> These Terms include provisions that limit our liability and require you 
                     to resolve disputes through arbitration on an individual basis, not as part of a class or 
@@ -77,11 +77,11 @@ export default function TermsOfServicePage() {
               className="mb-12"
             >
               <div className="flex items-center gap-3 mb-4">
-                <Users className="w-8 h-8 text-purple-600" />
-                <h2 className="text-3xl font-bold text-gray-900">Eligibility</h2>
+                <Users className="w-8 h-8 text-purple-600 dark:text-purple-400" />
+                <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100">Eligibility</h2>
               </div>
-              <p className="text-gray-600 mb-4">To use our Services, you must:</p>
-              <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4">
+              <p className="text-gray-600 dark:text-gray-300 mb-4">To use our Services, you must:</p>
+              <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 ml-4">
                 <li>Be at least 13 years of age (or the age of majority in your jurisdiction)</li>
                 <li>Have the legal capacity to enter into a binding contract</li>
                 <li>Not be prohibited from using the Services under applicable laws</li>
@@ -97,21 +97,21 @@ export default function TermsOfServicePage() {
               transition={{ delay: 0.3 }}
               className="mb-12"
             >
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">User Accounts</h2>
+              <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4">User Accounts</h2>
               
               <div className="space-y-4">
                 <div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">Account Creation</h3>
-                  <p className="text-gray-600">
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">Account Creation</h3>
+                  <p className="text-gray-600 dark:text-gray-300">
                     When you create an account with us, you must provide information that is accurate, complete, and current. 
                     Failure to do so constitutes a breach of the Terms, which may result in immediate termination of your account.
                   </p>
                 </div>
 
                 <div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">Account Security</h3>
-                  <p className="text-gray-600 mb-2">You are responsible for:</p>
-                  <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4">
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">Account Security</h3>
+                  <p className="text-gray-600 dark:text-gray-300 mb-2">You are responsible for:</p>
+                  <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 ml-4">
                     <li>Maintaining the confidentiality of your account password</li>
                     <li>All activities that occur under your account</li>
                     <li>Notifying us immediately of any unauthorized access or security breach</li>
@@ -120,8 +120,8 @@ export default function TermsOfServicePage() {
                 </div>
 
                 <div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">Account Termination</h3>
-                  <p className="text-gray-600">
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">Account Termination</h3>
+                  <p className="text-gray-600 dark:text-gray-300">
                     We reserve the right to suspend or terminate your account at any time for any reason, including but 
                     not limited to violation of these Terms, fraudulent activity, or abuse of our Services.
                   </p>
@@ -137,12 +137,12 @@ export default function TermsOfServicePage() {
               className="mb-12"
             >
               <div className="flex items-center gap-3 mb-4">
-                <CheckCircle className="w-8 h-8 text-green-600" />
-                <h2 className="text-3xl font-bold text-gray-900">Acceptable Use Policy</h2>
+                <CheckCircle className="w-8 h-8 text-green-600 dark:text-green-400" />
+                <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100">Acceptable Use Policy</h2>
               </div>
               
-              <p className="text-gray-600 mb-4">You agree not to use our Services to:</p>
-              <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4">
+              <p className="text-gray-600 dark:text-gray-300 mb-4">You agree not to use our Services to:</p>
+              <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 ml-4">
                 <li>Violate any applicable laws or regulations</li>
                 <li>Infringe on the intellectual property rights of others</li>
                 <li>Transmit harmful, offensive, or inappropriate content</li>
@@ -166,14 +166,14 @@ export default function TermsOfServicePage() {
               className="mb-12"
             >
               <div className="flex items-center gap-3 mb-4">
-                <Scale className="w-8 h-8 text-blue-600" />
-                <h2 className="text-3xl font-bold text-gray-900">Intellectual Property Rights</h2>
+                <Scale className="w-8 h-8 text-blue-600 dark:text-blue-400" />
+                <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100">Intellectual Property Rights</h2>
               </div>
               
               <div className="space-y-4">
                 <div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">Our Content</h3>
-                  <p className="text-gray-600">
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">Our Content</h3>
+                  <p className="text-gray-600 dark:text-gray-300">
                     The Services and their entire contents, features, and functionality (including but not limited to all 
                     information, software, text, displays, images, video, and audio, and the design, selection, and arrangement 
                     thereof) are owned by PromptValar, its licensors, or other providers of such material and are protected by 
@@ -182,12 +182,12 @@ export default function TermsOfServicePage() {
                 </div>
 
                 <div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">Your Content</h3>
-                  <p className="text-gray-600 mb-2">
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">Your Content</h3>
+                  <p className="text-gray-600 dark:text-gray-300 mb-2">
                     You retain ownership of the prompts and content you create using our Services ("User Content"). By using 
                     our Services, you grant us:
                   </p>
-                  <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4">
+                  <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 ml-4">
                     <li>A worldwide, non-exclusive, royalty-free license to use, reproduce, modify, and display your User Content 
                     for the purpose of providing and improving our Services</li>
                     <li>The right to make User Content available to other users if you choose to publish it in our library</li>
@@ -196,8 +196,8 @@ export default function TermsOfServicePage() {
                 </div>
 
                 <div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">AI-Generated Content</h3>
-                  <p className="text-gray-600">
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">AI-Generated Content</h3>
+                  <p className="text-gray-600 dark:text-gray-300">
                     Content generated by our AI models based on your input is provided to you for your use. However, you 
                     acknowledge that similar or identical content may be generated for other users with similar inputs.
                   </p>
@@ -212,23 +212,23 @@ export default function TermsOfServicePage() {
               transition={{ delay: 0.6 }}
               className="mb-12"
             >
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">Subscription and Payment Terms</h2>
+              <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4">Subscription and Payment Terms</h2>
               
               <div className="space-y-4">
                 <div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">Subscription Plans</h3>
-                  <p className="text-gray-600">
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">Subscription Plans</h3>
+                  <p className="text-gray-600 dark:text-gray-300">
                     We offer both free and paid subscription plans. Paid subscriptions are billed on a recurring basis 
                     (monthly or annually) and will automatically renew unless you cancel before the renewal date.
                   </p>
                 </div>
 
                 <div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">Payment Processing</h3>
-                  <p className="text-gray-600 mb-2">
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">Payment Processing</h3>
+                  <p className="text-gray-600 dark:text-gray-300 mb-2">
                     Payments are processed securely through Stripe. By providing payment information, you represent and warrant that:
                   </p>
-                  <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4">
+                  <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 ml-4">
                     <li>You are authorized to use the payment method provided</li>
                     <li>All payment information is accurate and current</li>
                     <li>You will maintain sufficient funds or credit to complete payments</li>
@@ -236,16 +236,16 @@ export default function TermsOfServicePage() {
                 </div>
 
                 <div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">Price Changes</h3>
-                  <p className="text-gray-600">
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">Price Changes</h3>
+                  <p className="text-gray-600 dark:text-gray-300">
                     We reserve the right to change our pricing at any time. Price changes will not affect your current 
                     subscription period but will apply upon renewal. We will provide at least 30 days' notice of any price changes.
                   </p>
                 </div>
 
                 <div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">Cancellation</h3>
-                  <p className="text-gray-600">
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">Cancellation</h3>
+                  <p className="text-gray-600 dark:text-gray-300">
                     You may cancel your subscription at any time through your account settings. Cancellations will take 
                     effect at the end of the current billing period. No refunds will be provided for partial subscription periods.
                   </p>
@@ -261,12 +261,12 @@ export default function TermsOfServicePage() {
               className="mb-12"
             >
               <div className="flex items-center gap-3 mb-4">
-                <XCircle className="w-8 h-8 text-red-600" />
-                <h2 className="text-3xl font-bold text-gray-900">Prohibited Uses</h2>
+                <XCircle className="w-8 h-8 text-red-600 dark:text-red-400" />
+                <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100">Prohibited Uses</h2>
               </div>
               
-              <p className="text-gray-600 mb-4">In addition to the Acceptable Use Policy, you specifically agree not to:</p>
-              <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4">
+              <p className="text-gray-600 dark:text-gray-300 mb-4">In addition to the Acceptable Use Policy, you specifically agree not to:</p>
+              <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 ml-4">
                 <li>Use our Services to generate content for illegal purposes</li>
                 <li>Create prompts that instruct AI models to produce harmful content</li>
                 <li>Circumvent usage limits or restrictions on your account</li>
@@ -283,12 +283,12 @@ export default function TermsOfServicePage() {
               transition={{ delay: 0.8 }}
               className="mb-12"
             >
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">Disclaimers and Limitations of Liability</h2>
+              <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4">Disclaimers and Limitations of Liability</h2>
               
               <div className="space-y-4">
                 <div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">No Warranties</h3>
-                  <p className="text-gray-600">
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">No Warranties</h3>
+                  <p className="text-gray-600 dark:text-gray-300">
                     THE SERVICES ARE PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, 
                     INCLUDING BUT NOT LIMITED TO IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, OR 
                     NON-INFRINGEMENT. WE DO NOT WARRANT THAT THE SERVICES WILL BE UNINTERRUPTED, ERROR-FREE, OR FREE OF VIRUSES 
@@ -297,8 +297,8 @@ export default function TermsOfServicePage() {
                 </div>
 
                 <div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">AI-Generated Content Disclaimer</h3>
-                  <p className="text-gray-600">
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">AI-Generated Content Disclaimer</h3>
+                  <p className="text-gray-600 dark:text-gray-300">
                     AI-generated content is provided for informational purposes only. We make no guarantees about the accuracy, 
                     completeness, or suitability of AI-generated content. You are solely responsible for reviewing and verifying 
                     all AI-generated content before use.
@@ -306,14 +306,14 @@ export default function TermsOfServicePage() {
                 </div>
 
                 <div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">Limitation of Liability</h3>
-                  <p className="text-gray-600 mb-2">
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">Limitation of Liability</h3>
+                  <p className="text-gray-600 dark:text-gray-300 mb-2">
                     TO THE MAXIMUM EXTENT PERMITTED BY LAW, IN NO EVENT SHALL PROMPTVALAR, ITS AFFILIATES, DIRECTORS, EMPLOYEES, 
                     OR AGENTS BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, INCLUDING BUT 
                     NOT LIMITED TO LOSS OF PROFITS, DATA, OR OTHER INTANGIBLE LOSSES, ARISING OUT OF OR RELATING TO YOUR USE OF 
                     THE SERVICES.
                   </p>
-                  <p className="text-gray-600">
+                  <p className="text-gray-600 dark:text-gray-300">
                     OUR TOTAL LIABILITY TO YOU FOR ALL CLAIMS ARISING FROM OR RELATING TO THE SERVICES SHALL NOT EXCEED THE AMOUNT 
                     YOU PAID US IN THE TWELVE (12) MONTHS PRECEDING THE CLAIM.
                   </p>
@@ -328,13 +328,13 @@ export default function TermsOfServicePage() {
               transition={{ delay: 0.9 }}
               className="mb-12"
             >
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">Indemnification</h2>
-              <p className="text-gray-600">
+              <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4">Indemnification</h2>
+              <p className="text-gray-600 dark:text-gray-300">
                 You agree to indemnify, defend, and hold harmless PromptValar and its affiliates, officers, directors, employees, 
                 and agents from and against any claims, liabilities, damages, losses, and expenses, including reasonable attorney's 
                 fees, arising out of or in any way connected with:
               </p>
-              <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4 mt-2">
+              <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 ml-4 mt-2">
                 <li>Your access to or use of the Services</li>
                 <li>Your violation of these Terms</li>
                 <li>Your violation of any third-party rights, including intellectual property rights</li>
@@ -349,20 +349,20 @@ export default function TermsOfServicePage() {
               transition={{ delay: 1.0 }}
               className="mb-12"
             >
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">Dispute Resolution</h2>
+              <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4">Dispute Resolution</h2>
               
               <div className="space-y-4">
                 <div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">Informal Resolution</h3>
-                  <p className="text-gray-600">
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">Informal Resolution</h3>
+                  <p className="text-gray-600 dark:text-gray-300">
                     If you have any dispute with us, you agree to first contact us at legal@promptvalar.com and attempt to 
                     resolve the dispute informally for at least 30 days before initiating any formal proceedings.
                   </p>
                 </div>
 
                 <div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">Arbitration</h3>
-                  <p className="text-gray-600">
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">Arbitration</h3>
+                  <p className="text-gray-600 dark:text-gray-300">
                     If we cannot resolve the dispute informally, any dispute arising out of or relating to these Terms or 
                     the Services will be resolved through binding arbitration in accordance with the rules of the American 
                     Arbitration Association, rather than in court, except that you may assert claims in small claims court 
@@ -371,8 +371,8 @@ export default function TermsOfServicePage() {
                 </div>
 
                 <div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">Class Action Waiver</h3>
-                  <p className="text-gray-600">
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">Class Action Waiver</h3>
+                  <p className="text-gray-600 dark:text-gray-300">
                     YOU AGREE THAT ANY ARBITRATION OR PROCEEDING SHALL BE LIMITED TO THE DISPUTE BETWEEN US AND YOU INDIVIDUALLY. 
                     TO THE FULL EXTENT PERMITTED BY LAW, NO ARBITRATION OR PROCEEDING SHALL BE JOINED WITH ANY OTHER, NO DISPUTE 
                     SHALL BE ARBITRATED ON A CLASS-ACTION BASIS, AND THERE IS NO RIGHT OR AUTHORITY FOR ANY DISPUTE TO BE BROUGHT 
@@ -389,8 +389,8 @@ export default function TermsOfServicePage() {
               transition={{ delay: 1.1 }}
               className="mb-12"
             >
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">Governing Law</h2>
-              <p className="text-gray-600">
+              <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4">Governing Law</h2>
+              <p className="text-gray-600 dark:text-gray-300">
                 These Terms shall be governed by and construed in accordance with the laws of the State of Delaware, United States, 
                 without regard to its conflict of law provisions.
               </p>
@@ -403,12 +403,12 @@ export default function TermsOfServicePage() {
               transition={{ delay: 1.2 }}
               className="mb-12"
             >
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">Changes to Terms</h2>
-              <p className="text-gray-600 mb-4">
+              <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4">Changes to Terms</h2>
+              <p className="text-gray-600 dark:text-gray-300 mb-4">
                 We reserve the right to modify these Terms at any time. We will notify you of any material changes by posting 
                 the new Terms on this page and updating the "Last Updated" date.
               </p>
-              <p className="text-gray-600">
+              <p className="text-gray-600 dark:text-gray-300">
                 Your continued use of the Services after any changes indicates your acceptance of the new Terms. If you do not 
                 agree to the new Terms, you must stop using the Services.
               </p>
@@ -421,12 +421,12 @@ export default function TermsOfServicePage() {
               transition={{ delay: 1.3 }}
               className="mb-12"
             >
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">Severability and Waiver</h2>
-              <p className="text-gray-600 mb-4">
+              <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4">Severability and Waiver</h2>
+              <p className="text-gray-600 dark:text-gray-300 mb-4">
                 If any provision of these Terms is held to be invalid or unenforceable, such provision shall be struck and the 
                 remaining provisions shall remain in full force and effect.
               </p>
-              <p className="text-gray-600">
+              <p className="text-gray-600 dark:text-gray-300">
                 No waiver of any term of these Terms shall be deemed a further or continuing waiver of such term or any other term.
               </p>
             </motion.div>
@@ -438,8 +438,8 @@ export default function TermsOfServicePage() {
               transition={{ delay: 1.4 }}
               className="mb-12"
             >
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">Entire Agreement</h2>
-              <p className="text-gray-600">
+              <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4">Entire Agreement</h2>
+              <p className="text-gray-600 dark:text-gray-300">
                 These Terms, together with our Privacy Policy and any other policies referenced herein, constitute the entire 
                 agreement between you and PromptValar regarding the Services and supersede all prior agreements and understandings.
               </p>
@@ -452,11 +452,11 @@ export default function TermsOfServicePage() {
               transition={{ delay: 1.5 }}
               className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl p-8"
             >
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">Contact Information</h2>
-              <p className="text-gray-600 mb-4">
+              <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4">Contact Information</h2>
+              <p className="text-gray-600 dark:text-gray-300 mb-4">
                 If you have any questions about these Terms, please contact us:
               </p>
-              <ul className="text-gray-600 space-y-2">
+              <ul className="text-gray-600 dark:text-gray-300 space-y-2">
                 <li><strong>Email:</strong> legal@promptvalar.com</li>
                 <li><strong>Support:</strong> support@promptvalar.com</li>
                 <li><strong>Website:</strong> https://promptvalar.com</li>

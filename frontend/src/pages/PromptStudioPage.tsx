@@ -277,7 +277,7 @@ const PromptStudioPage = () => {
             <Sparkles className="w-12 h-12 text-purple-600 dark:text-purple-400" />
             {isEditMode ? 'Edit Prompt' : 'Prompt Studio'}
           </h1>
-          <p className="text-xl text-gray-600 dark:text-purple-200">
+          <p className="text-xl text-gray-700 dark:text-purple-200">
             {isEditMode 
               ? 'Update your prompt and save changes'
               : 'Transform your ideas into professional AI prompts in 3 simple steps'
@@ -373,11 +373,11 @@ const PromptStudioPage = () => {
             transition={{ delay: 0.5 }}
             className="mt-12 max-w-3xl mx-auto"
           >
-            <div className="bg-purple-100 dark:bg-purple-900/30 backdrop-blur-sm border border-purple-200 dark:border-purple-500/30 rounded-xl p-6 shadow-lg">
-              <h3 className="text-lg font-semibold text-purple-800 dark:text-purple-200 mb-4">
+            <div className="bg-purple-100 dark:bg-purple-900/30 backdrop-blur-sm border border-purple-300 dark:border-purple-500/30 rounded-xl p-6 shadow-lg">
+              <h3 className="text-lg font-semibold text-purple-900 dark:text-purple-200 mb-4">
                 💡 Quick Tips
               </h3>
-              <ul className="space-y-2 text-gray-700 dark:text-purple-100">
+              <ul className="space-y-2 text-gray-800 dark:text-purple-100">
                 <li>• Be specific about what you want to create</li>
                 <li>• Include details about mood, lighting, and composition</li>
                 <li>• Choose the right AI model for your use case</li>

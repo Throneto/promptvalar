@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
  */
 export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-gray-100">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-gray-100 dark:from-gray-900">
       <SEO 
         title="About Us - PromptValar"
         description="Learn about PromptValar's mission to democratize AI prompt engineering and make professional AI tools accessible to everyone."
@@ -42,18 +42,18 @@ export default function AboutPage() {
             transition={{ delay: 0.1 }}
             className="max-w-4xl mx-auto"
           >
-            <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12">
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 md:p-12">
               <div className="flex items-center gap-4 mb-6">
-                <Target className="w-10 h-10 text-indigo-600" />
-                <h2 className="text-4xl font-bold text-gray-900">Our Mission</h2>
+                <Target className="w-10 h-10 text-indigo-600 dark:text-indigo-400" />
+                <h2 className="text-4xl font-bold text-gray-900 dark:text-gray-100">Our Mission</h2>
               </div>
-              <p className="text-xl text-gray-600 leading-relaxed mb-6">
+              <p className="text-xl text-gray-600 dark:text-gray-300 leading-relaxed mb-6">
                 At PromptValar, we believe that everyone should have access to powerful AI tools, regardless of their 
                 technical background. Our mission is to democratize AI prompt engineering by providing an intuitive, 
                 professional-grade platform that transforms natural language into optimized prompts for cutting-edge 
                 AI models.
               </p>
-              <p className="text-xl text-gray-600 leading-relaxed">
+              <p className="text-xl text-gray-600 dark:text-gray-300 leading-relaxed">
                 We're building the future where creators, designers, marketers, and dreamers can harness the full 
                 potential of AI to bring their visions to life—without needing to become prompt engineering experts.
               </p>
@@ -71,9 +71,9 @@ export default function AboutPage() {
             transition={{ delay: 0.2 }}
             className="max-w-4xl mx-auto"
           >
-            <h2 className="text-4xl font-bold text-gray-900 mb-8 text-center">Our Story</h2>
-            <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12">
-              <div className="space-y-6 text-gray-600 leading-relaxed">
+            <h2 className="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-8 text-center">Our Story</h2>
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 md:p-12">
+              <div className="space-y-6 text-gray-600 dark:text-gray-300 leading-relaxed">
                 <p className="text-lg">
                   PromptValar was born from a simple observation: while AI technology was advancing at an incredible pace, 
                   the barrier to effectively using these tools remained frustratingly high. Content creators, designers, 
@@ -90,7 +90,7 @@ export default function AboutPage() {
                   helping them generate better AI outputs in less time. But we're just getting started. Our roadmap includes 
                   exciting features like collaborative workspaces, advanced analytics, custom model fine-tuning, and much more.
                 </p>
-                <p className="text-lg font-semibold text-gray-900">
+                <p className="text-lg font-semibold text-gray-900 dark:text-gray-100">
                   Join us on this journey to make AI accessible, powerful, and delightful for everyone.
                 </p>
               </div>
@@ -107,7 +107,7 @@ export default function AboutPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
           >
-            <h2 className="text-4xl font-bold text-gray-900 mb-12 text-center">Our Core Values</h2>
+            <h2 className="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-12 text-center">Our Core Values</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
               
               {/* Value 1 */}
@@ -115,13 +115,13 @@ export default function AboutPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 }}
-                className="bg-white rounded-xl shadow-lg p-8 text-center hover:shadow-2xl transition-shadow duration-300"
+                className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 text-center hover:shadow-2xl transition-shadow duration-300"
               >
                 <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center mx-auto mb-6">
                   <Users className="w-8 h-8 text-white" />
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-3">User-First</h3>
-                <p className="text-gray-600">
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-3">User-First</h3>
+                <p className="text-gray-600 dark:text-gray-300">
                   Every feature we build starts with understanding our users' needs and challenges. Your success is our success.
                 </p>
               </motion.div>
@@ -131,13 +131,13 @@ export default function AboutPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5 }}
-                className="bg-white rounded-xl shadow-lg p-8 text-center hover:shadow-2xl transition-shadow duration-300"
+                className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 text-center hover:shadow-2xl transition-shadow duration-300"
               >
                 <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-6">
                   <Zap className="w-8 h-8 text-white" />
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-3">Innovation</h3>
-                <p className="text-gray-600">
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-3">Innovation</h3>
+                <p className="text-gray-600 dark:text-gray-300">
                   We continuously push boundaries, exploring new AI models and techniques to give you the best tools available.
                 </p>
               </motion.div>
@@ -147,13 +147,13 @@ export default function AboutPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.6 }}
-                className="bg-white rounded-xl shadow-lg p-8 text-center hover:shadow-2xl transition-shadow duration-300"
+                className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 text-center hover:shadow-2xl transition-shadow duration-300"
               >
                 <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-teal-600 rounded-full flex items-center justify-center mx-auto mb-6">
                   <Shield className="w-8 h-8 text-white" />
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-3">Trust</h3>
-                <p className="text-gray-600">
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-3">Trust</h3>
+                <p className="text-gray-600 dark:text-gray-300">
                   Your data security and privacy are paramount. We're transparent about how we handle your information.
                 </p>
               </motion.div>
@@ -163,13 +163,13 @@ export default function AboutPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.7 }}
-                className="bg-white rounded-xl shadow-lg p-8 text-center hover:shadow-2xl transition-shadow duration-300"
+                className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 text-center hover:shadow-2xl transition-shadow duration-300"
               >
                 <div className="w-16 h-16 bg-gradient-to-br from-orange-500 to-red-600 rounded-full flex items-center justify-center mx-auto mb-6">
                   <Globe className="w-8 h-8 text-white" />
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-3">Accessibility</h3>
-                <p className="text-gray-600">
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-3">Accessibility</h3>
+                <p className="text-gray-600 dark:text-gray-300">
                   Professional AI tools should be available to everyone, from hobbyists to enterprises, worldwide.
                 </p>
               </motion.div>
@@ -239,27 +239,27 @@ export default function AboutPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.9 }}
           >
-            <h2 className="text-4xl font-bold text-gray-900 mb-12 text-center">PromptValar by Numbers</h2>
+            <h2 className="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-12 text-center">PromptValar by Numbers</h2>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-6xl mx-auto">
               
               <div className="text-center">
-                <div className="text-5xl font-bold text-indigo-600 mb-2">10K+</div>
-                <div className="text-xl text-gray-600">Active Users</div>
+                <div className="text-5xl font-bold text-indigo-600 dark:text-indigo-400 mb-2">10K+</div>
+                <div className="text-xl text-gray-600 dark:text-gray-300">Active Users</div>
               </div>
 
               <div className="text-center">
-                <div className="text-5xl font-bold text-purple-600 mb-2">50K+</div>
-                <div className="text-xl text-gray-600">Prompts Generated</div>
+                <div className="text-5xl font-bold text-purple-600 dark:text-purple-400 mb-2">50K+</div>
+                <div className="text-xl text-gray-600 dark:text-gray-300">Prompts Generated</div>
               </div>
 
               <div className="text-center">
-                <div className="text-5xl font-bold text-pink-600 mb-2">15+</div>
-                <div className="text-xl text-gray-600">AI Models Supported</div>
+                <div className="text-5xl font-bold text-pink-600 dark:text-pink-400 mb-2">15+</div>
+                <div className="text-xl text-gray-600 dark:text-gray-300">AI Models Supported</div>
               </div>
 
               <div className="text-center">
-                <div className="text-5xl font-bold text-teal-600 mb-2">98%</div>
-                <div className="text-xl text-gray-600">User Satisfaction</div>
+                <div className="text-5xl font-bold text-teal-600 dark:text-teal-400 mb-2">98%</div>
+                <div className="text-xl text-gray-600 dark:text-gray-300">User Satisfaction</div>
               </div>
 
             </div>
@@ -275,20 +275,20 @@ export default function AboutPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.0 }}
           >
-            <h2 className="text-4xl font-bold text-gray-900 mb-6 text-center">Our Team</h2>
-            <p className="text-xl text-gray-600 text-center mb-12 max-w-3xl mx-auto">
+            <h2 className="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-6 text-center">Our Team</h2>
+            <p className="text-xl text-gray-600 dark:text-gray-300 text-center mb-12 max-w-3xl mx-auto">
               We're a passionate team of AI researchers, engineers, designers, and creators dedicated to making 
               AI accessible to everyone.
             </p>
-            <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12 max-w-4xl mx-auto">
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 md:p-12 max-w-4xl mx-auto">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 
                 <div className="text-center">
                   <div className="w-24 h-24 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full mx-auto mb-4 flex items-center justify-center">
                     <span className="text-3xl text-white font-bold">AI</span>
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">AI Research Team</h3>
-                  <p className="text-gray-600">
+                  <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">AI Research Team</h3>
+                  <p className="text-gray-600 dark:text-gray-300">
                     Experts in machine learning and natural language processing, constantly exploring new AI models 
                     and optimization techniques.
                   </p>
@@ -298,8 +298,8 @@ export default function AboutPage() {
                   <div className="w-24 h-24 bg-gradient-to-br from-purple-500 to-pink-600 rounded-full mx-auto mb-4 flex items-center justify-center">
                     <span className="text-3xl text-white font-bold">UX</span>
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">Design Team</h3>
-                  <p className="text-gray-600">
+                  <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">Design Team</h3>
+                  <p className="text-gray-600 dark:text-gray-300">
                     Designers obsessed with creating beautiful, intuitive interfaces that make complex technology 
                     feel simple and delightful.
                   </p>
@@ -309,8 +309,8 @@ export default function AboutPage() {
                   <div className="w-24 h-24 bg-gradient-to-br from-green-500 to-teal-600 rounded-full mx-auto mb-4 flex items-center justify-center">
                     <span className="text-3xl text-white font-bold">DEV</span>
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">Engineering Team</h3>
-                  <p className="text-gray-600">
+                  <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">Engineering Team</h3>
+                  <p className="text-gray-600 dark:text-gray-300">
                     Full-stack engineers building robust, scalable systems that power millions of AI generations 
                     with reliability and speed.
                   </p>
@@ -320,8 +320,8 @@ export default function AboutPage() {
                   <div className="w-24 h-24 bg-gradient-to-br from-orange-500 to-red-600 rounded-full mx-auto mb-4 flex items-center justify-center">
                     <span className="text-3xl text-white font-bold">CS</span>
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">Customer Success</h3>
-                  <p className="text-gray-600">
+                  <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">Customer Success</h3>
+                  <p className="text-gray-600 dark:text-gray-300">
                     Dedicated support specialists who ensure every user gets the most out of PromptValar and achieves 
                     their creative goals.
                   </p>
@@ -415,27 +415,27 @@ export default function AboutPage() {
             transition={{ delay: 1.3 }}
             className="max-w-4xl mx-auto"
           >
-            <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12 text-center">
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">Get in Touch</h2>
-              <p className="text-xl text-gray-600 mb-8">
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 md:p-12 text-center">
+              <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4">Get in Touch</h2>
+              <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">
                 Have questions, feedback, or just want to say hello? We'd love to hear from you!
               </p>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
                 <div>
-                  <h3 className="font-semibold text-gray-900 mb-2">General Inquiries</h3>
-                  <a href="mailto:hello@promptvalar.com" className="text-blue-600 hover:underline">
+                  <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-2">General Inquiries</h3>
+                  <a href="mailto:hello@promptvalar.com" className="text-blue-600 dark:text-blue-400 hover:underline">
                     hello@promptvalar.com
                   </a>
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-900 mb-2">Customer Support</h3>
-                  <a href="mailto:support@promptvalar.com" className="text-blue-600 hover:underline">
+                  <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-2">Customer Support</h3>
+                  <a href="mailto:support@promptvalar.com" className="text-blue-600 dark:text-blue-400 hover:underline">
                     support@promptvalar.com
                   </a>
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-900 mb-2">Partnerships</h3>
-                  <a href="mailto:partners@promptvalar.com" className="text-blue-600 hover:underline">
+                  <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-2">Partnerships</h3>
+                  <a href="mailto:partners@promptvalar.com" className="text-blue-600 dark:text-blue-400 hover:underline">
                     partners@promptvalar.com
                   </a>
                 </div>

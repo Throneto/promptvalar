@@ -89,13 +89,14 @@ const StructuredEditor = ({ structuredData, onUpdate, finalPrompt }: StructuredE
               <Lock className="w-8 h-8 text-amber-400" />
             </div>
             <div className="flex-1">
-              <h3 className="text-xl font-bold text-amber-300 mb-2 flex items-center gap-2">
+              <h3 className="text-xl font-bold text-amber-400 dark:text-amber-300 mb-2 flex items-center gap-2">
                 <Crown className="w-5 h-5" />
                 Pro Feature Exclusive
               </h3>
-              <p className="text-amber-100/90 mb-4">
-                Structured Editor is a Pro-exclusive feature. Upgrade to Pro plan to unlock fine-tuning capabilities,
-                including full control over subject, action, setting, shot type, lighting, composition, and mood.
+              <p className="text-amber-800 dark:text-amber-100/90 mb-4">
+                The Structured Editor is a Pro-exclusive feature. While you can view and copy the generated prompt below, 
+                upgrading to Pro will unlock fine-tuning capabilities with full control over subject, action, setting, 
+                shot type, lighting, composition, and mood.
               </p>
               <Link
                 to="/pricing"
@@ -113,57 +114,57 @@ const StructuredEditor = ({ structuredData, onUpdate, finalPrompt }: StructuredE
       <div className={`grid grid-cols-1 md:grid-cols-2 gap-6 ${isDisabled ? 'opacity-50 pointer-events-none' : ''}`}>
         {/* Subject */}
         <div>
-          <label className="block text-sm font-medium text-purple-200 mb-2">Subject</label>
+          <label className="block text-sm font-medium text-gray-900 dark:text-purple-200 mb-2">Subject</label>
           <input
             type="text"
             value={localData.subject}
             onChange={(e) => handleChange('subject', e.target.value)}
             placeholder="Main subject of your prompt"
             disabled={isDisabled}
-            className="w-full px-4 py-3 bg-white/5 border border-purple-500/30 rounded-lg text-white placeholder-purple-300/50 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 disabled:cursor-not-allowed"
+            className="w-full px-4 py-3 bg-white dark:bg-white/5 border border-gray-300 dark:border-purple-500/30 rounded-lg text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-purple-300/50 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 disabled:cursor-not-allowed disabled:opacity-60"
           />
         </div>
 
         {/* Action */}
         <div>
-          <label className="block text-sm font-medium text-purple-200 mb-2">Action</label>
+          <label className="block text-sm font-medium text-gray-900 dark:text-purple-200 mb-2">Action</label>
           <input
             type="text"
             value={localData.action}
             onChange={(e) => handleChange('action', e.target.value)}
             placeholder="What is happening"
             disabled={isDisabled}
-            className="w-full px-4 py-3 bg-white/5 border border-purple-500/30 rounded-lg text-white placeholder-purple-300/50 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 disabled:cursor-not-allowed"
+            className="w-full px-4 py-3 bg-white dark:bg-white/5 border border-gray-300 dark:border-purple-500/30 rounded-lg text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-purple-300/50 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 disabled:cursor-not-allowed"
           />
         </div>
 
         {/* Setting */}
         <div>
-          <label className="block text-sm font-medium text-purple-200 mb-2">Setting</label>
+          <label className="block text-sm font-medium text-gray-900 dark:text-purple-200 mb-2">Setting</label>
           <input
             type="text"
             value={localData.setting}
             onChange={(e) => handleChange('setting', e.target.value)}
             placeholder="Location or environment"
             disabled={isDisabled}
-            className="w-full px-4 py-3 bg-white/5 border border-purple-500/30 rounded-lg text-white placeholder-purple-300/50 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 disabled:cursor-not-allowed"
+            className="w-full px-4 py-3 bg-white dark:bg-white/5 border border-gray-300 dark:border-purple-500/30 rounded-lg text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-purple-300/50 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 disabled:cursor-not-allowed"
           />
         </div>
 
         {/* Shot Type */}
         <div>
-          <label className="block text-sm font-medium text-purple-200 mb-2">Shot Type</label>
+          <label className="block text-sm font-medium text-gray-900 dark:text-purple-200 mb-2">Shot Type</label>
           <select
             value={localData.shotType}
             onChange={(e) => handleChange('shotType', e.target.value)}
             disabled={isDisabled}
             className="w-full px-4 py-3 bg-white/5 border border-purple-500/30 rounded-lg text-white focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 disabled:cursor-not-allowed"
           >
-            <option value="" className="bg-slate-800">
+            <option value="" className="bg-white dark:bg-slate-800 text-gray-900 dark:text-white">
               Select shot type
             </option>
             {shotTypes.map((type) => (
-              <option key={type} value={type} className="bg-slate-800">
+              <option key={type} value={type} className="bg-white dark:bg-slate-800 text-gray-900 dark:text-white">
                 {type.replace(/_/g, ' ')}
               </option>
             ))}
@@ -172,18 +173,18 @@ const StructuredEditor = ({ structuredData, onUpdate, finalPrompt }: StructuredE
 
         {/* Lighting */}
         <div>
-          <label className="block text-sm font-medium text-purple-200 mb-2">Lighting</label>
+          <label className="block text-sm font-medium text-gray-900 dark:text-purple-200 mb-2">Lighting</label>
           <select
             value={localData.lighting}
             onChange={(e) => handleChange('lighting', e.target.value)}
             disabled={isDisabled}
             className="w-full px-4 py-3 bg-white/5 border border-purple-500/30 rounded-lg text-white focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 disabled:cursor-not-allowed"
           >
-            <option value="" className="bg-slate-800">
+            <option value="" className="bg-white dark:bg-slate-800 text-gray-900 dark:text-white">
               Select lighting
             </option>
             {lightingTypes.map((type) => (
-              <option key={type} value={type} className="bg-slate-800">
+              <option key={type} value={type} className="bg-white dark:bg-slate-800 text-gray-900 dark:text-white">
                 {type.replace(/_/g, ' ')}
               </option>
             ))}
@@ -192,21 +193,21 @@ const StructuredEditor = ({ structuredData, onUpdate, finalPrompt }: StructuredE
 
         {/* Composition */}
         <div>
-          <label className="block text-sm font-medium text-purple-200 mb-2">Composition</label>
+          <label className="block text-sm font-medium text-gray-900 dark:text-purple-200 mb-2">Composition</label>
           <input
             type="text"
             value={localData.composition}
             onChange={(e) => handleChange('composition', e.target.value)}
             placeholder="Composition details"
             disabled={isDisabled}
-            className="w-full px-4 py-3 bg-white/5 border border-purple-500/30 rounded-lg text-white placeholder-purple-300/50 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 disabled:cursor-not-allowed"
+            className="w-full px-4 py-3 bg-white dark:bg-white/5 border border-gray-300 dark:border-purple-500/30 rounded-lg text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-purple-300/50 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 disabled:cursor-not-allowed"
           />
         </div>
       </div>
 
       {/* Mood Tags */}
       <div className={isDisabled ? 'opacity-50 pointer-events-none' : ''}>
-        <label className="block text-sm font-medium text-purple-200 mb-2">Mood</label>
+        <label className="block text-sm font-medium text-gray-900 dark:text-purple-200 mb-2">Mood</label>
         <div className="flex gap-2 mb-2">
           <input
             type="text"
@@ -215,7 +216,7 @@ const StructuredEditor = ({ structuredData, onUpdate, finalPrompt }: StructuredE
             onKeyPress={(e) => e.key === 'Enter' && handleAddMood()}
             placeholder="Add mood tag (press Enter)"
             disabled={isDisabled}
-            className="flex-1 px-4 py-3 bg-white/5 border border-purple-500/30 rounded-lg text-white placeholder-purple-300/50 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 disabled:cursor-not-allowed"
+            className="flex-1 px-4 py-3 bg-white dark:bg-white/5 border border-gray-300 dark:border-purple-500/30 rounded-lg text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-purple-300/50 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 disabled:cursor-not-allowed"
           />
           <button
             onClick={handleAddMood}
@@ -245,7 +246,7 @@ const StructuredEditor = ({ structuredData, onUpdate, finalPrompt }: StructuredE
 
       {/* Parameters */}
       <div className={isDisabled ? 'opacity-50 pointer-events-none' : ''}>
-        <label className="block text-sm font-medium text-purple-200 mb-2">
+        <label className="block text-sm font-medium text-gray-900 dark:text-purple-200 mb-2">
           Parameters (Model-specific)
         </label>
         <input
@@ -254,14 +255,14 @@ const StructuredEditor = ({ structuredData, onUpdate, finalPrompt }: StructuredE
           onChange={(e) => handleChange('parameters', e.target.value)}
           placeholder="e.g., --ar 16:9 --style raw"
           disabled={isDisabled}
-          className="w-full px-4 py-3 bg-white/5 border border-purple-500/30 rounded-lg text-white placeholder-purple-300/50 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 disabled:cursor-not-allowed"
+          className="w-full px-4 py-3 bg-white dark:bg-white/5 border border-gray-300 dark:border-purple-500/30 rounded-lg text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-purple-300/50 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 disabled:cursor-not-allowed"
         />
       </div>
 
-      {/* Final Prompt Preview */}
-      <div className="pt-6 border-t border-purple-500/30">
+      {/* Final Prompt Preview - 所有用户都可以查看和复制 */}
+      <div className="pt-6 border-t border-purple-300 dark:border-purple-500/30">
         <div className="flex items-center justify-between mb-3">
-          <h3 className="text-lg font-semibold text-purple-200">Final Prompt Preview</h3>
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-purple-200">Final Prompt Preview</h3>
           <button
             onClick={handleCopyFinal}
             className="flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-colors"
@@ -279,8 +280,8 @@ const StructuredEditor = ({ structuredData, onUpdate, finalPrompt }: StructuredE
             )}
           </button>
         </div>
-        <div className="bg-gradient-to-br from-purple-900/40 to-pink-900/40 backdrop-blur-sm border border-purple-500/40 rounded-xl p-6">
-          <p className="text-white text-lg leading-relaxed whitespace-pre-wrap">{finalPrompt}</p>
+        <div className="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/40 dark:to-pink-900/40 backdrop-blur-sm border border-purple-300 dark:border-purple-500/40 rounded-xl p-6">
+          <p className="text-gray-900 dark:text-white text-lg leading-relaxed whitespace-pre-wrap">{finalPrompt}</p>
         </div>
       </div>
     </div>
