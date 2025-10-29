@@ -319,12 +319,12 @@ function SavePromptDialog({
                 {saving ? (
                   <>
                     <PacmanLoader size={20} className="text-white" />
-                    <span>正在保存...</span>
+                    <span>Saving...</span>
                   </>
                 ) : (
                   <>
                     <Save className="w-5 h-5" />
-                    {isEditMode ? '更新' : '保存'}
+                    {isEditMode ? 'Update' : 'Save'}
                   </>
                 )}
               </button>

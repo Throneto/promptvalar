@@ -62,7 +62,7 @@ export default function AdminUsersPage() {
       setUsers(usersData);
       setPagination(paginationData);
     } catch (err) {
-      console.error('加载用户列表失败:', err);
+      console.error('Failed to load users:', err);
     } finally {
       setLoading(false);
     }
@@ -92,8 +92,8 @@ export default function AdminUsersPage() {
       setEditingUser(null);
       loadUsers();
     } catch (err) {
-      console.error('更新用户失败:', err);
-      alert('更新用户失败');
+      console.error('Failed to update user:', err);
+      alert('Failed to update user');
     }
   };
 
@@ -108,15 +108,15 @@ export default function AdminUsersPage() {
       setShowPasswordModal(false);
       setNewPassword('');
       setEditingUser(null);
-      alert('密码重置成功');
+      alert('Password reset successfully');
     } catch (err) {
-      console.error('重置密码失败:', err);
-      alert('重置密码失败');
+      console.error('Failed to reset password:', err);
+      alert('Failed to reset password');
     }
   };
 
   const handleDeleteUser = async (userId: string) => {
-    if (!confirm('确定要禁用此用户吗？')) return;
+    if (!confirm('Are you sure you want to disable this user?')) return;
 
     try {
       const token = localStorage.getItem('accessToken');
@@ -125,21 +125,21 @@ export default function AdminUsersPage() {
       await deleteUser(token, userId);
       loadUsers();
     } catch (err) {
-      console.error('删除用户失败:', err);
-      alert('删除用户失败');
+      console.error('Failed to delete user:', err);
+      alert('Failed to delete user');
     }
   };
 
   const handleSort = (field: 'createdAt' | 'generationCount' | 'username') => {
     if (sortBy === field) {
-      // 切换排序方向
+      // Toggle sort direction
       setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
     } else {
-      // 切换到新字段，默认降序
+      // Switch to new field, default descending
       setSortBy(field);
       setSortOrder('desc');
     }
-    setCurrentPage(1); // 重置到第一页
+    setCurrentPage(1); // Reset to first page
   };
 
   const SortIcon = ({ field }: { field: 'createdAt' | 'generationCount' | 'username' }) => {
@@ -194,8 +194,8 @@ export default function AdminUsersPage() {
           transition={{ delay: 0.1 }}
           className="mb-8"
         >
-          <h1 className="text-4xl font-bold text-white mb-2">用户管理</h1>
-          <p className="text-purple-200">查看和管理所有用户</p>
+          <h1 className="text-4xl font-bold text-white mb-2">User Management</h1>
+          <p className="text-purple-200">View and manage all users</p>
         </motion.div>
 
         {/* 搜索和筛选 */}
@@ -246,9 +246,9 @@ export default function AdminUsersPage() {
               }}
               className="px-4 py-2 bg-white/10 border border-white/20 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
             >
-              <option value="all" className="bg-slate-800">所有状态</option>
-              <option value="active" className="bg-slate-800">活跃</option>
-              <option value="inactive" className="bg-slate-800">非活跃</option>
+              <option value="all" className="bg-slate-800">All Status</option>
+              <option value="active" className="bg-slate-800">Active</option>
+              <option value="inactive" className="bg-slate-800">Inactive</option>
             </select>
 
             {/* 订阅筛选 */}
@@ -260,8 +260,8 @@ export default function AdminUsersPage() {
               }}
               className="px-4 py-2 bg-white/10 border border-white/20 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
             >
-              <option value="all" className="bg-slate-800">所有订阅</option>
-              <option value="free" className="bg-slate-800">免费</option>
+              <option value="all" className="bg-slate-800">All Subscriptions</option>
+              <option value="free" className="bg-slate-800">Free</option>
               <option value="pro" className="bg-slate-800">Pro</option>
             </select>
           </div>
@@ -483,7 +483,7 @@ export default function AdminUsersPage() {
                 onClick={handleSaveEdit}
                 className="flex-1 px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-xl hover:opacity-90 transition-opacity"
               >
-                保存
+                Save
               </button>
               <button
                 onClick={() => {
@@ -492,7 +492,7 @@ export default function AdminUsersPage() {
                 }}
                 className="flex-1 px-6 py-3 bg-white/10 text-white font-semibold rounded-xl hover:bg-white/20 transition-colors"
               >
-                取消
+                Cancel
               </button>
             </div>
           </motion.div>
@@ -532,7 +532,7 @@ export default function AdminUsersPage() {
                 }}
                 className="flex-1 px-6 py-3 bg-white/10 text-white font-semibold rounded-xl hover:bg-white/20 transition-colors"
               >
-                取消
+                Cancel
               </button>
             </div>
           </motion.div>

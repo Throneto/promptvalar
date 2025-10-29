@@ -31,7 +31,7 @@ export default function AdminDashboardPage() {
       setLoading(true);
       const token = localStorage.getItem('accessToken');
       if (!token) {
-        throw new Error('未登录');
+        throw new Error('Not logged in');
       }
 
       // 并行加载数据
@@ -43,8 +43,8 @@ export default function AdminDashboardPage() {
       setStats(statsData);
       setTopPrompts(promptsData);
     } catch (err: any) {
-      console.error('加载仪表板数据失败:', err);
-      setError(err.response?.data?.error?.message || err.message || '加载数据失败');
+      console.error('Failed to load dashboard data:', err);
+      setError(err.response?.data?.error?.message || err.message || 'Failed to load data');
     } finally {
       setLoading(false);
     }
@@ -107,41 +107,41 @@ export default function AdminDashboardPage() {
           transition={{ delay: 0.1 }}
           className="mb-8"
         >
-          <h1 className="text-4xl font-bold text-white mb-2">管理员仪表板</h1>
-          <p className="text-purple-200">平台数据概览和管理</p>
+          <h1 className="text-4xl font-bold text-white mb-2">Admin Dashboard</h1>
+          <p className="text-purple-200">Platform overview and management</p>
         </motion.div>
 
         {/* 统计卡片 */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <StatCard
             icon={<Users className="w-8 h-8" />}
-            title="总用户数"
+            title="Total Users"
             value={stats?.totalUsers || 0}
-            subtitle={`${stats?.activeUsers || 0} 活跃`}
+            subtitle={`${stats?.activeUsers || 0} Active`}
             color="blue"
             delay={0}
           />
           <StatCard
             icon={<FileText className="w-8 h-8" />}
-            title="总提示词"
+            title="Total Prompts"
             value={stats?.totalPrompts || 0}
-            subtitle={`本月新增 ${stats?.newPromptsThisMonth || 0}`}
+            subtitle={`${stats?.newPromptsThisMonth || 0} new this month`}
             color="green"
             delay={0.1}
           />
           <StatCard
             icon={<CreditCard className="w-8 h-8" />}
-            title="Pro 订阅"
+            title="Pro Subscriptions"
             value={stats?.activeSubscriptions || 0}
-            subtitle={`转化率 ${stats?.conversionRate || '0%'}`}
+            subtitle={`Conversion ${stats?.conversionRate || '0%'}`}
             color="purple"
             delay={0.2}
           />
           <StatCard
             icon={<UserPlus className="w-8 h-8" />}
-            title="本月新用户"
+            title="New Users This Month"
             value={stats?.newUsersThisMonth || 0}
-            subtitle={`总计 ${stats?.totalUsers || 0} 用户`}
+            subtitle={`${stats?.totalUsers || 0} total users`}
             color="pink"
             delay={0.3}
           />
@@ -154,36 +154,36 @@ export default function AdminDashboardPage() {
           transition={{ delay: 0.4 }}
           className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 mb-8"
         >
-          <h2 className="text-2xl font-bold text-white mb-4">用户状态</h2>
+          <h2 className="text-2xl font-bold text-white mb-4">User Status</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="bg-blue-500/20 rounded-xl p-4">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-blue-200">活跃用户</span>
+                <span className="text-blue-200">Active Users</span>
                 <Activity className="w-5 h-5 text-blue-400" />
               </div>
               <div className="text-3xl font-bold text-white">{stats?.activeUsers || 0}</div>
               <div className="text-sm text-blue-200 mt-1">
-                {stats?.totalUsers ? ((stats.activeUsers / stats.totalUsers) * 100).toFixed(1) : 0}% 活跃率
+                {stats?.totalUsers ? ((stats.activeUsers / stats.totalUsers) * 100).toFixed(1) : 0}% active
               </div>
             </div>
             <div className="bg-purple-500/20 rounded-xl p-4">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-purple-200">Pro 用户</span>
+                <span className="text-purple-200">Pro Users</span>
                 <TrendingUp className="w-5 h-5 text-purple-400" />
               </div>
               <div className="text-3xl font-bold text-white">{stats?.activeSubscriptions || 0}</div>
               <div className="text-sm text-purple-200 mt-1">
-                {stats?.freeUsers || 0} 免费用户
+                {stats?.freeUsers || 0} free users
               </div>
             </div>
             <div className="bg-red-500/20 rounded-xl p-4">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-red-200">非活跃</span>
+                <span className="text-red-200">Inactive</span>
                 <Users className="w-5 h-5 text-red-400" />
               </div>
               <div className="text-3xl font-bold text-white">{stats?.inactiveUsers || 0}</div>
               <div className="text-sm text-red-200 mt-1">
-                {stats?.totalUsers ? ((stats.inactiveUsers / stats.totalUsers) * 100).toFixed(1) : 0}% 非活跃率
+                {stats?.totalUsers ? ((stats.inactiveUsers / stats.totalUsers) * 100).toFixed(1) : 0}% inactive
               </div>
             </div>
           </div>
@@ -196,17 +196,17 @@ export default function AdminDashboardPage() {
           transition={{ delay: 0.5 }}
           className="bg-white/10 backdrop-blur-lg rounded-2xl p-6"
         >
-          <h2 className="text-2xl font-bold text-white mb-4">热门提示词 Top 10</h2>
+          <h2 className="text-2xl font-bold text-white mb-4">Top 10 Popular Prompts</h2>
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
                 <tr className="border-b border-white/20">
-                  <th className="text-left py-3 px-4 text-purple-200 font-semibold">标题</th>
-                  <th className="text-left py-3 px-4 text-purple-200 font-semibold">模型</th>
-                  <th className="text-left py-3 px-4 text-purple-200 font-semibold">作者</th>
-                  <th className="text-center py-3 px-4 text-purple-200 font-semibold">浏览</th>
-                  <th className="text-center py-3 px-4 text-purple-200 font-semibold">收藏</th>
-                  <th className="text-left py-3 px-4 text-purple-200 font-semibold">创建时间</th>
+                  <th className="text-left py-3 px-4 text-purple-200 font-semibold">Title</th>
+                  <th className="text-left py-3 px-4 text-purple-200 font-semibold">Model</th>
+                  <th className="text-left py-3 px-4 text-purple-200 font-semibold">Author</th>
+                  <th className="text-center py-3 px-4 text-purple-200 font-semibold">Views</th>
+                  <th className="text-center py-3 px-4 text-purple-200 font-semibold">Favorites</th>
+                  <th className="text-left py-3 px-4 text-purple-200 font-semibold">Created</th>
                 </tr>
               </thead>
               <tbody>

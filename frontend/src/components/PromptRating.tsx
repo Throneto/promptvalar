@@ -44,7 +44,7 @@ export const PromptRating: React.FC<PromptRatingProps> = ({ logId, onRated }) =>
       });
       
       if (!response.ok) {
-        throw new Error('提交反馈失败');
+        throw new Error('Failed to submit feedback');
       }
       
       setSubmitted(true);
@@ -55,8 +55,8 @@ export const PromptRating: React.FC<PromptRatingProps> = ({ logId, onRated }) =>
         setShowFeedback(false);
       }, 3000);
     } catch (error) {
-      console.error('提交反馈失败:', error);
-      alert('提交反馈失败，请稍后重试');
+      console.error('Failed to submit feedback:', error);
+      alert('Failed to submit feedback, please try again later');
     } finally {
       setSubmitting(false);
     }
@@ -85,7 +85,7 @@ export const PromptRating: React.FC<PromptRatingProps> = ({ logId, onRated }) =>
         setShowFeedback(false);
       }, 2000);
     } catch (error) {
-      console.error('提交评分失败:', error);
+      console.error('Failed to submit rating:', error);
     } finally {
       setSubmitting(false);
     }
@@ -101,8 +101,8 @@ export const PromptRating: React.FC<PromptRatingProps> = ({ logId, onRated }) =>
       >
         <ThumbsUp size={24} className="text-green-400" />
         <div>
-          <p className="text-green-400 font-semibold">感谢您的反馈！</p>
-          <p className="text-green-300 text-sm">您的意见将帮助我们改进提示词质量</p>
+          <p className="text-green-400 font-semibold">Thank you for your feedback!</p>
+          <p className="text-green-300 text-sm">Your input helps us improve prompt quality</p>
         </div>
       </motion.div>
     );
@@ -115,7 +115,7 @@ export const PromptRating: React.FC<PromptRatingProps> = ({ logId, onRated }) =>
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
             <MessageSquare size={20} className="text-cyan-400" />
-            <span className="text-white font-medium">这个提示词质量如何？</span>
+            <span className="text-white font-medium">How would you rate this prompt?</span>
           </div>
           
           {rating > 0 && !showFeedback && (
@@ -123,7 +123,7 @@ export const PromptRating: React.FC<PromptRatingProps> = ({ logId, onRated }) =>
               onClick={() => setShowFeedback(true)}
               className="text-cyan-400 hover:text-cyan-300 text-sm transition-colors"
             >
-              添加评论
+              Add Comment
             </button>
           )}
         </div>
@@ -158,11 +158,11 @@ export const PromptRating: React.FC<PromptRatingProps> = ({ logId, onRated }) =>
               animate={{ opacity: 1, x: 0 }}
               className="text-yellow-400 font-semibold text-lg"
             >
-              {rating === 5 && '🎉 完美!'}
-              {rating === 4 && '👍 很好!'}
-              {rating === 3 && '😊 还行'}
-              {rating === 2 && '😐 一般'}
-              {rating === 1 && '😞 需要改进'}
+              {rating === 5 && '🎉 Perfect!'}
+              {rating === 4 && '👍 Great!'}
+              {rating === 3 && '😊 Good'}
+              {rating === 2 && '😐 Fair'}
+              {rating === 1 && '😞 Needs improvement'}
             </motion.span>
           )}
         </div>
@@ -180,10 +180,10 @@ export const PromptRating: React.FC<PromptRatingProps> = ({ logId, onRated }) =>
             <div className="flex items-start justify-between">
               <p className="text-gray-400 text-sm">
                 {rating >= 4
-                  ? '太好了！能告诉我们您最喜欢的是什么吗？'
+                  ? 'Great! What did you like most about it?'
                   : rating === 3
-                  ? '您觉得有什么地方可以改进吗？'
-                  : '我们很想知道如何改进，请告诉我们您的想法。'}
+                  ? 'What could be improved?'
+                  : 'We\'d love to know how to improve. Please share your thoughts.'}
               </p>
               <button
                 onClick={() => setShowFeedback(false)}
@@ -196,7 +196,7 @@ export const PromptRating: React.FC<PromptRatingProps> = ({ logId, onRated }) =>
             <textarea
               value={feedback}
               onChange={(e) => setFeedback(e.target.value)}
-              placeholder="您的反馈将帮助我们优化提示词策略（可选）..."
+              placeholder="Your feedback helps us optimize prompt strategies (optional)..."
               className="w-full px-4 py-3 bg-gray-900/50 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 resize-none transition-all"
               rows={4}
               disabled={submitting}
@@ -208,14 +208,14 @@ export const PromptRating: React.FC<PromptRatingProps> = ({ logId, onRated }) =>
                 disabled={submitting}
                 className="flex-1 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white font-semibold py-3 px-6 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {submitting ? '提交中...' : '提交反馈'}
+                {submitting ? 'Submitting...' : 'Submit Feedback'}
               </button>
               <button
                 onClick={skipFeedback}
                 disabled={submitting}
                 className="px-6 py-3 bg-gray-700/50 hover:bg-gray-700 text-gray-300 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                跳过
+                Skip
               </button>
             </div>
           </motion.div>

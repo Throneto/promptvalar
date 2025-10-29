@@ -92,7 +92,7 @@ export default function SubscriptionManagementPage() {
     if (!token) return;
 
     const confirmed = window.confirm(
-      '确定要取消订阅吗？取消后，你仍然可以使用 Pro 功能直到当前计费周期结束。'
+      'Are you sure you want to cancel your subscription? You can still use Pro features until the end of the current billing period.'
     );
 
     if (!confirmed) return;
@@ -109,7 +109,7 @@ export default function SubscriptionManagementPage() {
       await loadSubscription();
     } catch (err: any) {
       console.error('Failed to cancel subscription:', err);
-      setError(err.response?.data?.message || '取消订阅失败');
+      setError(err.response?.data?.message || 'Failed to cancel subscription');
     } finally {
       setProcessing(false);
     }
@@ -180,7 +180,7 @@ export default function SubscriptionManagementPage() {
         return (
           <span className="inline-flex items-center gap-2 px-3 py-1 bg-red-500/20 text-red-400 rounded-full text-sm">
             <AlertCircle className="w-4 h-4" />
-            已取消
+            Cancelled
           </span>
         );
       default:
@@ -338,7 +338,7 @@ export default function SubscriptionManagementPage() {
                 className="flex items-center justify-center gap-2 px-6 py-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-xl font-semibold transition-all duration-200"
               >
                 <Zap className="w-5 h-5" />
-                升级到 Pro
+                Upgrade to Pro
                 <ArrowUpRight className="w-5 h-5" />
               </button>
 
@@ -390,7 +390,7 @@ export default function SubscriptionManagementPage() {
                   className="md:col-span-2 flex items-center justify-center gap-2 px-6 py-4 bg-red-600/20 hover:bg-red-600/30 text-red-400 border border-red-600 rounded-xl font-semibold transition-all duration-200 disabled:opacity-50"
                 >
                   <AlertCircle className="w-5 h-5" />
-                  取消订阅
+                  Cancel Subscription
                 </button>
               )}
             </>

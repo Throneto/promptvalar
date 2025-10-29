@@ -91,18 +91,18 @@ const StructuredEditor = ({ structuredData, onUpdate, finalPrompt }: StructuredE
             <div className="flex-1">
               <h3 className="text-xl font-bold text-amber-300 mb-2 flex items-center gap-2">
                 <Crown className="w-5 h-5" />
-                Pro 功能专享
+                Pro Feature Exclusive
               </h3>
               <p className="text-amber-100/90 mb-4">
-                结构化编辑器是 Pro 用户专属功能。升级到 Pro 计划以解锁精细化调整能力，
-                包括主题、动作、场景设置、镜头类型、光照、构图和氛围等全方位控制。
+                Structured Editor is a Pro-exclusive feature. Upgrade to Pro plan to unlock fine-tuning capabilities,
+                including full control over subject, action, setting, shot type, lighting, composition, and mood.
               </p>
               <Link
                 to="/pricing"
                 className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold rounded-lg transition-all shadow-lg hover:shadow-xl transform hover:scale-105"
               >
                 <Crown className="w-5 h-5" />
-                立即升级到 Pro
+                Upgrade to Pro Now
               </Link>
             </div>
           </div>
