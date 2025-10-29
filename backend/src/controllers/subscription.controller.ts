@@ -78,9 +78,12 @@ export async function createCheckout(req: Request, res: Response) {
     });
   } catch (error) {
     console.error('Create checkout error:', error);
+    console.error('Error stack:', error instanceof Error ? error.stack : 'No stack trace');
+    console.error('Error message:', error instanceof Error ? error.message : String(error));
     res.status(500).json({
       success: false,
       message: 'Failed to create checkout session',
+      error: process.env.NODE_ENV === 'development' ? error : undefined,
     });
   }
 }
