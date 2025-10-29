@@ -9,8 +9,6 @@ const PacmanLoader: React.FC<PacmanLoaderProps> = ({
   size = 24,
   className = ''
 }) => {
-  // 根据size计算viewBox缩放比例
-  const scale = size / 24;
   const viewBoxWidth = 500;
   const viewBoxHeight = 300;
 
