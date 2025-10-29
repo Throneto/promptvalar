@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PromptValar 图标预览</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            color: white;
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        
+        .subtitle {
+            color: rgba(255,255,255,0.9);
+            text-align: center;
+            font-size: 1.1rem;
+            margin-bottom: 40px;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 50px rgba(0,0,0,0.3);
+        }
+        
+        .card h2 {
+            color: #6366f1;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+        
+        .icon-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 30px 0;
+            min-height: 200px;
+        }
+        
+        .icon-container img {
+            max-width: 100%;
+            height: auto;
+        }
+        
+        .size-label {
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        
+        .specs {
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+            text-align: left;
+        }
+        
+        .specs p {
+            color: #475569;
+            font-size: 0.9rem;
+            margin: 5px 0;
+        }
+        
+        .specs strong {
+            color: #1e293b;
+        }
+        
+        .color-palette {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        
+        .color-item {
+            text-align: center;
+        }
+        
+        .color-swatch {
+            width: 100%;
+            height: 80px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .color-name {
+            color: #1e293b;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+        
+        .color-code {
+            color: #64748b;
+            font-size: 0.8rem;
+            font-family: 'Monaco', 'Courier New', monospace;
+        }
+        
+        .variations {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        
+        .variation {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .variation img {
+            padding: 10px;
+            border-radius: 8px;
+        }
+        
+        .variation-label {
+            color: #64748b;
+            font-size: 0.85rem;
+        }
+        
+        .dark-bg {
+            background: #1f2937;
+        }
+        
+        .light-bg {
+            background: #f9fafb;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 PromptValar 图标系统</h1>
+        <p class="subtitle">专业的 AI 提示词工程平台 - 品牌视觉识别系统</p>
+        
+        <div class="grid">
+            <!-- Favicon -->
+            <div class="card">
+                <h2>Favicon</h2>
+                <p class="size-label">浏览器标签页图标</p>
+                <div class="icon-container">
+                    <img src="/favicon.svg" alt="Favicon" style="width: 64px; height: 64px;">
+                </div>
+                <div class="specs">
+                    <p><strong>尺寸:</strong> 64x64</p>
+                    <p><strong>格式:</strong> SVG</p>
+                    <p><strong>用途:</strong> 浏览器标签、书签栏</p>
+                    <p><strong>特点:</strong> 简化设计，小尺寸清晰</p>
+                </div>
+            </div>
+            
+            <!-- Apple Touch Icon -->
+            <div class="card">
+                <h2>Apple Touch Icon</h2>
+                <p class="size-label">iOS 主屏幕图标</p>
+                <div class="icon-container">
+                    <img src="/apple-touch-icon.svg" alt="Apple Touch Icon" style="width: 180px; height: 180px;">
+                </div>
+                <div class="specs">
+                    <p><strong>尺寸:</strong> 180x180</p>
+                    <p><strong>格式:</strong> SVG</p>
+                    <p><strong>用途:</strong> iOS/iPadOS 主屏幕</p>
+                    <p><strong>特点:</strong> 圆角设计，符合 Apple 规范</p>
+                </div>
+            </div>
+            
+            <!-- Logo -->
+            <div class="card">
+                <h2>主 Logo</h2>
+                <p class="size-label">品牌完整标识</p>
+                <div class="icon-container">
+                    <img src="/logo.svg" alt="Logo" style="width: 256px; height: 256px;">
+                </div>
+                <div class="specs">
+                    <p><strong>尺寸:</strong> 512x512</p>
+                    <p><strong>格式:</strong> SVG</p>
+                    <p><strong>用途:</strong> PWA、分享预览、品牌展示</p>
+                    <p><strong>特点:</strong> 完整细节、发光效果</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 不同背景下的效果 -->
+        <div class="card" style="margin-bottom: 30px;">
+            <h2>不同背景下的显示效果</h2>
+            <div class="variations">
+                <div class="variation">
+                    <img src="/logo.svg" class="light-bg" style="width: 120px; height: 120px;">
+                    <span class="variation-label">浅色背景</span>
+                </div>
+                <div class="variation">
+                    <img src="/logo.svg" class="dark-bg" style="width: 120px; height: 120px;">
+                    <span class="variation-label">深色背景</span>
+                </div>
+                <div class="variation">
+                    <img src="/logo.svg" style="width: 120px; height: 120px; background: transparent;">
+                    <span class="variation-label">透明背景</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 配色方案 -->
+        <h2 style="color: white; text-align: center; margin-bottom: 20px; font-size: 1.8rem;">品牌配色方案</h2>
+        <div class="color-palette">
+            <div class="color-item">
+                <div class="color-swatch" style="background: #6366f1;"></div>
+                <div class="color-name">主色调</div>
+                <div class="color-code">#6366f1</div>
+            </div>
+            <div class="color-item">
+                <div class="color-swatch" style="background: #4f46e5;"></div>
+                <div class="color-name">深色变体</div>
+                <div class="color-code">#4f46e5</div>
+            </div>
+            <div class="color-item">
+                <div class="color-swatch" style="background: #a5b4fc;"></div>
+                <div class="color-name">浅色变体</div>
+                <div class="color-code">#a5b4fc</div>
+            </div>
+            <div class="color-item">
+                <div class="color-swatch" style="background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);"></div>
+                <div class="color-name">渐变效果</div>
+                <div class="color-code">gradient</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

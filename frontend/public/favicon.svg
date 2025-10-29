@@ -1,0 +1,39 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- 简化版图标用于 favicon -->
+  <rect width="64" height="64" rx="12" fill="url(#gradient-bg)"/>
+  
+  <defs>
+    <linearGradient id="gradient-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6366f1;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#4f46e5;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- 简化的提示符号 -->
+  <g transform="translate(32, 32)">
+    <!-- 双箭头符号 -->
+    <path d="M -14 -10 L -6 0 L -14 10" 
+          stroke="white" 
+          stroke-width="3" 
+          stroke-linecap="round" 
+          stroke-linejoin="round" 
+          fill="none"/>
+    
+    <path d="M -2 -10 L 6 0 L -2 10" 
+          stroke="white" 
+          stroke-width="3" 
+          stroke-linecap="round" 
+          stroke-linejoin="round" 
+          fill="none"/>
+    
+    <!-- 闪电 -->
+    <path d="M 12 -12 L 10 0 L 14 0 L 12 12" 
+          stroke="white" 
+          stroke-width="2.5" 
+          stroke-linecap="round" 
+          stroke-linejoin="round" 
+          fill="none"
+          opacity="0.9"/>
+  </g>
+</svg>
+

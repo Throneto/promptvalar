@@ -1,0 +1,34 @@
+{
+  "name": "PromptValar - AI Prompt Engineering Platform",
+  "short_name": "PromptValar",
+  "description": "Professional AI prompt engineering platform for Sora, Veo, and more",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#6366f1",
+  "theme_color": "#6366f1",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/apple-touch-icon.svg",
+      "sizes": "180x180",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/logo.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "categories": ["productivity", "utilities", "developer tools"],
+  "lang": "zh-CN",
+  "dir": "auto"
+}
+

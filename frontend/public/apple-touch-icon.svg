@@ -1,0 +1,52 @@
+<svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Apple Touch Icon - 圆角正方形背景 -->
+  <rect width="180" height="180" rx="40" fill="url(#gradient-bg)"/>
+  
+  <defs>
+    <linearGradient id="gradient-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6366f1;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#4f46e5;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="gradient-icon" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#e0e7ff;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <g transform="translate(90, 90)">
+    <!-- 外层圆环 -->
+    <circle cx="0" cy="0" r="50" stroke="url(#gradient-icon)" stroke-width="4" fill="none" opacity="0.3"/>
+    
+    <!-- 提示符号 -->
+    <path d="M -28 -18 L -8 0 L -28 18" 
+          stroke="url(#gradient-icon)" 
+          stroke-width="7" 
+          stroke-linecap="round" 
+          stroke-linejoin="round" 
+          fill="none"/>
+    
+    <path d="M -4 -18 L 16 0 L -4 18" 
+          stroke="url(#gradient-icon)" 
+          stroke-width="7" 
+          stroke-linecap="round" 
+          stroke-linejoin="round" 
+          fill="none"/>
+    
+    <!-- 闪电符号 -->
+    <path d="M 28 -22 L 22 0 L 32 0 L 26 22" 
+          stroke="url(#gradient-icon)" 
+          stroke-width="5" 
+          stroke-linecap="round" 
+          stroke-linejoin="round" 
+          fill="none"
+          opacity="0.9"/>
+    
+    <!-- 装饰点 -->
+    <circle cx="-36" cy="-28" r="2.5" fill="url(#gradient-icon)" opacity="0.8"/>
+    <circle cx="36" cy="-28" r="2.5" fill="url(#gradient-icon)" opacity="0.8"/>
+    <circle cx="-36" cy="28" r="2.5" fill="url(#gradient-icon)" opacity="0.8"/>
+    <circle cx="36" cy="28" r="2.5" fill="url(#gradient-icon)" opacity="0.8"/>
+  </g>
+</svg>
+

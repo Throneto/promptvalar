@@ -1,0 +1,68 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- 背景渐变圆 -->
+  <circle cx="256" cy="256" r="256" fill="url(#gradient-bg)"/>
+  
+  <!-- 定义渐变 -->
+  <defs>
+    <!-- 背景渐变：从主色到深色 -->
+    <linearGradient id="gradient-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6366f1;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#4f46e5;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- 图标渐变：浅色到白色 -->
+    <linearGradient id="gradient-icon" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#e0e7ff;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- 发光效果 -->
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- AI 大脑/提示符号组合 -->
+  <g transform="translate(256, 256)">
+    <!-- 外层圆环 - 代表AI思维 -->
+    <circle cx="0" cy="0" r="140" stroke="url(#gradient-icon)" stroke-width="8" fill="none" opacity="0.3"/>
+    
+    <!-- 提示符号 ">" 左边 -->
+    <path d="M -80 -50 L -20 0 L -80 50" 
+          stroke="url(#gradient-icon)" 
+          stroke-width="16" 
+          stroke-linecap="round" 
+          stroke-linejoin="round" 
+          fill="none"
+          filter="url(#glow)"/>
+    
+    <!-- 提示符号 ">" 右边 -->
+    <path d="M -10 -50 L 50 0 L -10 50" 
+          stroke="url(#gradient-icon)" 
+          stroke-width="16" 
+          stroke-linecap="round" 
+          stroke-linejoin="round" 
+          fill="none"
+          filter="url(#glow)"/>
+    
+    <!-- 闪电符号 - 代表智能和能量 -->
+    <path d="M 75 -60 L 55 0 L 85 0 L 65 60" 
+          stroke="url(#gradient-icon)" 
+          stroke-width="12" 
+          stroke-linecap="round" 
+          stroke-linejoin="round" 
+          fill="none"
+          opacity="0.9"/>
+    
+    <!-- 装饰性点 -->
+    <circle cx="-100" cy="-80" r="6" fill="url(#gradient-icon)" opacity="0.8"/>
+    <circle cx="100" cy="-80" r="6" fill="url(#gradient-icon)" opacity="0.8"/>
+    <circle cx="-100" cy="80" r="6" fill="url(#gradient-icon)" opacity="0.8"/>
+    <circle cx="100" cy="80" r="6" fill="url(#gradient-icon)" opacity="0.8"/>
+  </g>
+</svg>
+
