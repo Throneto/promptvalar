@@ -9,7 +9,7 @@ interface LoadingProps {
 const Loading: React.FC<LoadingProps> = ({ 
   fullScreen = false, 
   size = 'medium',
-  text = '加载中...'
+  text = 'Loading...'
 }) => {
   const sizeMap = {
     small: 24,

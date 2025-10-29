@@ -39,7 +39,7 @@ function App() {
   }, []);
 
   if (isLoading) {
-    return <Loading fullScreen size="large" text="正在加载应用..." />;
+    return <Loading fullScreen size="large" text="Loading application..." />;
   }
 
   return (

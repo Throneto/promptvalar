@@ -212,7 +212,7 @@ export default function AdminUsersPage() {
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-purple-300" />
                 <input
                   type="text"
-                  placeholder="搜索用户名或邮箱..."
+                  placeholder="Search by username or email..."
                   value={searchTerm}
                   onChange={(e) => {
                     setSearchTerm(e.target.value);
@@ -232,9 +232,9 @@ export default function AdminUsersPage() {
               }}
               className="px-4 py-2 bg-white/10 border border-white/20 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
             >
-              <option value="all" className="bg-slate-800">所有角色</option>
-              <option value="user" className="bg-slate-800">普通用户</option>
-              <option value="admin" className="bg-slate-800">管理员</option>
+              <option value="all" className="bg-slate-800">All Roles</option>
+              <option value="user" className="bg-slate-800">User</option>
+              <option value="admin" className="bg-slate-800">Admin</option>
             </select>
 
             {/* 状态筛选 */}
@@ -275,9 +275,9 @@ export default function AdminUsersPage() {
           className="bg-white/10 backdrop-blur-lg rounded-2xl overflow-hidden"
         >
           {loading ? (
-            <div className="p-8 text-center text-white">加载中...</div>
+            <div className="p-8 text-center text-white">Loading...</div>
           ) : users.length === 0 ? (
-            <div className="p-8 text-center text-purple-200">没有找到用户</div>
+            <div className="p-8 text-center text-purple-200">No users found</div>
           ) : (
             <>
               <div className="overflow-x-auto">
@@ -288,28 +288,28 @@ export default function AdminUsersPage() {
                         className="text-left py-4 px-6 text-purple-200 font-semibold cursor-pointer hover:text-white transition-colors"
                         onClick={() => handleSort('username')}
                       >
-                        用户名
+                        Username
                         <SortIcon field="username" />
                       </th>
-                      <th className="text-left py-4 px-6 text-purple-200 font-semibold">邮箱</th>
-                      <th className="text-center py-4 px-6 text-purple-200 font-semibold">角色</th>
-                      <th className="text-center py-4 px-6 text-purple-200 font-semibold">订阅</th>
-                      <th className="text-center py-4 px-6 text-purple-200 font-semibold">状态</th>
+                      <th className="text-left py-4 px-6 text-purple-200 font-semibold">Email</th>
+                      <th className="text-center py-4 px-6 text-purple-200 font-semibold">Role</th>
+                      <th className="text-center py-4 px-6 text-purple-200 font-semibold">Subscription</th>
+                      <th className="text-center py-4 px-6 text-purple-200 font-semibold">Status</th>
                       <th 
                         className="text-center py-4 px-6 text-purple-200 font-semibold cursor-pointer hover:text-white transition-colors"
                         onClick={() => handleSort('generationCount')}
                       >
-                        生成次数
+                        Generations
                         <SortIcon field="generationCount" />
                       </th>
                       <th 
                         className="text-center py-4 px-6 text-purple-200 font-semibold cursor-pointer hover:text-white transition-colors"
                         onClick={() => handleSort('createdAt')}
                       >
-                        注册时间
+                        Registered
                         <SortIcon field="createdAt" />
                       </th>
-                      <th className="text-center py-4 px-6 text-purple-200 font-semibold">操作</th>
+                      <th className="text-center py-4 px-6 text-purple-200 font-semibold">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -328,14 +328,14 @@ export default function AdminUsersPage() {
                           <span className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${
                             user.role === 'admin' ? 'bg-yellow-500/30 text-yellow-200' : 'bg-gray-500/30 text-gray-200'
                           }`}>
-                            {user.role === 'admin' ? '管理员' : '用户'}
+                            {user.role === 'admin' ? 'Admin' : 'User'}
                           </span>
                         </td>
                         <td className="py-4 px-6 text-center">
                           <span className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${
                             user.subscriptionTier === 'pro' ? 'bg-purple-500/30 text-purple-200' : 'bg-gray-500/30 text-gray-200'
                           }`}>
-                            {user.subscriptionTier === 'pro' ? 'Pro' : '免费'}
+                            {user.subscriptionTier === 'pro' ? 'Pro' : 'Free'}
                           </span>
                         </td>
                         <td className="py-4 px-6 text-center">
@@ -436,7 +436,7 @@ export default function AdminUsersPage() {
                 />
               </div>
               <div>
-                <label className="block text-purple-200 mb-2">邮箱</label>
+                <label className="block text-purple-200 mb-2">Email</label>
                 <input
                   type="email"
                   value={editingUser.email}
@@ -451,12 +451,12 @@ export default function AdminUsersPage() {
                   onChange={(e) => setEditingUser({ ...editingUser, role: e.target.value as any })}
                   className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-xl text-white"
                 >
-                  <option value="user" className="bg-slate-800 text-white">用户</option>
-                  <option value="admin" className="bg-slate-800 text-white">管理员</option>
+                  <option value="user" className="bg-slate-800 text-white">User</option>
+                  <option value="admin" className="bg-slate-800 text-white">Admin</option>
                 </select>
               </div>
               <div>
-                <label className="block text-purple-200 mb-2">订阅层级</label>
+                <label className="block text-purple-200 mb-2">Subscription Tier</label>
                 <select
                   value={editingUser.subscriptionTier}
                   onChange={(e) => setEditingUser({ ...editingUser, subscriptionTier: e.target.value as any })}

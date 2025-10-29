@@ -269,7 +269,7 @@ const PromptLibraryPage = () => {
         {loading && (
           <div className="text-center py-12">
             <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-purple-500"></div>
-            <p className="text-purple-200 mt-4">加载中...</p>
+            <p className="text-purple-200 mt-4">Loading...</p>
           </div>
         )}
 

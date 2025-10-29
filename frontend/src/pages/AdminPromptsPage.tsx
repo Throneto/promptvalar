@@ -227,9 +227,9 @@ export default function AdminPromptsPage() {
           className="bg-white/10 backdrop-blur-lg rounded-2xl overflow-hidden"
         >
           {loading ? (
-            <div className="p-8 text-center text-white">加载中...</div>
+            <div className="p-8 text-center text-white">Loading...</div>
           ) : prompts.length === 0 ? (
-            <div className="p-8 text-center text-purple-200">没有找到提示词</div>
+            <div className="p-8 text-center text-purple-200">No prompts found</div>
           ) : (
             <>
               <div className="overflow-x-auto">

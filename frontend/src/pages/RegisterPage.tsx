@@ -25,9 +25,9 @@ function RegisterPage() {
       if (axios.isAxiosError(err) && err.response) {
         const errorData = err.response.data;
         if (errorData.error?.code === 'USERNAME_EXISTS') {
-          setError('用户名已被占用');
+          setError('Username is already taken');
         } else if (errorData.error?.code === 'EMAIL_EXISTS') {
-          setError('邮箱已被注册');
+          setError('Email is already registered');
         } else if (errorData.error?.code === 'VALIDATION_ERROR') {
           // 显示验证错误
           const errors = errorData.error.details?.errors;

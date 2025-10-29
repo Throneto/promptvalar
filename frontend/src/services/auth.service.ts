@@ -94,31 +94,31 @@ export async function register(data: RegisterRequest): Promise<AuthResponse> {
  * 用户登录
  */
 export async function login(data: LoginRequest): Promise<AuthResponse> {
-  console.log('📡 发送登录请求到:', apiClient.defaults.baseURL);
-  console.log('📧 邮箱:', data.email);
+  console.log('📡 Sending login request to:', apiClient.defaults.baseURL);
+  console.log('📧 Email:', data.email);
   
   try {
     const response = await apiClient.post<AuthResponse>('/auth/login', data);
-    console.log('📥 收到响应:', response.status, response.statusText);
-    console.log('📦 响应数据:', response.data);
+    console.log('📥 Received response:', response.status, response.statusText);
+    console.log('📦 Response data:', response.data);
     
-    // 保存tokens到localStorage
+    // Save tokens to localStorage
     if (response.data.success && response.data.data) {
-      console.log('💾 保存tokens到localStorage...');
+      console.log('💾 Saving tokens to localStorage...');
       localStorage.setItem('accessToken', response.data.data.accessToken);
       localStorage.setItem('refreshToken', response.data.data.refreshToken);
       localStorage.setItem('user', JSON.stringify(response.data.data.user));
-      console.log('✅ tokens已保存');
+      console.log('✅ Tokens saved');
       
       // 触发自定义事件通知其他组件
       window.dispatchEvent(new Event('auth-change'));
     } else {
-      console.warn('⚠️ 响应格式异常:', response.data);
+      console.warn('⚠️ Abnormal response format:', response.data);
     }
     
     return response.data;
   } catch (error) {
-    console.error('❌ 登录API调用失败:', error);
+    console.error('❌ Login API call failed:', error);
     throw error;
   }
 }

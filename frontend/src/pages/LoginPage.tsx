@@ -16,27 +16,27 @@ function LoginPage() {
     setError('');
     setLoading(true);
 
-    console.log('🔐 开始登录...', { email, password: '***' });
+    console.log('🔐 Starting login...', { email, password: '***' });
 
     try {
       const result = await login({ email, password });
-      console.log('✅ 登录成功！', result);
+      console.log('✅ Login successful!', result);
       
-      // 验证token是否保存
+      // Verify tokens are saved
       const savedToken = localStorage.getItem('accessToken');
       const savedUser = localStorage.getItem('user');
-      console.log('💾 Token已保存:', !!savedToken);
-      console.log('👤 用户数据已保存:', !!savedUser);
+      console.log('💾 Token saved:', !!savedToken);
+      console.log('👤 User data saved:', !!savedUser);
       
-      // 登录成功，跳转到原始页面或工作室页面
+      // Navigate to original page or studio page
       const from = (location.state as any)?.from || '/studio';
-      console.log('🚀 准备跳转到:', from);
+      console.log('🚀 Preparing to navigate to:', from);
       
       navigate(from, { replace: true });
-      console.log('✨ 跳转命令已执行');
+      console.log('✨ Navigation command executed');
     } catch (err: any) {
-      console.error('❌ 登录失败:', err);
-      console.error('错误详情:', err.response?.data);
+      console.error('❌ Login failed:', err);
+      console.error('Error details:', err.response?.data);
       
       // 处理错误
       if (axios.isAxiosError(err) && err.response) {

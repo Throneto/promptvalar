@@ -129,7 +129,7 @@ const PromptDetailPage = () => {
       await navigator.clipboard.writeText(url);
       alert('链接已复制到剪贴板！');
     } catch (err) {
-      console.error('分享失败:', err);
+      console.error('Share failed:', err);
     }
   };
 
@@ -171,7 +171,7 @@ const PromptDetailPage = () => {
       <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50 flex items-center justify-center">
         <div className="text-center">
           <Loader2 className="w-12 h-12 text-purple-600 animate-spin mx-auto mb-4" />
-          <p className="text-gray-600">加载中...</p>
+          <p className="text-gray-600">Loading...</p>
         </div>
       </div>
     );
@@ -181,12 +181,12 @@ const PromptDetailPage = () => {
     return (
       <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50 flex items-center justify-center">
         <div className="text-center">
-          <p className="text-red-600 text-xl mb-4">{error || '提示词不存在'}</p>
+          <p className="text-red-600 text-xl mb-4">{error || 'Prompt not found'}</p>
           <Link
             to="/library"
             className="text-purple-600 hover:text-purple-700 underline transition-colors"
           >
-            返回提示词库
+            Back to Library
           </Link>
         </div>
       </div>
