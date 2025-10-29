@@ -9,7 +9,7 @@ YELLOW='\033[1;33m'
 RED='\033[0;31m'
 NC='\033[0m'
 
-EXPECTED_COMMIT="e4a606a"
+EXPECTED_COMMIT="60c720c"
 
 echo "════════════════════════════════════════════════════════════════"
 echo "  PromptValar 生产环境验证"
