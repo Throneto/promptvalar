@@ -118,7 +118,7 @@ const IdeaInput = ({
         {isGenerating ? (
           <>
             <PacmanLoader size={20} className="text-white" />
-            <span className="ml-2">正在生成...</span>
+            <span className="ml-2">Generating...</span>
           </>
         ) : (
           <>

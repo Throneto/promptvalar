@@ -62,7 +62,7 @@ const GeneratedPrompt = ({ prompt, onRegenerate, isRegenerating }: GeneratedProm
           {isRegenerating ? (
             <>
               <PacmanLoader size={16} className="text-white" />
-              <span>正在重新生成...</span>
+              <span>Regenerating...</span>
             </>
           ) : (
             <>
