@@ -145,3 +145,9 @@
 8:01:24 PM [vite] page reload index.html
 8:01:58 PM [vite] hmr update /src/index.css
 8:05:19 PM [vite] hmr update /src/index.css
+9:00:06 PM [vite] page reload index.html
+9:09:33 PM [vite] page reload index.html
+9:57:07 PM [vite] hmr update /src/components/studio/IdeaInput.tsx, /src/index.css
+9:57:15 PM [vite] hmr update /src/components/studio/GeneratedPrompt.tsx, /src/index.css
+9:57:29 PM [vite] hmr update /src/components/studio/GeneratedPrompt.tsx, /src/index.css
+9:57:29 PM [vite] hmr update /src/components/studio/IdeaInput.tsx, /src/index.css
