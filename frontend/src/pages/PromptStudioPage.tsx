@@ -252,7 +252,7 @@ const PromptStudioPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 py-12 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50 dark:from-slate-900 dark:via-purple-900 dark:to-slate-900 py-12 px-4 transition-colors duration-300">
       <div className="max-w-7xl mx-auto">
         {/* 成功消息 */}
         {successMessage && (
@@ -273,11 +273,11 @@ const PromptStudioPage = () => {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-12"
         >
-          <h1 className="text-5xl font-bold text-white mb-4 flex items-center justify-center gap-3">
-            <Sparkles className="w-12 h-12 text-purple-400" />
+          <h1 className="text-5xl font-bold text-gray-900 dark:text-white mb-4 flex items-center justify-center gap-3">
+            <Sparkles className="w-12 h-12 text-purple-600 dark:text-purple-400" />
             {isEditMode ? 'Edit Prompt' : 'Prompt Studio'}
           </h1>
-          <p className="text-xl text-purple-200">
+          <p className="text-xl text-gray-600 dark:text-purple-200">
             {isEditMode 
               ? 'Update your prompt and save changes'
               : 'Transform your ideas into professional AI prompts in 3 simple steps'
@@ -373,11 +373,11 @@ const PromptStudioPage = () => {
             transition={{ delay: 0.5 }}
             className="mt-12 max-w-3xl mx-auto"
           >
-            <div className="bg-purple-900/30 backdrop-blur-sm border border-purple-500/30 rounded-xl p-6">
-              <h3 className="text-lg font-semibold text-purple-200 mb-4">
+            <div className="bg-purple-100 dark:bg-purple-900/30 backdrop-blur-sm border border-purple-200 dark:border-purple-500/30 rounded-xl p-6 shadow-lg">
+              <h3 className="text-lg font-semibold text-purple-800 dark:text-purple-200 mb-4">
                 💡 Quick Tips
               </h3>
-              <ul className="space-y-2 text-purple-100">
+              <ul className="space-y-2 text-gray-700 dark:text-purple-100">
                 <li>• Be specific about what you want to create</li>
                 <li>• Include details about mood, lighting, and composition</li>
                 <li>• Choose the right AI model for your use case</li>

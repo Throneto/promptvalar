@@ -100,20 +100,20 @@ export default function PricingPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center">
-        <div className="text-white text-xl">Loading...</div>
+      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50 dark:from-slate-900 dark:via-purple-900 dark:to-slate-900 flex items-center justify-center transition-colors duration-300">
+        <div className="text-gray-900 dark:text-white text-xl">Loading...</div>
       </div>
     );
   }
 
   if (!plans) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center">
-        <div className="text-white text-center">
+      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50 dark:from-slate-900 dark:via-purple-900 dark:to-slate-900 flex items-center justify-center transition-colors duration-300">
+        <div className="text-gray-900 dark:text-white text-center">
           <p className="text-xl mb-4">{error || 'Failed to load'}</p>
           <button
             onClick={loadPlans}
-            className="px-6 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg transition-colors"
+            className="px-6 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg transition-colors text-white shadow-md"
           >
             Retry
           </button>
@@ -123,7 +123,7 @@ export default function PricingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 py-20 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50 dark:from-slate-900 dark:via-purple-900 dark:to-slate-900 py-20 px-4 transition-colors duration-300">
       <div className="max-w-7xl mx-auto">
         {/* Hero Section */}
         <motion.div
@@ -142,10 +142,10 @@ export default function PricingPage() {
             </div>
           </motion.div>
 
-          <h1 className="text-6xl font-bold text-white mb-6 leading-tight">
+          <h1 className="text-6xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
             Choose Your Perfect Plan
           </h1>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-8">
+          <p className="text-xl text-gray-700 dark:text-gray-300 max-w-3xl mx-auto mb-8">
             Start with our free plan and upgrade anytime to unlock premium features. 
             No hidden fees, cancel anytime.
           </p>
@@ -156,8 +156,8 @@ export default function PricingPage() {
               onClick={() => setBillingCycle('monthly')}
               className={`px-6 py-2 rounded-lg font-medium transition-all ${
                 billingCycle === 'monthly'
-                  ? 'bg-white text-purple-900'
-                  : 'text-white/60 hover:text-white'
+                  ? 'bg-purple-600 text-white'
+                  : 'text-gray-600 dark:text-white/60 hover:text-gray-900 dark:hover:text-white'
               }`}
             >
               Monthly
@@ -166,12 +166,12 @@ export default function PricingPage() {
               onClick={() => setBillingCycle('annual')}
               className={`px-6 py-2 rounded-lg font-medium transition-all relative ${
                 billingCycle === 'annual'
-                  ? 'bg-white text-purple-900'
-                  : 'text-white/60 hover:text-white'
+                  ? 'bg-purple-600 text-white'
+                  : 'text-gray-600 dark:text-white/60 hover:text-gray-900 dark:hover:text-white'
               }`}
             >
               Annual
-              <span className="absolute -top-2 -right-2 bg-green-500 text-white text-xs px-2 py-0.5 rounded-full">
+              <span className="absolute -top-2 -right-2 bg-green-500 text-white text-xs px-2 py-0.5 rounded-full shadow-md">
                 Save 20%
               </span>
             </button>
@@ -193,38 +193,38 @@ export default function PricingPage() {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.1 }}
-            className="bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20 hover:border-purple-500/50 transition-all duration-300 hover:scale-105"
+            className="bg-white dark:bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-gray-200 dark:border-white/20 hover:border-purple-500 dark:hover:border-purple-500/50 transition-all duration-300 hover:scale-105 shadow-lg"
           >
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-3">
-                <Sparkles className="w-8 h-8 text-blue-400" />
-                <h3 className="text-2xl font-bold text-white">{plans.free.name}</h3>
+                <Sparkles className="w-8 h-8 text-blue-500 dark:text-blue-400" />
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white">{plans.free.name}</h3>
               </div>
-              <div className="px-3 py-1 bg-blue-500/20 text-blue-300 rounded-full text-sm font-medium">
+              <div className="px-3 py-1 bg-blue-100 dark:bg-blue-500/20 text-blue-700 dark:text-blue-300 rounded-full text-sm font-medium">
                 Starter
               </div>
             </div>
 
             <div className="mb-8">
               <div className="flex items-baseline gap-2">
-                <span className="text-5xl font-bold text-white">$0</span>
-                <span className="text-gray-400">/ month</span>
+                <span className="text-5xl font-bold text-gray-900 dark:text-white">$0</span>
+                <span className="text-gray-600 dark:text-gray-400">/ month</span>
               </div>
-              <p className="text-gray-400 mt-2">Perfect for getting started</p>
+              <p className="text-gray-600 dark:text-gray-400 mt-2">Perfect for getting started</p>
             </div>
 
             <ul className="space-y-4 mb-8">
               {plans.free.features.map((feature, index) => (
                 <li key={index} className="flex items-start gap-3">
-                  <Check className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" />
-                  <span className="text-gray-300">{feature}</span>
+                  <Check className="w-5 h-5 text-green-500 dark:text-green-400 mt-0.5 flex-shrink-0" />
+                  <span className="text-gray-700 dark:text-gray-300">{feature}</span>
                 </li>
               ))}
             </ul>
 
             <button
               onClick={() => handleSubscribe('free')}
-              className="w-full py-3 px-6 bg-white/10 hover:bg-white/20 text-white rounded-lg font-semibold transition-all duration-200 flex items-center justify-center gap-2 group"
+              className="w-full py-3 px-6 bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20 text-gray-900 dark:text-white rounded-lg font-semibold transition-all duration-200 flex items-center justify-center gap-2 group shadow-md"
             >
               {isLoggedIn ? 'Current Plan' : 'Get Started Free'}
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />

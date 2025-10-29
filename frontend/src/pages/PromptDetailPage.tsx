@@ -168,10 +168,10 @@ const PromptDetailPage = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex items-center justify-center transition-colors duration-300">
         <div className="text-center">
-          <Loader2 className="w-12 h-12 text-purple-600 animate-spin mx-auto mb-4" />
-          <p className="text-gray-600">Loading...</p>
+          <Loader2 className="w-12 h-12 text-purple-600 dark:text-purple-400 animate-spin mx-auto mb-4" />
+          <p className="text-gray-600 dark:text-gray-400">Loading...</p>
         </div>
       </div>
     );
@@ -179,12 +179,12 @@ const PromptDetailPage = () => {
 
   if (error || !prompt) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex items-center justify-center transition-colors duration-300">
         <div className="text-center">
-          <p className="text-red-600 text-xl mb-4">{error || 'Prompt not found'}</p>
+          <p className="text-red-600 dark:text-red-400 text-xl mb-4">{error || 'Prompt not found'}</p>
           <Link
             to="/library"
-            className="text-purple-600 hover:text-purple-700 underline transition-colors"
+            className="text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 underline transition-colors"
           >
             Back to Library
           </Link>
@@ -194,7 +194,7 @@ const PromptDetailPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50 py-12 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-12 px-4 transition-colors duration-300">
       <div className="max-w-6xl mx-auto">
         {/* 返回按钮和编辑按钮 */}
         <div className="mb-6 flex items-center justify-between">
@@ -202,7 +202,7 @@ const PromptDetailPage = () => {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             onClick={() => navigate(-1)}
-            className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
+            className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
           >
             <ArrowLeft size={20} />
             <span>返回</span>
@@ -213,7 +213,7 @@ const PromptDetailPage = () => {
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               onClick={handleEdit}
-              className="flex items-center gap-2 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+              className="flex items-center gap-2 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors shadow-md hover:shadow-lg"
             >
               <Edit size={18} />
               <span>编辑</span>
@@ -231,7 +231,7 @@ const PromptDetailPage = () => {
           >
             {/* 预览图 */}
             {prompt.previewImage ? (
-              <div className="bg-white rounded-xl overflow-hidden border border-gray-200 shadow-lg">
+              <div className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 shadow-lg">
                 <img
                   src={prompt.previewImage}
                   alt={prompt.title}
@@ -239,7 +239,7 @@ const PromptDetailPage = () => {
                 />
               </div>
             ) : (
-              <div className="bg-gradient-to-br from-purple-400 to-pink-400 rounded-xl overflow-hidden border border-gray-200 shadow-lg h-64 flex items-center justify-center">
+              <div className="bg-gradient-to-br from-purple-400 to-pink-400 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 shadow-lg h-64 flex items-center justify-center">
                 <span className="text-white text-6xl font-bold">
                   {prompt.title.charAt(0).toUpperCase()}
                 </span>
@@ -248,9 +248,9 @@ const PromptDetailPage = () => {
 
             {/* 作者卡片 */}
             {prompt.author && (
-              <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-lg">
-                <h3 className="text-gray-900 font-semibold mb-4 flex items-center gap-2">
-                  <User size={20} className="text-purple-600" />
+              <div className="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700 shadow-lg">
+                <h3 className="text-gray-900 dark:text-gray-100 font-semibold mb-4 flex items-center gap-2">
+                  <User size={20} className="text-purple-600 dark:text-purple-400" />
                   作者信息
                 </h3>
                 <div className="flex items-center gap-3">
@@ -258,36 +258,36 @@ const PromptDetailPage = () => {
                     {prompt.author.username[0].toUpperCase()}
                   </div>
                   <div>
-                    <p className="text-gray-900 font-medium">{prompt.author.username}</p>
-                    <p className="text-gray-500 text-sm">{prompt.author.email}</p>
+                    <p className="text-gray-900 dark:text-gray-100 font-medium">{prompt.author.username}</p>
+                    <p className="text-gray-500 dark:text-gray-400 text-sm">{prompt.author.email}</p>
                   </div>
                 </div>
               </div>
             )}
 
             {/* 统计信息 */}
-            <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-lg">
+            <div className="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700 shadow-lg">
               <div className="space-y-3">
-                <div className="flex items-center justify-between text-gray-600">
+                <div className="flex items-center justify-between text-gray-600 dark:text-gray-400">
                   <span className="flex items-center gap-2">
                     <Eye size={18} />
                     浏览量
                   </span>
-                  <span className="text-gray-900 font-semibold">{prompt.viewCount}</span>
+                  <span className="text-gray-900 dark:text-gray-100 font-semibold">{prompt.viewCount}</span>
                 </div>
-                <div className="flex items-center justify-between text-gray-600">
+                <div className="flex items-center justify-between text-gray-600 dark:text-gray-400">
                   <span className="flex items-center gap-2">
                     <Heart size={18} />
                     收藏数
                   </span>
-                  <span className="text-gray-900 font-semibold">{prompt.favoriteCount}</span>
+                  <span className="text-gray-900 dark:text-gray-100 font-semibold">{prompt.favoriteCount}</span>
                 </div>
-                <div className="flex items-center justify-between text-gray-600">
+                <div className="flex items-center justify-between text-gray-600 dark:text-gray-400">
                   <span className="flex items-center gap-2">
                     <Calendar size={18} />
                     创建时间
                   </span>
-                  <span className="text-gray-900 text-sm">{formatDate(prompt.createdAt)}</span>
+                  <span className="text-gray-900 dark:text-gray-100 text-sm">{formatDate(prompt.createdAt)}</span>
                 </div>
               </div>
             </div>
@@ -301,12 +301,12 @@ const PromptDetailPage = () => {
             className="lg:col-span-2 space-y-6"
           >
             {/* 标题和操作按钮 */}
-            <div className="bg-white rounded-xl p-8 border border-gray-200 shadow-lg">
+            <div className="bg-white dark:bg-gray-800 rounded-xl p-8 border border-gray-200 dark:border-gray-700 shadow-lg">
               <div className="flex items-start justify-between mb-4">
                 <div className="flex-1">
-                  <h1 className="text-3xl font-bold text-gray-900 mb-3">{prompt.title}</h1>
+                  <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-3">{prompt.title}</h1>
                   {prompt.description && (
-                    <p className="text-gray-600 text-lg">{prompt.description}</p>
+                    <p className="text-gray-600 dark:text-gray-400 text-lg">{prompt.description}</p>
                   )}
                 </div>
               </div>
@@ -331,9 +331,9 @@ const PromptDetailPage = () => {
               {/* 标签列表 */}
               {prompt.tags && prompt.tags.length > 0 && (
                 <div className="flex items-center gap-2 flex-wrap mb-6">
-                  <Tag size={16} className="text-gray-500" />
+                  <Tag size={16} className="text-gray-500 dark:text-gray-400" />
                   {prompt.tags.map((tag: string, index: number) => (
-                    <span key={index} className="text-gray-600 text-sm">
+                    <span key={index} className="text-gray-600 dark:text-gray-400 text-sm">
                       #{tag}
                     </span>
                   ))}
@@ -370,10 +370,10 @@ const PromptDetailPage = () => {
             </div>
 
             {/* 提示词内容 */}
-            <div className="bg-white rounded-xl p-8 border border-gray-200 shadow-lg">
-              <h3 className="text-gray-900 font-semibold mb-4 text-lg">完整提示词</h3>
-              <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
-                <p className="text-gray-800 leading-relaxed whitespace-pre-wrap">
+            <div className="bg-white dark:bg-gray-800 rounded-xl p-8 border border-gray-200 dark:border-gray-700 shadow-lg">
+              <h3 className="text-gray-900 dark:text-gray-100 font-semibold mb-4 text-lg">完整提示词</h3>
+              <div className="bg-gray-50 dark:bg-gray-900/50 rounded-lg p-6 border border-gray-200 dark:border-gray-700">
+                <p className="text-gray-800 dark:text-gray-200 leading-relaxed whitespace-pre-wrap">
                   {prompt.content}
                 </p>
               </div>
@@ -388,7 +388,7 @@ const PromptDetailPage = () => {
               transition={{ delay: 0.3 }}
               className="mt-12"
             >
-              <h3 className="text-2xl font-bold text-gray-900 mb-6">Related Prompts</h3>
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6">Related Prompts</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {relatedPrompts.map((relatedPrompt, index) => (
                   <motion.div
@@ -397,10 +397,10 @@ const PromptDetailPage = () => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.4 + index * 0.1 }}
                     onClick={() => navigate(`/library/${relatedPrompt.id}`)}
-                    className="bg-white rounded-xl border border-gray-200 shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 group cursor-pointer"
+                    className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 group cursor-pointer"
                   >
                     {/* 预览图 */}
-                    <div className="relative h-32 overflow-hidden bg-gray-100">
+                    <div className="relative h-32 overflow-hidden bg-gray-100 dark:bg-gray-700">
                       {relatedPrompt.previewImageUrl ? (
                         <img
                           src={relatedPrompt.previewImageUrl}
@@ -408,7 +408,7 @@ const PromptDetailPage = () => {
                           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                         />
                       ) : (
-                        <div className="w-full h-full flex items-center justify-center text-gray-400">
+                        <div className="w-full h-full flex items-center justify-center text-gray-400 dark:text-gray-500">
                           No Preview
                         </div>
                       )}
@@ -421,10 +421,10 @@ const PromptDetailPage = () => {
 
                     {/* 内容 */}
                     <div className="p-4">
-                      <h4 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-1">
+                      <h4 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2 line-clamp-1">
                         {relatedPrompt.title}
                       </h4>
-                      <p className="text-gray-600 text-sm mb-3 line-clamp-2">
+                      <p className="text-gray-600 dark:text-gray-400 text-sm mb-3 line-clamp-2">
                         {relatedPrompt.description}
                       </p>
                       
@@ -433,7 +433,7 @@ const PromptDetailPage = () => {
                         {relatedPrompt.tags.slice(0, 2).map((tag: string) => (
                           <span
                             key={tag}
-                            className="text-xs px-2 py-1 bg-purple-100 text-purple-700 rounded-full"
+                            className="text-xs px-2 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 rounded-full"
                           >
                             {tag}
                           </span>
@@ -441,7 +441,7 @@ const PromptDetailPage = () => {
                       </div>
 
                       {/* 统计 */}
-                      <div className="flex items-center justify-between text-sm text-gray-500">
+                      <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
                         <span className="flex items-center gap-1">
                           <Eye className="w-4 h-4" />
                           {relatedPrompt.viewsCount}

@@ -48,17 +48,17 @@ function RegisterPage() {
   };
 
   return (
-    <div className="min-h-[calc(100vh-200px)] flex items-center justify-center py-12 px-4">
+    <div className="min-h-[calc(100vh-200px)] flex items-center justify-center py-12 px-4 bg-white dark:bg-gray-900 transition-colors duration-300">
       <div className="max-w-md w-full">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold mb-2">Create Account</h1>
-          <p className="text-gray-600">Start mastering AI prompts today</p>
+          <h1 className="text-3xl font-bold mb-2 text-gray-900 dark:text-gray-100">Create Account</h1>
+          <p className="text-gray-600 dark:text-gray-400">Start mastering AI prompts today</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="bg-white p-8 rounded-lg border border-border">
+        <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-800 p-8 rounded-lg border border-border dark:border-border-dark shadow-lg">
           {error && (
-            <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
-              <p className="text-sm text-red-600">{error}</p>
+            <div className="mb-6 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
+              <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
             </div>
           )}
 
@@ -105,22 +105,22 @@ function RegisterPage() {
               onChange={(e) => setPassword(e.target.value)}
               required
             />
-            <p className="text-xs text-gray-500 mt-1">
+            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
               Must be at least 8 characters with uppercase, lowercase, and numbers
             </p>
           </div>
 
           <button 
             type="submit" 
-            className="btn-primary w-full" 
+            className="btn-primary w-full shadow-lg hover:shadow-xl transition-all" 
             disabled={loading}
           >
             {loading ? '创建中...' : 'Create Account'}
           </button>
 
-          <p className="text-center mt-6 text-sm text-gray-600">
+          <p className="text-center mt-6 text-sm text-gray-600 dark:text-gray-400">
             Already have an account?{' '}
-            <Link to="/login" className="text-primary hover:underline">
+            <Link to="/login" className="text-primary dark:text-primary-light hover:underline transition-colors font-medium">
               Sign in
             </Link>
           </p>
