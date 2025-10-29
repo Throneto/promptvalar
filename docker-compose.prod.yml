@@ -6,9 +6,9 @@ services:
     image: postgres:15-alpine
     container_name: promptvalar-postgres
     environment:
-      POSTGRES_DB: promptvalar
-      POSTGRES_USER: promptvalar
-      POSTGRES_PASSWORD: promptvalar_dev_password
+      POSTGRES_DB: ${POSTGRES_DB:-promptvalar}
+      POSTGRES_USER: ${POSTGRES_USER:-promptvalar}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
       - "5432:5432"
     volumes:
@@ -18,6 +18,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    restart: unless-stopped
 
   # Redis缓存
   redis:
@@ -32,6 +33,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    restart: unless-stopped
 
   # 后端API服务
   backend:
@@ -40,21 +42,21 @@ services:
       dockerfile: Dockerfile
     container_name: promptvalar-backend
     environment:
-      NODE_ENV: development
+      NODE_ENV: production
       PORT: 5000
-      DATABASE_URL: postgresql://promptvalar:promptvalar_dev_password@postgres:5432/promptvalar
+      DATABASE_URL: postgresql://${POSTGRES_USER:-promptvalar}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-promptvalar}
       REDIS_URL: redis://redis:6379
-      JWT_SECRET: dev-jwt-secret-change-in-production
-      JWT_REFRESH_SECRET: dev-refresh-secret-change-in-production
-      CORS_ORIGIN: http://localhost:3000
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET}
+      CORS_ORIGIN: ${CORS_ORIGIN:-https://promptvalar.com}
       # OpenRouter API
-      OPENROUTER_API_KEY: ${OPENROUTER_API_KEY:-sk-test-key}
+      OPENROUTER_API_KEY: ${OPENROUTER_API_KEY}
       OPENROUTER_APP_NAME: PromptValar
-      # Stripe 配置 (测试模式)
-      STRIPE_TEST_MODE: true
-      STRIPE_SECRET_KEY: sk_test_placeholder
-      STRIPE_WEBHOOK_SECRET: whsec_test_placeholder
-      STRIPE_PRO_PRICE_ID: price_test_pro
+      # Stripe 配置
+      STRIPE_TEST_MODE: ${STRIPE_TEST_MODE:-true}
+      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY}
+      STRIPE_WEBHOOK_SECRET: ${STRIPE_WEBHOOK_SECRET}
+      STRIPE_PRO_PRICE_ID: ${STRIPE_PRO_PRICE_ID}
     ports:
       - "5000:5000"
     depends_on:
@@ -62,27 +64,22 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
-    volumes:
-      - ./backend:/app
-      - /app/node_modules
-    command: npm run dev
+    restart: unless-stopped
 
-  # 前端开发服务器
-  frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    container_name: promptvalar-frontend
-    environment:
-      VITE_API_BASE_URL: http://localhost:5000
+  # Nginx 反向代理
+  nginx:
+    image: nginx:alpine
+    container_name: promptvalar-nginx
     ports:
-      - "3000:3000"
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx-config:/etc/nginx/conf.d
+      - ./frontend/dist:/usr/share/nginx/html
+      - ./ssl:/etc/nginx/ssl
     depends_on:
       - backend
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
-    command: npm run dev
+    restart: unless-stopped
 
 volumes:
   postgres_data:
