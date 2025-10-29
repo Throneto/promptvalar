@@ -280,3 +280,32 @@ export async function checkAccess(req: Request, res: Response) {
   }
 }
 
+/**
+ * 获取用户的使用统计信息
+ * 包括生成次数限制、已使用次数等
+ */
+export async function getUsageStats(req: Request, res: Response) {
+  try {
+    const userId = req.user?.id;
+    if (!userId) {
+      return res.status(401).json({
+        success: false,
+        message: 'Unauthorized',
+      });
+    }
+
+    const stats = await subscriptionService.getUserUsageStats(userId);
+
+    res.json({
+      success: true,
+      data: stats,
+    });
+  } catch (error) {
+    console.error('Get usage stats error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to get usage statistics',
+    });
+  }
+}
+

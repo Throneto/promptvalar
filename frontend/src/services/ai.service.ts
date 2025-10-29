@@ -20,17 +20,31 @@ apiClient.interceptors.request.use((config) => {
 });
 
 /**
+ * 使用信息类型
+ */
+export interface UsageInfo {
+  remaining: number;
+  limit: number;
+  used: number;
+  isPro: boolean;
+}
+
+/**
  * 从自然语言想法生成专业提示词
  */
 export async function generatePrompt(
   request: GeneratePromptRequest
-): Promise<GeneratePromptResponse & { logId: string }> {
+): Promise<GeneratePromptResponse & { logId: string; usage?: UsageInfo }> {
   const response = await apiClient.post<{
     success: boolean;
     data: GeneratePromptResponse & { logId: string };
+    usage?: UsageInfo;
   }>('/ai/generate-prompt', request);
   
-  return response.data.data;
+  return {
+    ...response.data.data,
+    usage: response.data.usage,
+  };
 }
 
 /**

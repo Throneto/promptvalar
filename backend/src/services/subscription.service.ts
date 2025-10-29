@@ -1,7 +1,7 @@
 import Stripe from 'stripe';
 import { db } from '../db/index.js';
-import { subscriptions, users } from '../db/schema.js';
-import { eq } from 'drizzle-orm';
+import { subscriptions, users, promptGenerationLogs } from '../db/schema.js';
+import { eq, and, gte, sql } from 'drizzle-orm';
 
 /**
  * 订阅服务
@@ -503,5 +503,102 @@ export async function checkSubscriptionAccess(userId: string, feature: string) {
 
   // 这里可以根据不同的功能添加更细粒度的控制
   return false;
+}
+
+/**
+ * 检查用户当月的生成次数限制
+ * 免费用户：20次/月
+ * Pro用户：无限制
+ */
+export async function checkGenerationLimit(userId: string) {
+  // 获取用户信息
+  const [user] = await db.select().from(users).where(eq(users.id, userId));
+  
+  if (!user) {
+    throw new Error('User not found');
+  }
+
+  // Pro用户无限制
+  if (user.subscriptionTier === 'pro') {
+    return {
+      allowed: true,
+      remaining: -1, // -1 表示无限制
+      limit: -1,
+      used: 0,
+      isPro: true,
+    };
+  }
+
+  // 免费用户检查当月使用次数
+  const limit = SUBSCRIPTION_PLANS.free.limits.aiGenerationsPerMonth;
+  
+  // 获取当月第一天的时间
+  const now = new Date();
+  const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+  
+  // 查询当月生成次数
+  const result = await db
+    .select({ count: sql<number>`count(*)::int` })
+    .from(promptGenerationLogs)
+    .where(
+      and(
+        eq(promptGenerationLogs.userId, userId),
+        gte(promptGenerationLogs.createdAt, startOfMonth)
+      )
+    );
+  
+  const used = result[0]?.count || 0;
+  const remaining = Math.max(0, limit - used);
+  const allowed = used < limit;
+
+  return {
+    allowed,
+    remaining,
+    limit,
+    used,
+    isPro: false,
+  };
+}
+
+/**
+ * 获取用户的使用统计信息
+ */
+export async function getUserUsageStats(userId: string) {
+  const [user] = await db.select().from(users).where(eq(users.id, userId));
+  
+  if (!user) {
+    throw new Error('User not found');
+  }
+
+  const isPro = user.subscriptionTier === 'pro';
+  
+  // 获取当月第一天
+  const now = new Date();
+  const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+  
+  // 查询当月生成次数
+  const result = await db
+    .select({ count: sql<number>`count(*)::int` })
+    .from(promptGenerationLogs)
+    .where(
+      and(
+        eq(promptGenerationLogs.userId, userId),
+        gte(promptGenerationLogs.createdAt, startOfMonth)
+      )
+    );
+  
+  const used = result[0]?.count || 0;
+  const limit = isPro ? -1 : SUBSCRIPTION_PLANS.free.limits.aiGenerationsPerMonth;
+  const remaining = isPro ? -1 : Math.max(0, limit - used);
+
+  return {
+    subscriptionTier: user.subscriptionTier,
+    isPro,
+    limit,
+    used,
+    remaining,
+    periodStart: startOfMonth,
+    periodEnd: new Date(now.getFullYear(), now.getMonth() + 1, 0), // 月末
+  };
 }
 

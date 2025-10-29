@@ -39,6 +39,9 @@ router.post('/resume', authenticate, subscriptionController.resumeSubscription);
 // 检查功能访问权限
 router.get('/check-access', authenticate, subscriptionController.checkAccess);
 
+// 获取用户使用统计信息（生成次数等）
+router.get('/usage-stats', authenticate, subscriptionController.getUsageStats);
+
 /**
  * 测试模式端点（仅在开发环境）
  */

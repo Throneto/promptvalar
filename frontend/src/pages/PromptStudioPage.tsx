@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Sparkles, Save, CheckCircle } from 'lucide-react';
-import { generatePrompt } from '../services/ai.service';
+import { generatePrompt, UsageInfo } from '../services/ai.service';
 import { 
   getPromptById, 
   createPrompt, 
@@ -10,6 +10,7 @@ import {
   type CreatePromptRequest 
 } from '../services/prompt.service';
 import { getCurrentUser } from '../services/auth.service';
+import { getUserUsageStats } from '../services/subscription.service';
 import { AIModel, PromptStyle, StructuredPrompt } from '../types/prompt';
 import StepCard from '../components/studio/StepCard';
 import IdeaInput from '../components/studio/IdeaInput';
@@ -58,6 +59,10 @@ const PromptStudioPage = () => {
   // 成功消息
   const [successMessage, setSuccessMessage] = useState('');
 
+  // 使用统计信息
+  const [usageInfo, setUsageInfo] = useState<UsageInfo | null>(null);
+  const [isLoadingUsage, setIsLoadingUsage] = useState(false);
+
   // 加载编辑模式数据
   useEffect(() => {
     if (editId) {
@@ -67,6 +72,31 @@ const PromptStudioPage = () => {
       loadDraft();
     }
   }, [editId]);
+
+  // 加载用户使用统计信息
+  useEffect(() => {
+    const loadUsageStats = async () => {
+      const currentUser = getCurrentUser();
+      if (!currentUser) return;
+
+      setIsLoadingUsage(true);
+      try {
+        const stats = await getUserUsageStats();
+        setUsageInfo({
+          remaining: stats.remaining,
+          limit: stats.limit,
+          used: stats.used,
+          isPro: stats.isPro,
+        });
+      } catch (error) {
+        console.error('Failed to load usage stats:', error);
+      } finally {
+        setIsLoadingUsage(false);
+      }
+    };
+
+    loadUsageStats();
+  }, []);
 
   // 自动保存草稿
   useEffect(() => {
@@ -175,9 +205,22 @@ const PromptStudioPage = () => {
       setStructuredData(result.structured);
       setFinalPrompt(result.prompt);
       setGenerationLogId(result.logId || '');
-    } catch (error) {
+
+      // 更新使用信息
+      if (result.usage) {
+        setUsageInfo(result.usage);
+      }
+    } catch (error: any) {
       console.error('Failed to generate prompt:', error);
-      setGenerationError('Failed to generate prompt. Please try again.');
+      
+      // 检查是否达到限制
+      if (error.response?.data?.error?.code === 'GENERATION_LIMIT_REACHED') {
+        setGenerationError(
+          'You have reached your monthly generation limit. Upgrade to Pro for unlimited generations.'
+        );
+      } else {
+        setGenerationError('Failed to generate prompt. Please try again.');
+      }
     } finally {
       setIsGenerating(false);
     }
@@ -302,6 +345,8 @@ const PromptStudioPage = () => {
               onGenerate={handleGenerate}
               isGenerating={isGenerating}
               error={generationError}
+              usageInfo={usageInfo}
+              isLoadingUsage={isLoadingUsage}
             />
           </StepCard>
 
