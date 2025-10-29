@@ -61,7 +61,6 @@ const PromptStudioPage = () => {
 
   // 使用统计信息
   const [usageInfo, setUsageInfo] = useState<UsageInfo | null>(null);
-  const [isLoadingUsage, setIsLoadingUsage] = useState(false);
 
   // 加载编辑模式数据
   useEffect(() => {
@@ -79,7 +78,6 @@ const PromptStudioPage = () => {
       const currentUser = getCurrentUser();
       if (!currentUser) return;
 
-      setIsLoadingUsage(true);
       try {
         const stats = await getUserUsageStats();
         setUsageInfo({
@@ -90,8 +88,6 @@ const PromptStudioPage = () => {
         });
       } catch (error) {
         console.error('Failed to load usage stats:', error);
-      } finally {
-        setIsLoadingUsage(false);
       }
     };
 
@@ -346,7 +342,6 @@ const PromptStudioPage = () => {
               isGenerating={isGenerating}
               error={generationError}
               usageInfo={usageInfo}
-              isLoadingUsage={isLoadingUsage}
             />
           </StepCard>
 

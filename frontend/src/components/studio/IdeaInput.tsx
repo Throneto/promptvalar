@@ -21,7 +21,6 @@ interface IdeaInputProps {
   isGenerating: boolean;
   error?: string;
   usageInfo?: UsageInfo | null;
-  isLoadingUsage?: boolean;
 }
 
 const models: { value: AIModel; label: string; description: string }[] = [
@@ -55,7 +54,6 @@ const IdeaInput = ({
   isGenerating,
   error,
   usageInfo,
-  isLoadingUsage,
 }: IdeaInputProps) => {
   // 检查是否达到限制
   const isLimitReached = usageInfo && !usageInfo.isPro && usageInfo.remaining <= 0;
