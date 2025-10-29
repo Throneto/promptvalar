@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { Copy, RefreshCw, Check, Loader2 } from 'lucide-react';
+import { Copy, RefreshCw, Check } from 'lucide-react';
 import { motion } from 'framer-motion';
+import PacmanLoader from '../common/PacmanLoader';
 
 interface GeneratedPromptProps {
   prompt: string;
@@ -60,8 +61,8 @@ const GeneratedPrompt = ({ prompt, onRegenerate, isRegenerating }: GeneratedProm
         >
           {isRegenerating ? (
             <>
-              <Loader2 className="w-4 h-4 animate-spin" />
-              Regenerating...
+              <PacmanLoader size={16} className="text-white" />
+              <span>正在重新生成...</span>
             </>
           ) : (
             <>

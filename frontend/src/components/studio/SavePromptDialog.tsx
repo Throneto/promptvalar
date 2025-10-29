@@ -1,6 +1,7 @@
 import { useState, FormEvent } from 'react';
-import { X, Save, Loader2, Image as ImageIcon } from 'lucide-react';
+import { X, Save, Image as ImageIcon } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import PacmanLoader from '../common/PacmanLoader';
 
 interface SavePromptDialogProps {
   isOpen: boolean;
@@ -317,13 +318,13 @@ function SavePromptDialog({
               >
                 {saving ? (
                   <>
-                    <Loader2 className="w-5 h-5 animate-spin" />
-                    Saving...
+                    <PacmanLoader size={20} className="text-white" />
+                    <span>正在保存...</span>
                   </>
                 ) : (
                   <>
                     <Save className="w-5 h-5" />
-                    {isEditMode ? 'Update' : 'Save'}
+                    {isEditMode ? '更新' : '保存'}
                   </>
                 )}
               </button>

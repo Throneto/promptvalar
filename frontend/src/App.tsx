@@ -1,7 +1,9 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import Layout from './components/layout/Layout';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import AdminRoute from './components/auth/AdminRoute';
+import Loading from './components/common/Loading';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
@@ -25,11 +27,26 @@ import DocsPage from './pages/DocsPage';
 import GuidesPage from './pages/GuidesPage';
 
 function App() {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // 模拟应用初始化
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1500); // 1.5秒后隐藏加载页面
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isLoading) {
+    return <Loading fullScreen size="large" text="正在加载应用..." />;
+  }
+
   return (
     <Router>
       <Layout>
         <Routes>
-          {/* 公开路由 */}
+          {/* Public routes */}
           <Route path="/" element={<HomePage />} />
           <Route path="/library" element={<PromptLibraryPage />} />
           <Route path="/library/:id" element={<PromptDetailPage />} />
@@ -43,7 +60,7 @@ function App() {
           <Route path="/terms" element={<TermsOfServicePage />} />
           <Route path="/refund-policy" element={<RefundPolicyPage />} />
           
-          {/* 受保护的路由 - 需要登录 */}
+          {/* Protected routes - login required */}
           <Route 
             path="/studio" 
             element={
@@ -91,9 +108,9 @@ function App() {
                 <SubscriptionManagementPage />
               </ProtectedRoute>
             } 
-          />
+          /> 
           
-          {/* 管理员路由 - 需要管理员权限 */}
+          {/* Admin routes - admin permission required */}
           <Route 
             path="/admin" 
             element={

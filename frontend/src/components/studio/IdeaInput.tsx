@@ -1,5 +1,6 @@
-import { Sparkles, Loader2 } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
 import { AIModel, PromptStyle } from '../../types/prompt';
+import PacmanLoader from '../common/PacmanLoader';
 
 interface IdeaInputProps {
   idea: string;
@@ -116,8 +117,8 @@ const IdeaInput = ({
       >
         {isGenerating ? (
           <>
-            <Loader2 className="w-5 h-5 animate-spin" />
-            Generating...
+            <PacmanLoader size={20} className="text-white" />
+            <span className="ml-2">正在生成...</span>
           </>
         ) : (
           <>
