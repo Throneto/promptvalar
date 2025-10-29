@@ -25,7 +25,9 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // 信任反向代理（nginx等）
-app.set('trust proxy', true);
+// 开发环境：信任 loopback 地址
+// 生产环境：信任第一层代理（nginx）
+app.set('trust proxy', process.env.NODE_ENV === 'production' ? 1 : 'loopback');
 
 // 中间件配置
 // CORS必须在helmet之前配置

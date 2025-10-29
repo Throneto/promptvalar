@@ -5,10 +5,12 @@ import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 
-// 加载环境变量
+// 加载环境变量 - 修复 ES modules 路径问题
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-dotenv.config({ path: join(__dirname, '../.env') });
+// 尝试多个可能的 .env 路径
+dotenv.config({ path: join(__dirname, '../../.env') });  // backend/.env
+dotenv.config({ path: join(process.cwd(), '.env') });     // 当前工作目录
 
 // 创建PostgreSQL连接
 const connectionString = process.env.DATABASE_URL;

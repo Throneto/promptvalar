@@ -1,34 +1,224 @@
-✅ 环境变量检查通过
-🚀 启动后端服务...
 
 > promptvalar-backend@1.0.0 dev
 > tsx watch src/index.ts
 
 🚀 Server running on http://localhost:5000
 📝 Environment: development
-7:45:05 PM [tsx] change in ./src/services/subscription.service.ts Restarting...
-cnode:events:502
-      throw er; // Unhandled 'error' event
-      ^
-
-Error: listen EADDRINUSE: address already in use :::5000
-    at Server.setupListenHandle [as _listen2] (node:net:1908:16)
-    at listenInCluster (node:net:1965:12)
-    at Server.listen (node:net:2067:7)
-    at Function.listen (/root/promptvalar/node_modules/express/lib/application.js:635:24)
-    at <anonymous> (/root/promptvalar/backend/src/index.ts:97:5)
-    at ModuleJob.run (node:internal/modules/esm/module_job:325:25)
-    at async ModuleLoader.import (node:internal/modules/esm/loader:606:24)
-    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
-Emitted 'error' event on Server instance at:
-    at emitErrorNT (node:net:1944:8)
-    at process.processTicksAndRejections (node:internal/process/task_queues:82:21) {
-  code: 'EADDRINUSE',
-  errno: -98,
-  syscall: 'listen',
-  address: '::',
-  port: 5000
+ValidationError: The Express 'trust proxy' setting is true, which allows anyone to trivially bypass IP-based rate limiting. See https://express-rate-limit.github.io/ERR_ERL_PERMISSIVE_TRUST_PROXY/ for more information.
+    at Object.trustProxy (file:///root/promptvalar/node_modules/express-rate-limit/dist/index.mjs:139:13)
+    at wrappedValidations.<computed> [as trustProxy] (file:///root/promptvalar/node_modules/express-rate-limit/dist/index.mjs:369:22)
+    at Object.keyGenerator (file:///root/promptvalar/node_modules/express-rate-limit/dist/index.mjs:629:20)
+    at file:///root/promptvalar/node_modules/express-rate-limit/dist/index.mjs:682:32
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async file:///root/promptvalar/node_modules/express-rate-limit/dist/index.mjs:663:5 {
+  code: 'ERR_ERL_PERMISSIVE_TRUST_PROXY',
+  help: 'https://express-rate-limit.github.io/ERR_ERL_PERMISSIVE_TRUST_PROXY/'
 }
-
-Node.js v20.19.5
-xit in 5s. Force killing...
+[日志] 记录生成: be349d73-5ea5-4aee-8b9c-8163440da7cd
+[日志] 记录生成: f8cd39db-6e27-4577-b232-7eff95e4bfa8
+10:16:30 PM [tsx] change in ./src/db/index.ts Restarting...
+c🚀 Server running on http://localhost:5000
+📝 Environment: development
+10:17:36 PM [tsx] change in ./src/index.ts Restarting...
+c🚀 Server running on http://localhost:5000
+📝 Environment: development
+Error: AppError: Invalid input data
+    at generatePrompt (/root/promptvalar/backend/src/controllers/ai.controller.ts:49:9)
+    at Layer.handle [as handle_request] (/root/promptvalar/node_modules/express/lib/router/layer.js:95:5)
+    at next (/root/promptvalar/node_modules/express/lib/router/route.js:149:13)
+    at file:///root/promptvalar/node_modules/express-rate-limit/dist/index.mjs:779:7
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async file:///root/promptvalar/node_modules/express-rate-limit/dist/index.mjs:663:5 {
+  statusCode: 400,
+  code: 'VALIDATION_ERROR',
+  details: { errors: [ [Object] ] }
+}
+[日志] 记录生成: 46a63678-4671-4c7d-a4f2-64b982e06eab
+[日志] 记录生成: 60c255cd-2833-43d0-8944-76f80dd4694c
+[日志] 记录生成: 3b11b5fd-51a7-4050-aba0-c3624cee5875
+[日志] 记录生成: ad8bc3a0-0ff3-46fa-838f-51fbdd8830fb
+[日志] 记录生成: 0386fb9a-59c8-4372-b996-477568ae0287
+Create checkout error: Error: Stripe is not initialized
+    at Module.createCheckoutSession (/root/promptvalar/backend/src/services/subscription.service.ts:74:11)
+    at createCheckout (/root/promptvalar/backend/src/controllers/subscription.controller.ts:71:47)
+    at Layer.handle [as handle_request] (/root/promptvalar/node_modules/express/lib/router/layer.js:95:5)
+    at next (/root/promptvalar/node_modules/express/lib/router/route.js:149:13)
+    at authenticate (/root/promptvalar/backend/src/middleware/auth.middleware.ts:47:5)
+    at Layer.handle [as handle_request] (/root/promptvalar/node_modules/express/lib/router/layer.js:95:5)
+    at next (/root/promptvalar/node_modules/express/lib/router/route.js:149:13)
+    at Route.dispatch (/root/promptvalar/node_modules/express/lib/router/route.js:119:3)
+    at Layer.handle [as handle_request] (/root/promptvalar/node_modules/express/lib/router/layer.js:95:5)
+    at /root/promptvalar/node_modules/express/lib/router/index.js:284:15
+Create checkout error: Error: Stripe is not initialized
+    at Module.createCheckoutSession (/root/promptvalar/backend/src/services/subscription.service.ts:74:11)
+    at createCheckout (/root/promptvalar/backend/src/controllers/subscription.controller.ts:71:47)
+    at Layer.handle [as handle_request] (/root/promptvalar/node_modules/express/lib/router/layer.js:95:5)
+    at next (/root/promptvalar/node_modules/express/lib/router/route.js:149:13)
+    at authenticate (/root/promptvalar/backend/src/middleware/auth.middleware.ts:47:5)
+    at Layer.handle [as handle_request] (/root/promptvalar/node_modules/express/lib/router/layer.js:95:5)
+    at next (/root/promptvalar/node_modules/express/lib/router/route.js:149:13)
+    at Route.dispatch (/root/promptvalar/node_modules/express/lib/router/route.js:119:3)
+    at Layer.handle [as handle_request] (/root/promptvalar/node_modules/express/lib/router/layer.js:95:5)
+    at /root/promptvalar/node_modules/express/lib/router/index.js:284:15
+Error: AppError: Invalid authentication token
+    at authenticate (/root/promptvalar/backend/src/middleware/auth.middleware.ts:50:12)
+    at Layer.handle [as handle_request] (/root/promptvalar/node_modules/express/lib/router/layer.js:95:5)
+    at next (/root/promptvalar/node_modules/express/lib/router/route.js:149:13)
+    at Route.dispatch (/root/promptvalar/node_modules/express/lib/router/route.js:119:3)
+    at Layer.handle [as handle_request] (/root/promptvalar/node_modules/express/lib/router/layer.js:95:5)
+    at /root/promptvalar/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/root/promptvalar/node_modules/express/lib/router/index.js:346:12)
+    at next (/root/promptvalar/node_modules/express/lib/router/index.js:280:10)
+    at Function.handle (/root/promptvalar/node_modules/express/lib/router/index.js:175:3)
+    at router (/root/promptvalar/node_modules/express/lib/router/index.js:47:12) {
+  statusCode: 401,
+  code: 'INVALID_TOKEN',
+  details: undefined
+}
+Error: AppError: Invalid input data
+    at register (/root/promptvalar/backend/src/controllers/auth.controller.ts:30:9)
+    at Layer.handle [as handle_request] (/root/promptvalar/node_modules/express/lib/router/layer.js:95:5)
+    at next (/root/promptvalar/node_modules/express/lib/router/route.js:149:13)
+    at Route.dispatch (/root/promptvalar/node_modules/express/lib/router/route.js:119:3)
+    at Layer.handle [as handle_request] (/root/promptvalar/node_modules/express/lib/router/layer.js:95:5)
+    at /root/promptvalar/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/root/promptvalar/node_modules/express/lib/router/index.js:346:12)
+    at next (/root/promptvalar/node_modules/express/lib/router/index.js:280:10)
+    at Function.handle (/root/promptvalar/node_modules/express/lib/router/index.js:175:3)
+    at router (/root/promptvalar/node_modules/express/lib/router/index.js:47:12) {
+  statusCode: 400,
+  code: 'VALIDATION_ERROR',
+  details: { errors: [ [Object] ] }
+}
+Create checkout error: Error: Stripe is not initialized
+    at Module.createCheckoutSession (/root/promptvalar/backend/src/services/subscription.service.ts:74:11)
+    at createCheckout (/root/promptvalar/backend/src/controllers/subscription.controller.ts:71:47)
+    at Layer.handle [as handle_request] (/root/promptvalar/node_modules/express/lib/router/layer.js:95:5)
+    at next (/root/promptvalar/node_modules/express/lib/router/route.js:149:13)
+    at authenticate (/root/promptvalar/backend/src/middleware/auth.middleware.ts:47:5)
+    at Layer.handle [as handle_request] (/root/promptvalar/node_modules/express/lib/router/layer.js:95:5)
+    at next (/root/promptvalar/node_modules/express/lib/router/route.js:149:13)
+    at Route.dispatch (/root/promptvalar/node_modules/express/lib/router/route.js:119:3)
+    at Layer.handle [as handle_request] (/root/promptvalar/node_modules/express/lib/router/layer.js:95:5)
+    at /root/promptvalar/node_modules/express/lib/router/index.js:284:15
+Create checkout error: Error: Stripe is not initialized
+    at Module.createCheckoutSession (/root/promptvalar/backend/src/services/subscription.service.ts:74:11)
+    at createCheckout (/root/promptvalar/backend/src/controllers/subscription.controller.ts:71:47)
+    at Layer.handle [as handle_request] (/root/promptvalar/node_modules/express/lib/router/layer.js:95:5)
+    at next (/root/promptvalar/node_modules/express/lib/router/route.js:149:13)
+    at authenticate (/root/promptvalar/backend/src/middleware/auth.middleware.ts:47:5)
+    at Layer.handle [as handle_request] (/root/promptvalar/node_modules/express/lib/router/layer.js:95:5)
+    at next (/root/promptvalar/node_modules/express/lib/router/route.js:149:13)
+    at Route.dispatch (/root/promptvalar/node_modules/express/lib/router/route.js:119:3)
+    at Layer.handle [as handle_request] (/root/promptvalar/node_modules/express/lib/router/layer.js:95:5)
+    at /root/promptvalar/node_modules/express/lib/router/index.js:284:15
+Create checkout error: Error: Stripe is not initialized
+    at Module.createCheckoutSession (/root/promptvalar/backend/src/services/subscription.service.ts:74:11)
+    at createCheckout (/root/promptvalar/backend/src/controllers/subscription.controller.ts:71:47)
+    at Layer.handle [as handle_request] (/root/promptvalar/node_modules/express/lib/router/layer.js:95:5)
+    at next (/root/promptvalar/node_modules/express/lib/router/route.js:149:13)
+    at authenticate (/root/promptvalar/backend/src/middleware/auth.middleware.ts:47:5)
+    at Layer.handle [as handle_request] (/root/promptvalar/node_modules/express/lib/router/layer.js:95:5)
+    at next (/root/promptvalar/node_modules/express/lib/router/route.js:149:13)
+    at Route.dispatch (/root/promptvalar/node_modules/express/lib/router/route.js:119:3)
+    at Layer.handle [as handle_request] (/root/promptvalar/node_modules/express/lib/router/layer.js:95:5)
+    at /root/promptvalar/node_modules/express/lib/router/index.js:284:15
+Create checkout error: Error: Stripe is not initialized
+    at Module.createCheckoutSession (/root/promptvalar/backend/src/services/subscription.service.ts:74:11)
+    at createCheckout (/root/promptvalar/backend/src/controllers/subscription.controller.ts:71:47)
+    at Layer.handle [as handle_request] (/root/promptvalar/node_modules/express/lib/router/layer.js:95:5)
+    at next (/root/promptvalar/node_modules/express/lib/router/route.js:149:13)
+    at authenticate (/root/promptvalar/backend/src/middleware/auth.middleware.ts:47:5)
+    at Layer.handle [as handle_request] (/root/promptvalar/node_modules/express/lib/router/layer.js:95:5)
+    at next (/root/promptvalar/node_modules/express/lib/router/route.js:149:13)
+    at Route.dispatch (/root/promptvalar/node_modules/express/lib/router/route.js:119:3)
+    at Layer.handle [as handle_request] (/root/promptvalar/node_modules/express/lib/router/layer.js:95:5)
+    at /root/promptvalar/node_modules/express/lib/router/index.js:284:15
+Create checkout error: Error: Stripe is not initialized
+    at Module.createCheckoutSession (/root/promptvalar/backend/src/services/subscription.service.ts:74:11)
+    at createCheckout (/root/promptvalar/backend/src/controllers/subscription.controller.ts:71:47)
+    at Layer.handle [as handle_request] (/root/promptvalar/node_modules/express/lib/router/layer.js:95:5)
+    at next (/root/promptvalar/node_modules/express/lib/router/route.js:149:13)
+    at authenticate (/root/promptvalar/backend/src/middleware/auth.middleware.ts:47:5)
+    at Layer.handle [as handle_request] (/root/promptvalar/node_modules/express/lib/router/layer.js:95:5)
+    at next (/root/promptvalar/node_modules/express/lib/router/route.js:149:13)
+    at Route.dispatch (/root/promptvalar/node_modules/express/lib/router/route.js:119:3)
+    at Layer.handle [as handle_request] (/root/promptvalar/node_modules/express/lib/router/layer.js:95:5)
+    at /root/promptvalar/node_modules/express/lib/router/index.js:284:15
+Create checkout error: Error: Stripe is not initialized
+    at Module.createCheckoutSession (/root/promptvalar/backend/src/services/subscription.service.ts:74:11)
+    at createCheckout (/root/promptvalar/backend/src/controllers/subscription.controller.ts:71:47)
+    at Layer.handle [as handle_request] (/root/promptvalar/node_modules/express/lib/router/layer.js:95:5)
+    at next (/root/promptvalar/node_modules/express/lib/router/route.js:149:13)
+    at authenticate (/root/promptvalar/backend/src/middleware/auth.middleware.ts:47:5)
+    at Layer.handle [as handle_request] (/root/promptvalar/node_modules/express/lib/router/layer.js:95:5)
+    at next (/root/promptvalar/node_modules/express/lib/router/route.js:149:13)
+    at Route.dispatch (/root/promptvalar/node_modules/express/lib/router/route.js:119:3)
+    at Layer.handle [as handle_request] (/root/promptvalar/node_modules/express/lib/router/layer.js:95:5)
+    at /root/promptvalar/node_modules/express/lib/router/index.js:284:15
+Create checkout error: Error: Stripe is not initialized
+    at Module.createCheckoutSession (/root/promptvalar/backend/src/services/subscription.service.ts:74:11)
+    at createCheckout (/root/promptvalar/backend/src/controllers/subscription.controller.ts:71:47)
+    at Layer.handle [as handle_request] (/root/promptvalar/node_modules/express/lib/router/layer.js:95:5)
+    at next (/root/promptvalar/node_modules/express/lib/router/route.js:149:13)
+    at authenticate (/root/promptvalar/backend/src/middleware/auth.middleware.ts:47:5)
+    at Layer.handle [as handle_request] (/root/promptvalar/node_modules/express/lib/router/layer.js:95:5)
+    at next (/root/promptvalar/node_modules/express/lib/router/route.js:149:13)
+    at Route.dispatch (/root/promptvalar/node_modules/express/lib/router/route.js:119:3)
+    at Layer.handle [as handle_request] (/root/promptvalar/node_modules/express/lib/router/layer.js:95:5)
+    at /root/promptvalar/node_modules/express/lib/router/index.js:284:15
+Create checkout error: Error: Stripe is not initialized
+    at Module.createCheckoutSession (/root/promptvalar/backend/src/services/subscription.service.ts:74:11)
+    at createCheckout (/root/promptvalar/backend/src/controllers/subscription.controller.ts:71:47)
+    at Layer.handle [as handle_request] (/root/promptvalar/node_modules/express/lib/router/layer.js:95:5)
+    at next (/root/promptvalar/node_modules/express/lib/router/route.js:149:13)
+    at authenticate (/root/promptvalar/backend/src/middleware/auth.middleware.ts:47:5)
+    at Layer.handle [as handle_request] (/root/promptvalar/node_modules/express/lib/router/layer.js:95:5)
+    at next (/root/promptvalar/node_modules/express/lib/router/route.js:149:13)
+    at Route.dispatch (/root/promptvalar/node_modules/express/lib/router/route.js:119:3)
+    at Layer.handle [as handle_request] (/root/promptvalar/node_modules/express/lib/router/layer.js:95:5)
+    at /root/promptvalar/node_modules/express/lib/router/index.js:284:15
+Create checkout error: Error: Stripe is not initialized
+    at Module.createCheckoutSession (/root/promptvalar/backend/src/services/subscription.service.ts:74:11)
+    at createCheckout (/root/promptvalar/backend/src/controllers/subscription.controller.ts:71:47)
+    at Layer.handle [as handle_request] (/root/promptvalar/node_modules/express/lib/router/layer.js:95:5)
+    at next (/root/promptvalar/node_modules/express/lib/router/route.js:149:13)
+    at authenticate (/root/promptvalar/backend/src/middleware/auth.middleware.ts:47:5)
+    at Layer.handle [as handle_request] (/root/promptvalar/node_modules/express/lib/router/layer.js:95:5)
+    at next (/root/promptvalar/node_modules/express/lib/router/route.js:149:13)
+    at Route.dispatch (/root/promptvalar/node_modules/express/lib/router/route.js:119:3)
+    at Layer.handle [as handle_request] (/root/promptvalar/node_modules/express/lib/router/layer.js:95:5)
+    at /root/promptvalar/node_modules/express/lib/router/index.js:284:15
+Create checkout error: Error: Stripe is not initialized
+    at Module.createCheckoutSession (/root/promptvalar/backend/src/services/subscription.service.ts:74:11)
+    at createCheckout (/root/promptvalar/backend/src/controllers/subscription.controller.ts:71:47)
+    at Layer.handle [as handle_request] (/root/promptvalar/node_modules/express/lib/router/layer.js:95:5)
+    at next (/root/promptvalar/node_modules/express/lib/router/route.js:149:13)
+    at authenticate (/root/promptvalar/backend/src/middleware/auth.middleware.ts:47:5)
+    at Layer.handle [as handle_request] (/root/promptvalar/node_modules/express/lib/router/layer.js:95:5)
+    at next (/root/promptvalar/node_modules/express/lib/router/route.js:149:13)
+    at Route.dispatch (/root/promptvalar/node_modules/express/lib/router/route.js:119:3)
+    at Layer.handle [as handle_request] (/root/promptvalar/node_modules/express/lib/router/layer.js:95:5)
+    at /root/promptvalar/node_modules/express/lib/router/index.js:284:15
+Create checkout error: Error: Stripe is not initialized
+    at Module.createCheckoutSession (/root/promptvalar/backend/src/services/subscription.service.ts:74:11)
+    at createCheckout (/root/promptvalar/backend/src/controllers/subscription.controller.ts:71:47)
+    at Layer.handle [as handle_request] (/root/promptvalar/node_modules/express/lib/router/layer.js:95:5)
+    at next (/root/promptvalar/node_modules/express/lib/router/route.js:149:13)
+    at authenticate (/root/promptvalar/backend/src/middleware/auth.middleware.ts:47:5)
+    at Layer.handle [as handle_request] (/root/promptvalar/node_modules/express/lib/router/layer.js:95:5)
+    at next (/root/promptvalar/node_modules/express/lib/router/route.js:149:13)
+    at Route.dispatch (/root/promptvalar/node_modules/express/lib/router/route.js:119:3)
+    at Layer.handle [as handle_request] (/root/promptvalar/node_modules/express/lib/router/layer.js:95:5)
+    at /root/promptvalar/node_modules/express/lib/router/index.js:284:15
+Create checkout error: Error: Stripe is not initialized
+    at Module.createCheckoutSession (/root/promptvalar/backend/src/services/subscription.service.ts:74:11)
+    at createCheckout (/root/promptvalar/backend/src/controllers/subscription.controller.ts:71:47)
+    at Layer.handle [as handle_request] (/root/promptvalar/node_modules/express/lib/router/layer.js:95:5)
+    at next (/root/promptvalar/node_modules/express/lib/router/route.js:149:13)
+    at authenticate (/root/promptvalar/backend/src/middleware/auth.middleware.ts:47:5)
+    at Layer.handle [as handle_request] (/root/promptvalar/node_modules/express/lib/router/layer.js:95:5)
+    at next (/root/promptvalar/node_modules/express/lib/router/route.js:149:13)
+    at Route.dispatch (/root/promptvalar/node_modules/express/lib/router/route.js:119:3)
+    at Layer.handle [as handle_request] (/root/promptvalar/node_modules/express/lib/router/layer.js:95:5)
+    at /root/promptvalar/node_modules/express/lib/router/index.js:284:15

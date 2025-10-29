@@ -16,6 +16,10 @@ export const aiRateLimiter = rateLimit({
   },
   standardHeaders: true, // 返回标准的 RateLimit-* headers
   legacyHeaders: false, // 禁用 X-RateLimit-* headers
+  // 修复 trust proxy 警告 - 明确指定 validate 选项
+  validate: {
+    trustProxy: false, // 禁用 trust proxy 验证（开发环境安全）
+  },
   // 为Pro用户跳过限制
   skip: (req) => {
     // 如果用户已认证且是Pro用户，跳过限制
@@ -40,6 +44,9 @@ export const authRateLimiter = rateLimit({
   },
   standardHeaders: true,
   legacyHeaders: false,
+  validate: {
+    trustProxy: false, // 禁用 trust proxy 验证
+  },
   // 只对失败的认证请求计数
   skipSuccessfulRequests: true,
 });
@@ -60,5 +67,8 @@ export const generalRateLimiter = rateLimit({
   },
   standardHeaders: true,
   legacyHeaders: false,
+  validate: {
+    trustProxy: false, // 禁用 trust proxy 验证
+  },
 });
 
