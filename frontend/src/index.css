@@ -73,6 +73,43 @@
     -webkit-user-select: none;
     user-select: none;
   }
+
+  /* backdrop-filter 兼容性 */
+  .backdrop-blur {
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+  }
+
+  .backdrop-blur-sm {
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+  }
+
+  .backdrop-blur-md {
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+  }
+
+  .backdrop-blur-lg {
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
+  }
+
+  .backdrop-blur-xl {
+    -webkit-backdrop-filter: blur(24px);
+    backdrop-filter: blur(24px);
+  }
+
+  /* text-size-adjust 兼容性 */
+  .text-size-adjust-none {
+    -webkit-text-size-adjust: none;
+    text-size-adjust: none;
+  }
+
+  .text-size-adjust-auto {
+    -webkit-text-size-adjust: auto;
+    text-size-adjust: auto;
+  }
 }
 
 /* 移动端适配优化 */
