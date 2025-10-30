@@ -47,13 +47,13 @@ export default function PrivacyPolicyPage() {
               transition={{ delay: 0.1 }}
               className="mb-12"
             >
-              <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4">Introduction</h2>
-              <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-4">
+              <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Introduction</h2>
+              <p className="text-gray-600 dark:text-gray-100 leading-relaxed mb-4">
                 Welcome to PromptValar ("we," "our," or "us"). We are committed to protecting your personal information 
                 and your right to privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard 
                 your information when you use our website and services.
               </p>
-              <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+              <p className="text-gray-600 dark:text-gray-100 leading-relaxed">
                 By using PromptValar, you agree to the collection and use of information in accordance with this policy. 
                 If you do not agree with our policies and practices, please do not use our services.
               </p>
@@ -68,22 +68,22 @@ export default function PrivacyPolicyPage() {
             >
               <div className="flex items-center gap-3 mb-4">
                 <Database className="w-8 h-8 text-blue-600 dark:text-blue-400" />
-                <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100">Information We Collect</h2>
+                <h2 className="text-3xl font-bold text-gray-900 dark:text-white">Information We Collect</h2>
               </div>
               
               <div className="space-y-6">
                 <div>
-                  <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-3">Personal Information</h3>
-                  <p className="text-gray-600 dark:text-gray-300 mb-2">We collect personal information that you voluntarily provide to us when you:</p>
-                  <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 ml-4">
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">Personal Information</h3>
+                  <p className="text-gray-600 dark:text-gray-100 mb-2">We collect personal information that you voluntarily provide to us when you:</p>
+                  <ul className="list-disc list-inside text-gray-600 dark:text-gray-100 space-y-2 ml-4">
                     <li>Register for an account</li>
                     <li>Subscribe to our services</li>
                     <li>Use our AI prompt generation features</li>
                     <li>Contact our support team</li>
                     <li>Participate in surveys or promotions</li>
                   </ul>
-                  <p className="text-gray-600 dark:text-gray-300 mt-3">This information may include:</p>
-                  <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 ml-4">
+                  <p className="text-gray-600 dark:text-gray-100 mt-3">This information may include:</p>
+                  <ul className="list-disc list-inside text-gray-600 dark:text-gray-100 space-y-2 ml-4">
                     <li>Name and email address</li>
                     <li>Username and password</li>
                     <li>Payment information (processed securely through Stripe)</li>
@@ -92,9 +92,9 @@ export default function PrivacyPolicyPage() {
                 </div>
 
                 <div>
-                  <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-3">Usage Data</h3>
-                  <p className="text-gray-600 dark:text-gray-300 mb-2">We automatically collect certain information when you use our services:</p>
-                  <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 ml-4">
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">Usage Data</h3>
+                  <p className="text-gray-600 dark:text-gray-100 mb-2">We automatically collect certain information when you use our services:</p>
+                  <ul className="list-disc list-inside text-gray-600 dark:text-gray-100 space-y-2 ml-4">
                     <li>IP address and browser type</li>
                     <li>Device information and operating system</li>
                     <li>Pages visited and features used</li>
@@ -105,8 +105,8 @@ export default function PrivacyPolicyPage() {
                 </div>
 
                 <div>
-                  <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-3">Cookies and Tracking Technologies</h3>
-                  <p className="text-gray-600 dark:text-gray-300">
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">Cookies and Tracking Technologies</h3>
+                  <p className="text-gray-600 dark:text-gray-100">
                     We use cookies and similar tracking technologies to track activity on our service and store certain information. 
                     You can instruct your browser to refuse all cookies or to indicate when a cookie is being sent.
                   </p>
@@ -123,11 +123,11 @@ export default function PrivacyPolicyPage() {
             >
               <div className="flex items-center gap-3 mb-4">
                 <Eye className="w-8 h-8 text-purple-600 dark:text-purple-400" />
-                <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100">How We Use Your Information</h2>
+                <h2 className="text-3xl font-bold text-gray-900 dark:text-white">How We Use Your Information</h2>
               </div>
               
-              <p className="text-gray-600 dark:text-gray-300 mb-4">We use the information we collect for various purposes:</p>
-              <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 ml-4">
+              <p className="text-gray-600 dark:text-gray-100 mb-4">We use the information we collect for various purposes:</p>
+              <ul className="list-disc list-inside text-gray-600 dark:text-gray-100 space-y-2 ml-4">
                 <li>To provide, maintain, and improve our services</li>
                 <li>To process your transactions and manage your subscriptions</li>
                 <li>To send you technical notices, updates, and support messages</li>
@@ -149,18 +149,18 @@ export default function PrivacyPolicyPage() {
             >
               <div className="flex items-center gap-3 mb-4">
                 <UserCheck className="w-8 h-8 text-green-600 dark:text-green-400" />
-                <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100">Information Sharing and Disclosure</h2>
+                <h2 className="text-3xl font-bold text-gray-900 dark:text-white">Information Sharing and Disclosure</h2>
               </div>
               
-              <p className="text-gray-600 dark:text-gray-300 mb-4">We may share your information in the following situations:</p>
+              <p className="text-gray-600 dark:text-gray-100 mb-4">We may share your information in the following situations:</p>
               
               <div className="space-y-4">
                 <div>
-                  <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">Service Providers</h3>
-                  <p className="text-gray-600 dark:text-gray-300">
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Service Providers</h3>
+                  <p className="text-gray-600 dark:text-gray-100">
                     We share information with third-party service providers who perform services on our behalf, such as:
                   </p>
-                  <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 ml-4 mt-2">
+                  <ul className="list-disc list-inside text-gray-600 dark:text-gray-100 space-y-2 ml-4 mt-2">
                     <li>Payment processing (Stripe)</li>
                     <li>Cloud hosting services</li>
                     <li>Email delivery services</li>
@@ -170,24 +170,24 @@ export default function PrivacyPolicyPage() {
                 </div>
 
                 <div>
-                  <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">Legal Requirements</h3>
-                  <p className="text-gray-600 dark:text-gray-300">
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Legal Requirements</h3>
+                  <p className="text-gray-600 dark:text-gray-100">
                     We may disclose your information if required to do so by law or in response to valid requests by 
                     public authorities (e.g., a court or government agency).
                   </p>
                 </div>
 
                 <div>
-                  <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">Business Transfers</h3>
-                  <p className="text-gray-600 dark:text-gray-300">
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Business Transfers</h3>
+                  <p className="text-gray-600 dark:text-gray-100">
                     If we are involved in a merger, acquisition, or asset sale, your personal information may be transferred. 
                     We will provide notice before your information is transferred and becomes subject to a different privacy policy.
                   </p>
                 </div>
 
                 <div>
-                  <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">Public Information</h3>
-                  <p className="text-gray-600 dark:text-gray-300">
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Public Information</h3>
+                  <p className="text-gray-600 dark:text-gray-100">
                     Prompts you choose to make public in our library may be viewed by other users. Please be mindful of 
                     the information you choose to share publicly.
                   </p>
@@ -204,20 +204,20 @@ export default function PrivacyPolicyPage() {
             >
               <div className="flex items-center gap-3 mb-4">
                 <Lock className="w-8 h-8 text-red-600 dark:text-red-400" />
-                <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100">Data Security</h2>
+                <h2 className="text-3xl font-bold text-gray-900 dark:text-white">Data Security</h2>
               </div>
               
-              <p className="text-gray-600 dark:text-gray-300 mb-4">
+              <p className="text-gray-600 dark:text-gray-100 mb-4">
                 We implement appropriate technical and organizational security measures to protect your personal information, including:
               </p>
-              <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 ml-4">
+              <ul className="list-disc list-inside text-gray-600 dark:text-gray-100 space-y-2 ml-4">
                 <li>Encryption of data in transit using SSL/TLS</li>
                 <li>Secure password hashing and storage</li>
                 <li>Regular security audits and updates</li>
                 <li>Access controls and authentication mechanisms</li>
                 <li>Secure payment processing through PCI-compliant providers</li>
               </ul>
-              <p className="text-gray-600 dark:text-gray-300 mt-4">
+              <p className="text-gray-600 dark:text-gray-100 mt-4">
                 However, no method of transmission over the Internet or electronic storage is 100% secure. While we 
                 strive to use commercially acceptable means to protect your information, we cannot guarantee its absolute security.
               </p>
@@ -230,12 +230,12 @@ export default function PrivacyPolicyPage() {
               transition={{ delay: 0.6 }}
               className="mb-12"
             >
-              <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4">Data Retention</h2>
-              <p className="text-gray-600 dark:text-gray-300 mb-4">
+              <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Data Retention</h2>
+              <p className="text-gray-600 dark:text-gray-100 mb-4">
                 We retain your personal information only for as long as necessary to fulfill the purposes outlined in this 
                 Privacy Policy, unless a longer retention period is required or permitted by law.
               </p>
-              <p className="text-gray-600 dark:text-gray-300">
+              <p className="text-gray-600 dark:text-gray-100">
                 When you delete your account, we will delete or anonymize your personal information within 30 days, 
                 except where we are required to retain it for legal, accounting, or security purposes.
               </p>
@@ -248,9 +248,9 @@ export default function PrivacyPolicyPage() {
               transition={{ delay: 0.7 }}
               className="mb-12"
             >
-              <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4">Your Privacy Rights</h2>
-              <p className="text-gray-600 dark:text-gray-300 mb-4">Depending on your location, you may have the following rights:</p>
-              <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 ml-4">
+              <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Your Privacy Rights</h2>
+              <p className="text-gray-600 dark:text-gray-100 mb-4">Depending on your location, you may have the following rights:</p>
+              <ul className="list-disc list-inside text-gray-600 dark:text-gray-100 space-y-2 ml-4">
                 <li><strong>Access:</strong> Request access to your personal information</li>
                 <li><strong>Correction:</strong> Request correction of inaccurate information</li>
                 <li><strong>Deletion:</strong> Request deletion of your personal information</li>
@@ -259,7 +259,7 @@ export default function PrivacyPolicyPage() {
                 <li><strong>Restrict Processing:</strong> Request restriction of processing your information</li>
                 <li><strong>Object:</strong> Object to our processing of your personal information</li>
               </ul>
-              <p className="text-gray-600 dark:text-gray-300 mt-4">
+              <p className="text-gray-600 dark:text-gray-100 mt-4">
                 To exercise these rights, please contact us at privacy@promptvalar.com. We will respond to your request 
                 within 30 days.
               </p>
@@ -272,8 +272,8 @@ export default function PrivacyPolicyPage() {
               transition={{ delay: 0.8 }}
               className="mb-12"
             >
-              <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4">Children's Privacy</h2>
-              <p className="text-gray-600 dark:text-gray-300">
+              <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Children's Privacy</h2>
+              <p className="text-gray-600 dark:text-gray-100">
                 Our services are not intended for individuals under the age of 13. We do not knowingly collect personal 
                 information from children under 13. If you are a parent or guardian and believe your child has provided 
                 us with personal information, please contact us immediately so we can delete such information.
@@ -287,12 +287,12 @@ export default function PrivacyPolicyPage() {
               transition={{ delay: 0.9 }}
               className="mb-12"
             >
-              <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4">International Data Transfers</h2>
-              <p className="text-gray-600 dark:text-gray-300 mb-4">
+              <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">International Data Transfers</h2>
+              <p className="text-gray-600 dark:text-gray-100 mb-4">
                 Your information may be transferred to and maintained on computers located outside of your state, province, 
                 country, or other governmental jurisdiction where data protection laws may differ.
               </p>
-              <p className="text-gray-600 dark:text-gray-300">
+              <p className="text-gray-600 dark:text-gray-100">
                 We ensure that appropriate safeguards are in place to protect your information in accordance with this 
                 Privacy Policy and applicable laws.
               </p>
@@ -305,12 +305,12 @@ export default function PrivacyPolicyPage() {
               transition={{ delay: 1.0 }}
               className="mb-12"
             >
-              <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4">Changes to This Privacy Policy</h2>
-              <p className="text-gray-600 dark:text-gray-300 mb-4">
+              <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Changes to This Privacy Policy</h2>
+              <p className="text-gray-600 dark:text-gray-100 mb-4">
                 We may update our Privacy Policy from time to time. We will notify you of any changes by posting the 
                 new Privacy Policy on this page and updating the "Last Updated" date.
               </p>
-              <p className="text-gray-600 dark:text-gray-300">
+              <p className="text-gray-600 dark:text-gray-100">
                 We encourage you to review this Privacy Policy periodically for any changes. Changes to this Privacy 
                 Policy are effective when they are posted on this page.
               </p>
@@ -321,16 +321,16 @@ export default function PrivacyPolicyPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.1 }}
-              className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-8"
+              className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl p-8"
             >
               <div className="flex items-center gap-3 mb-4">
                 <Mail className="w-8 h-8 text-blue-600 dark:text-blue-400" />
-                <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100">Contact Us</h2>
+                <h2 className="text-3xl font-bold text-gray-900 dark:text-white">Contact Us</h2>
               </div>
-              <p className="text-gray-600 dark:text-gray-300 mb-4">
+              <p className="text-gray-600 dark:text-gray-100 mb-4">
                 If you have any questions about this Privacy Policy, please contact us:
               </p>
-              <ul className="text-gray-600 dark:text-gray-300 space-y-2">
+              <ul className="text-gray-600 dark:text-gray-100 space-y-2">
                 <li><strong>Email:</strong> privacy@promptvalar.com</li>
                 <li><strong>Website:</strong> https://promptvalar.com</li>
                 <li><strong>Support:</strong> support@promptvalar.com</li>
