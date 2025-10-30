@@ -180,7 +180,7 @@ const IdeaInput = ({
       <div className="flex items-center gap-4">
         <button
           onClick={onGenerate}
-          disabled={isGenerating || !idea.trim() || isLimitReached || false}
+          disabled={isGenerating || !idea.trim() || !!isLimitReached}
           className="flex-1 md:flex-initial md:w-auto px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-xl hover:from-purple-700 hover:to-pink-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center gap-2 shadow-lg shadow-purple-500/30"
         >
           {isGenerating ? (

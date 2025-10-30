@@ -76,10 +76,15 @@ const PromptStudioPage = () => {
   useEffect(() => {
     const loadUsageStats = async () => {
       const currentUser = getCurrentUser();
-      if (!currentUser) return;
+      if (!currentUser) {
+        // 未登录用户可以使用，但不显示使用统计
+        console.log('User not logged in, usage stats not loaded');
+        return;
+      }
 
       try {
         const stats = await getUserUsageStats();
+        console.log('Usage stats loaded:', stats);
         setUsageInfo({
           remaining: stats.remaining,
           limit: stats.limit,
@@ -88,6 +93,8 @@ const PromptStudioPage = () => {
         });
       } catch (error) {
         console.error('Failed to load usage stats:', error);
+        // 加载失败时不设置usageInfo，让用户可以继续使用
+        // 这样按钮不会被错误地禁用
       }
     };
 
