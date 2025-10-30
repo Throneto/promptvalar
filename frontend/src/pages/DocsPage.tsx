@@ -255,53 +255,53 @@ export default function DocsPage() {
                     </p>
 
                     <div className="space-y-4">
-                      <div className="bg-gradient-to-r from-blue-50 to-cyan-50 rounded-lg p-6 dark:bg-opacity-20 dark:border dark:border-gray-700">
+                      <div className="bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-gray-700 dark:to-gray-700 rounded-lg p-6 border border-transparent dark:border-blue-500/30 dark:bg-gray-700/50">
                         <h4 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">🎬 Sora (OpenAI)</h4>
                         <p className="text-gray-600 dark:text-gray-300 mb-3">
                           Revolutionary text-to-video model capable of generating high-quality videos up to one minute long.
                         </p>
                         <p className="text-sm text-gray-500 dark:text-gray-400">
-                          <strong>Best for:</strong> Cinematic videos, realistic motion, complex scenes
+                          <strong className="dark:text-gray-300">Best for:</strong> Cinematic videos, realistic motion, complex scenes
                         </p>
                       </div>
 
-                      <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg p-6 dark:bg-opacity-20 dark:border dark:border-gray-700">
+                      <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-gray-700 dark:to-gray-700 rounded-lg p-6 border border-transparent dark:border-purple-500/30 dark:bg-gray-700/50">
                         <h4 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">🎥 Veo (Google)</h4>
                         <p className="text-gray-600 dark:text-gray-300 mb-3">
                           Google's advanced video generation model with excellent understanding of physics and motion.
                         </p>
                         <p className="text-sm text-gray-500 dark:text-gray-400">
-                          <strong>Best for:</strong> Realistic videos, natural movement, product demonstrations
+                          <strong className="dark:text-gray-300">Best for:</strong> Realistic videos, natural movement, product demonstrations
                         </p>
                       </div>
 
-                      <div className="bg-gradient-to-r from-green-50 to-teal-50 rounded-lg p-6 dark:bg-opacity-20 dark:border dark:border-gray-700">
+                      <div className="bg-gradient-to-r from-green-50 to-teal-50 dark:from-gray-700 dark:to-gray-700 rounded-lg p-6 border border-transparent dark:border-green-500/30 dark:bg-gray-700/50">
                         <h4 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">🎨 Midjourney</h4>
                         <p className="text-gray-600 dark:text-gray-300 mb-3">
                           Industry-leading image generation model known for artistic, high-quality outputs.
                         </p>
                         <p className="text-sm text-gray-500 dark:text-gray-400">
-                          <strong>Best for:</strong> Artistic images, concept art, detailed illustrations
+                          <strong className="dark:text-gray-300">Best for:</strong> Artistic images, concept art, detailed illustrations
                         </p>
                       </div>
 
-                      <div className="bg-gradient-to-r from-orange-50 to-red-50 rounded-lg p-6 dark:bg-opacity-20 dark:border dark:border-gray-700">
+                      <div className="bg-gradient-to-r from-orange-50 to-red-50 dark:from-gray-700 dark:to-gray-700 rounded-lg p-6 border border-transparent dark:border-orange-500/30 dark:bg-gray-700/50">
                         <h4 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">🖼️ DALL-E 3</h4>
                         <p className="text-gray-600 dark:text-gray-300 mb-3">
                           OpenAI's image generation model with excellent text rendering and instruction following.
                         </p>
                         <p className="text-sm text-gray-500 dark:text-gray-400">
-                          <strong>Best for:</strong> Photorealistic images, text in images, specific compositions
+                          <strong className="dark:text-gray-300">Best for:</strong> Photorealistic images, text in images, specific compositions
                         </p>
                       </div>
 
-                      <div className="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-lg p-6 dark:bg-opacity-20 dark:border dark:border-gray-700">
+                      <div className="bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-gray-700 dark:to-gray-700 rounded-lg p-6 border border-transparent dark:border-indigo-500/30 dark:bg-gray-700/50">
                         <h4 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">⚡ Stable Diffusion</h4>
                         <p className="text-gray-600 dark:text-gray-300 mb-3">
                           Open-source image generation model with extensive customization options.
                         </p>
                         <p className="text-sm text-gray-500 dark:text-gray-400">
-                          <strong>Best for:</strong> Custom styles, fine-tuned models, high volume generation
+                          <strong className="dark:text-gray-300">Best for:</strong> Custom styles, fine-tuned models, high volume generation
                         </p>
                       </div>
                     </div>
