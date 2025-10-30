@@ -26,10 +26,10 @@ export const SUBSCRIPTION_PLANS = {
     name: 'Free',
     price: 0,
     features: [
-      '每月 20 次 AI 生成',
-      '访问基础提示词库',
-      '基础模型支持',
-      '社区支持',
+      '20 AI generations per month',
+      'Access basic prompt library',
+      'Basic model support',
+      'Community support',
     ],
     limits: {
       aiGenerationsPerMonth: 20,
@@ -42,12 +42,12 @@ export const SUBSCRIPTION_PLANS = {
     price: 15.99,
     priceId: process.env.STRIPE_PRO_PRICE_ID || 'price_test_pro',
     features: [
-      '无限次 AI 生成',
-      '访问所有高级提示词',
-      '所有 AI 模型支持',
-      '优先客户支持',
-      '高级编辑器功能',
-      '提示词历史记录',
+      'Unlimited AI generations',
+      'Access all premium prompts',
+      'All AI models support',
+      'Priority customer support',
+      'Advanced editor features',
+      'Prompt history',
     ],
     limits: {
       aiGenerationsPerMonth: -1, // unlimited

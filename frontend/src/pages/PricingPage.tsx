@@ -138,14 +138,14 @@ export default function PricingPage() {
           >
             <div className="flex items-center gap-2 bg-purple-500/20 dark:bg-purple-500/20 border border-purple-500/50 rounded-full px-6 py-2">
               <Star className="w-5 h-5 text-yellow-500 dark:text-yellow-400" />
-              <span className="text-purple-800 dark:text-purple-200 font-medium">Simple, Transparent Pricing</span>
+              <span className="text-purple-900 dark:text-purple-200 font-medium">Simple, Transparent Pricing</span>
             </div>
           </motion.div>
 
           <h1 className="text-6xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
             Choose Your Perfect Plan
           </h1>
-          <p className="text-xl text-gray-800 dark:text-gray-300 max-w-3xl mx-auto mb-8">
+          <p className="text-xl text-gray-900 dark:text-gray-300 max-w-3xl mx-auto mb-8">
             Start with our free plan and upgrade anytime to unlock premium features. 
             No hidden fees, cancel anytime.
           </p>
@@ -157,7 +157,7 @@ export default function PricingPage() {
               className={`px-6 py-2 rounded-lg font-medium transition-all ${
                 billingCycle === 'monthly'
                   ? 'bg-purple-600 text-white'
-                  : 'text-gray-800 dark:text-white/60 hover:text-gray-900 dark:hover:text-white'
+                  : 'text-gray-900 dark:text-white/60 hover:text-gray-950 dark:hover:text-white'
               }`}
             >
               Monthly
@@ -167,7 +167,7 @@ export default function PricingPage() {
               className={`px-6 py-2 rounded-lg font-medium transition-all relative ${
                 billingCycle === 'annual'
                   ? 'bg-purple-600 text-white'
-                  : 'text-gray-800 dark:text-white/60 hover:text-gray-900 dark:hover:text-white'
+                  : 'text-gray-900 dark:text-white/60 hover:text-gray-950 dark:hover:text-white'
               }`}
             >
               Annual
@@ -208,16 +208,16 @@ export default function PricingPage() {
             <div className="mb-8">
               <div className="flex items-baseline gap-2">
                 <span className="text-5xl font-bold text-gray-900 dark:text-white">$0</span>
-                <span className="text-gray-700 dark:text-gray-400">/ month</span>
+                <span className="text-gray-900 dark:text-gray-400">/ month</span>
               </div>
-              <p className="text-gray-700 dark:text-gray-400 mt-2">Perfect for getting started</p>
+              <p className="text-gray-900 dark:text-gray-400 mt-2">Perfect for getting started</p>
             </div>
 
             <ul className="space-y-4 mb-8">
               {plans.free.features.map((feature, index) => (
                 <li key={index} className="flex items-start gap-3">
                   <Check className="w-5 h-5 text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
-                  <span className="text-gray-800 dark:text-gray-300">{feature}</span>
+                  <span className="text-gray-950 dark:text-gray-300">{feature}</span>
                 </li>
               ))}
             </ul>
@@ -320,22 +320,22 @@ export default function PricingPage() {
             <div className="bg-white/80 dark:bg-white/5 backdrop-blur-sm rounded-xl p-6 text-center border border-gray-200 dark:border-white/10">
               <Users className="w-8 h-8 text-purple-600 dark:text-purple-400 mx-auto mb-3" />
               <div className="text-2xl font-bold text-gray-900 dark:text-white mb-1">10,000+</div>
-              <div className="text-sm text-gray-700 dark:text-gray-400">Active Users</div>
+              <div className="text-sm text-gray-950 dark:text-gray-400">Active Users</div>
             </div>
             <div className="bg-white/80 dark:bg-white/5 backdrop-blur-sm rounded-xl p-6 text-center border border-gray-200 dark:border-white/10">
               <Star className="w-8 h-8 text-yellow-500 dark:text-yellow-400 mx-auto mb-3" />
               <div className="text-2xl font-bold text-gray-900 dark:text-white mb-1">4.9/5</div>
-              <div className="text-sm text-gray-700 dark:text-gray-400">User Rating</div>
+              <div className="text-sm text-gray-950 dark:text-gray-400">User Rating</div>
             </div>
             <div className="bg-white/80 dark:bg-white/5 backdrop-blur-sm rounded-xl p-6 text-center border border-gray-200 dark:border-white/10">
               <TrendingUp className="w-8 h-8 text-green-600 dark:text-green-400 mx-auto mb-3" />
               <div className="text-2xl font-bold text-gray-900 dark:text-white mb-1">500K+</div>
-              <div className="text-sm text-gray-700 dark:text-gray-400">Prompts Created</div>
+              <div className="text-sm text-gray-950 dark:text-gray-400">Prompts Created</div>
             </div>
             <div className="bg-white/80 dark:bg-white/5 backdrop-blur-sm rounded-xl p-6 text-center border border-gray-200 dark:border-white/10">
               <Clock className="w-8 h-8 text-blue-600 dark:text-blue-400 mx-auto mb-3" />
               <div className="text-2xl font-bold text-gray-900 dark:text-white mb-1">24/7</div>
-              <div className="text-sm text-gray-700 dark:text-gray-400">Support</div>
+              <div className="text-sm text-gray-950 dark:text-gray-400">Support</div>
             </div>
           </div>
         </motion.div>
@@ -364,13 +364,13 @@ export default function PricingPage() {
               </thead>
               <tbody>
                 <tr className="border-b border-gray-100 dark:border-white/10 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
-                  <td className="p-6 text-gray-800 dark:text-gray-300 font-medium">
+                  <td className="p-6 text-gray-950 dark:text-gray-300 font-medium">
                     <div className="flex items-center gap-2">
                       <Infinity className="w-5 h-5 text-purple-600 dark:text-purple-400" />
                       AI Generations
                     </div>
                   </td>
-                  <td className="p-6 text-center text-gray-800 dark:text-gray-300">
+                  <td className="p-6 text-center text-gray-950 dark:text-gray-300">
                     {plans.free.limits.aiGenerationsPerMonth} / month
                   </td>
                   <td className="p-6 text-center text-gray-900 dark:text-white bg-purple-50 dark:bg-purple-600/10 font-semibold">
@@ -378,13 +378,13 @@ export default function PricingPage() {
                   </td>
                 </tr>
                 <tr className="border-b border-gray-100 dark:border-white/10 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
-                  <td className="p-6 text-gray-800 dark:text-gray-300 font-medium">
+                  <td className="p-6 text-gray-950 dark:text-gray-300 font-medium">
                     <div className="flex items-center gap-2">
                       <Crown className="w-5 h-5 text-yellow-600 dark:text-yellow-400" />
                       Premium Prompt Library
                     </div>
                   </td>
-                  <td className="p-6 text-center text-gray-800 dark:text-gray-300">
+                  <td className="p-6 text-center text-gray-950 dark:text-gray-300">
                     <span className="text-red-600 dark:text-red-400 text-xl">✗</span>
                   </td>
                   <td className="p-6 text-center text-gray-900 dark:text-white bg-purple-50 dark:bg-purple-600/10">
@@ -392,13 +392,13 @@ export default function PricingPage() {
                   </td>
                 </tr>
                 <tr className="border-b border-gray-100 dark:border-white/10 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
-                  <td className="p-6 text-gray-800 dark:text-gray-300 font-medium">
+                  <td className="p-6 text-gray-950 dark:text-gray-300 font-medium">
                     <div className="flex items-center gap-2">
                       <Zap className="w-5 h-5 text-yellow-600 dark:text-yellow-400" />
                       Advanced AI Models
                     </div>
                   </td>
-                  <td className="p-6 text-center text-gray-800 dark:text-gray-300">
+                  <td className="p-6 text-center text-gray-950 dark:text-gray-300">
                     <span className="text-red-600 dark:text-red-400 text-xl">✗</span>
                   </td>
                   <td className="p-6 text-center text-gray-900 dark:text-white bg-purple-50 dark:bg-purple-600/10">
@@ -406,13 +406,13 @@ export default function PricingPage() {
                   </td>
                 </tr>
                 <tr className="border-b border-gray-100 dark:border-white/10 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
-                  <td className="p-6 text-gray-800 dark:text-gray-300 font-medium">
+                  <td className="p-6 text-gray-950 dark:text-gray-300 font-medium">
                     <div className="flex items-center gap-2">
                       <Award className="w-5 h-5 text-purple-600 dark:text-purple-400" />
                       Priority Support
                     </div>
                   </td>
-                  <td className="p-6 text-center text-gray-800 dark:text-gray-300">
+                  <td className="p-6 text-center text-gray-950 dark:text-gray-300">
                     <span className="text-red-600 dark:text-red-400 text-xl">✗</span>
                   </td>
                   <td className="p-6 text-center text-gray-900 dark:text-white bg-purple-50 dark:bg-purple-600/10">
@@ -420,13 +420,13 @@ export default function PricingPage() {
                   </td>
                 </tr>
                 <tr className="hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
-                  <td className="p-6 text-gray-800 dark:text-gray-300 font-medium">
+                  <td className="p-6 text-gray-950 dark:text-gray-300 font-medium">
                     <div className="flex items-center gap-2">
                       <Users className="w-5 h-5 text-green-600 dark:text-green-400" />
                       Team Collaboration
                     </div>
                   </td>
-                  <td className="p-6 text-center text-gray-800 dark:text-gray-300">
+                  <td className="p-6 text-center text-gray-950 dark:text-gray-300">
                     <span className="text-red-600 dark:text-red-400 text-xl">✗</span>
                   </td>
                   <td className="p-6 text-center text-gray-900 dark:text-white bg-purple-50 dark:bg-purple-600/10">
@@ -454,7 +454,7 @@ export default function PricingPage() {
                 <span className="text-purple-600 dark:text-purple-400">Q:</span>
                 How do I cancel my subscription?
               </h3>
-              <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+              <p className="text-gray-950 dark:text-gray-300 leading-relaxed">
                 You can cancel your subscription anytime from your account settings. After cancellation, 
                 you'll continue to have access to Pro features until the end of your current billing period.
               </p>
@@ -465,7 +465,7 @@ export default function PricingPage() {
                 <span className="text-purple-600 dark:text-purple-400">Q:</span>
                 What payment methods do you accept?
               </h3>
-              <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+              <p className="text-gray-950 dark:text-gray-300 leading-relaxed">
                 We accept all major credit cards, debit cards, and other payment methods through our secure 
                 payment processor Stripe. All transactions are encrypted and secure.
               </p>
@@ -476,7 +476,7 @@ export default function PricingPage() {
                 <span className="text-purple-600 dark:text-purple-400">Q:</span>
                 Can I upgrade or downgrade anytime?
               </h3>
-              <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+              <p className="text-gray-950 dark:text-gray-300 leading-relaxed">
                 Yes! You can upgrade to Pro at any time and start enjoying premium features immediately. 
                 Downgrades will take effect at the end of your current billing cycle.
               </p>
@@ -487,7 +487,7 @@ export default function PricingPage() {
                 <span className="text-purple-600 dark:text-purple-400">Q:</span>
                 Is there a refund policy?
               </h3>
-              <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+              <p className="text-gray-950 dark:text-gray-300 leading-relaxed">
                 Yes, we offer a 30-day money-back guarantee. If you're not satisfied with our Pro plan, 
                 contact our support team within 30 days of purchase for a full refund.
               </p>
@@ -498,7 +498,7 @@ export default function PricingPage() {
                 <span className="text-purple-600 dark:text-purple-400">Q:</span>
                 Do you offer discounts for annual plans?
               </h3>
-              <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+              <p className="text-gray-950 dark:text-gray-300 leading-relaxed">
                 Absolutely! Save 20% when you choose our annual billing option. That's 2 months free 
                 compared to paying monthly. Switch anytime in your account settings.
               </p>
@@ -517,7 +517,7 @@ export default function PricingPage() {
             <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
               Ready to supercharge your AI workflow?
             </h2>
-            <p className="text-xl text-gray-800 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
+            <p className="text-xl text-gray-950 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
               Join thousands of creators who are already using PromptValar to create 
               amazing AI-powered content.
             </p>

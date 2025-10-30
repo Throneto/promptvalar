@@ -61,7 +61,7 @@ const IdeaInput = ({
     <div className="space-y-6">
       {/* Text input area */}
       <div>
-        <label className="block text-sm font-medium text-gray-900 dark:text-purple-200 mb-2">
+        <label className="block text-sm font-medium text-gray-950 dark:text-purple-200 mb-2">
           Describe your idea
         </label>
         <textarea
@@ -77,7 +77,7 @@ const IdeaInput = ({
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Model selection */}
         <div>
-          <label className="block text-sm font-medium text-gray-900 dark:text-purple-200 mb-2">
+          <label className="block text-sm font-medium text-gray-950 dark:text-purple-200 mb-2">
             AI Model
           </label>
           <select
@@ -96,7 +96,7 @@ const IdeaInput = ({
 
         {/* Style selection */}
         <div>
-          <label className="block text-sm font-medium text-gray-900 dark:text-purple-200 mb-2">
+          <label className="block text-sm font-medium text-gray-950 dark:text-purple-200 mb-2">
             Style
           </label>
           <select
@@ -141,10 +141,10 @@ const IdeaInput = ({
             <div className="flex-1">
               <p className={`font-medium ${
                 isLimitReached 
-                  ? 'text-orange-800 dark:text-orange-200'
+                  ? 'text-orange-900 dark:text-orange-200'
                   : usageInfo.remaining <= 5
-                  ? 'text-yellow-800 dark:text-yellow-200'
-                  : 'text-blue-800 dark:text-blue-200'
+                  ? 'text-yellow-900 dark:text-yellow-200'
+                  : 'text-blue-900 dark:text-blue-200'
               }`}>
                 {isLimitReached 
                   ? 'Monthly free generation limit reached'
@@ -153,10 +153,10 @@ const IdeaInput = ({
               </p>
               <p className={`text-sm mt-1 ${
                 isLimitReached 
-                  ? 'text-orange-700 dark:text-orange-300'
+                  ? 'text-orange-800 dark:text-orange-300'
                   : usageInfo.remaining <= 5
-                  ? 'text-yellow-700 dark:text-yellow-300'
-                  : 'text-blue-700 dark:text-blue-300'
+                  ? 'text-yellow-800 dark:text-yellow-300'
+                  : 'text-blue-800 dark:text-blue-300'
               }`}>
                 {isLimitReached 
                   ? 'Upgrade to Pro for unlimited generations'
@@ -198,14 +198,14 @@ const IdeaInput = ({
         
         {/* Pro user or remaining usage display */}
         {usageInfo && (
-          <div className="text-sm text-gray-600 dark:text-gray-400">
+          <div className="text-sm text-gray-950 dark:text-gray-400">
             {usageInfo.isPro ? (
               <span className="inline-flex items-center gap-1 px-3 py-1 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-full font-medium">
                 <Sparkles className="w-4 h-4" />
                 Pro Unlimited
               </span>
             ) : (
-              <span className="text-gray-700 dark:text-gray-300">
+              <span className="text-gray-950 dark:text-gray-300">
                 <span className="font-semibold text-purple-600 dark:text-purple-400">{usageInfo.remaining}</span> / {usageInfo.limit}
               </span>
             )}

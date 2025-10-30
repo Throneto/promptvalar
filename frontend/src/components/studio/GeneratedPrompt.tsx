@@ -57,7 +57,7 @@ const GeneratedPrompt = ({ prompt, onRegenerate, isRegenerating }: GeneratedProm
         <button
           onClick={onRegenerate}
           disabled={isRegenerating}
-          className="flex items-center gap-2 px-6 py-3 bg-gray-200 hover:bg-gray-300 dark:bg-white/10 dark:hover:bg-white/20 text-gray-900 dark:text-white font-medium rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="flex items-center gap-2 px-6 py-3 bg-gray-200 hover:bg-gray-300 dark:bg-white/10 dark:hover:bg-white/20 text-gray-950 dark:text-white font-medium rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isRegenerating ? (
             <>

@@ -24,7 +24,7 @@ const StepCard = ({ stepNumber, title, description, children }: StepCardProps) =
           </div>
           <div>
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white">{title}</h2>
-            <p className="text-purple-800 dark:text-purple-200 mt-1">{description}</p>
+            <p className="text-purple-900 dark:text-purple-200 mt-1">{description}</p>
           </div>
         </div>
       </div>
