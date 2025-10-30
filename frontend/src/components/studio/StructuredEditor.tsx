@@ -36,7 +36,7 @@ const StructuredEditor = ({ structuredData, onUpdate, finalPrompt }: StructuredE
   const [copied, setCopied] = useState(false);
   const [moodInput, setMoodInput] = useState('');
   
-  // 检查用户是否为 Pro 用户
+  // Check if user is a Pro user
   const user = getCurrentUser();
   const isPro = user?.subscriptionTier === 'pro';
   const isDisabled = !isPro;
@@ -46,14 +46,14 @@ const StructuredEditor = ({ structuredData, onUpdate, finalPrompt }: StructuredE
   }, [structuredData]);
 
   const handleChange = (field: keyof StructuredPrompt, value: string | string[]) => {
-    if (isDisabled) return; // Pro Only 限制
+    if (isDisabled) return; // Pro Only restriction
     const updated = { ...localData, [field]: value };
     setLocalData(updated);
     onUpdate(updated);
   };
 
   const handleAddMood = () => {
-    if (isDisabled) return; // Pro Only 限制
+    if (isDisabled) return; // Pro Only restriction
     if (moodInput.trim() && !localData.mood.includes(moodInput.trim())) {
       const updated = { ...localData, mood: [...localData.mood, moodInput.trim()] };
       setLocalData(updated);
@@ -63,7 +63,7 @@ const StructuredEditor = ({ structuredData, onUpdate, finalPrompt }: StructuredE
   };
 
   const handleRemoveMood = (moodToRemove: string) => {
-    if (isDisabled) return; // Pro Only 限制
+    if (isDisabled) return; // Pro Only restriction
     const updated = { ...localData, mood: localData.mood.filter((m) => m !== moodToRemove) };
     setLocalData(updated);
     onUpdate(updated);
@@ -81,7 +81,7 @@ const StructuredEditor = ({ structuredData, onUpdate, finalPrompt }: StructuredE
 
   return (
     <div className="space-y-6">
-      {/* Pro Only 提示横幅 */}
+      {/* Pro Only notification banner */}
       {!isPro && (
         <div className="bg-gradient-to-r from-amber-500/20 to-orange-500/20 border-2 border-amber-500/50 rounded-xl p-6 backdrop-blur-sm">
           <div className="flex items-start gap-4">
@@ -110,7 +110,7 @@ const StructuredEditor = ({ structuredData, onUpdate, finalPrompt }: StructuredE
         </div>
       )}
       
-      {/* 结构化字段编辑 */}
+      {/* Structured field editing */}
       <div className={`grid grid-cols-1 md:grid-cols-2 gap-6 ${isDisabled ? 'opacity-50 pointer-events-none' : ''}`}>
         {/* Subject */}
         <div>
@@ -259,7 +259,7 @@ const StructuredEditor = ({ structuredData, onUpdate, finalPrompt }: StructuredE
         />
       </div>
 
-      {/* Final Prompt Preview - 所有用户都可以查看和复制 */}
+      {/* Final Prompt Preview - All users can view and copy */}
       <div className="pt-6 border-t border-purple-300 dark:border-purple-500/30">
         <div className="flex items-center justify-between mb-3">
           <h3 className="text-lg font-semibold text-gray-900 dark:text-purple-200">Final Prompt Preview</h3>

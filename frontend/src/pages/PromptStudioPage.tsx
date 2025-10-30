@@ -28,18 +28,18 @@ const PromptStudioPage = () => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [editingPromptId, setEditingPromptId] = useState<string | null>(null);
 
-  // Step 1: 用户输入
+  // Step 1: User input
   const [idea, setIdea] = useState('');
   const [selectedModel, setSelectedModel] = useState<AIModel>('sora');
   const [selectedStyle, setSelectedStyle] = useState<PromptStyle>('cinematic');
 
-  // Step 2: AI生成的提示词
+  // Step 2: AI-generated prompt
   const [generatedPrompt, setGeneratedPrompt] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
   const [generationError, setGenerationError] = useState('');
   const [generationLogId, setGenerationLogId] = useState<string>('');
 
-  // Step 3: 结构化编辑
+  // Step 3: Structured editing
   const [structuredData, setStructuredData] = useState<StructuredPrompt>({
     subject: '',
     action: '',
@@ -52,32 +52,32 @@ const PromptStudioPage = () => {
   });
   const [finalPrompt, setFinalPrompt] = useState('');
 
-  // 保存对话框
+  // Save dialog
   const [showSaveDialog, setShowSaveDialog] = useState(false);
   const [saveData, setSaveData] = useState<Partial<SavePromptData>>({});
 
-  // 成功消息
+  // Success message
   const [successMessage, setSuccessMessage] = useState('');
 
-  // 使用统计信息
+  // Usage statistics
   const [usageInfo, setUsageInfo] = useState<UsageInfo | null>(null);
 
-  // 加载编辑模式数据
+  // Load edit mode data
   useEffect(() => {
     if (editId) {
       loadPromptForEdit(editId);
     } else {
-      // 尝试加载草稿
+      // Try to load draft
       loadDraft();
     }
   }, [editId]);
 
-  // 加载用户使用统计信息
+  // Load user usage statistics
   useEffect(() => {
     const loadUsageStats = async () => {
       const currentUser = getCurrentUser();
       if (!currentUser) {
-        // 未登录用户可以使用，但不显示使用统计
+        // Unlogged users can use, but no usage stats displayed
         console.log('User not logged in, usage stats not loaded');
         return;
       }
@@ -93,15 +93,15 @@ const PromptStudioPage = () => {
         });
       } catch (error) {
         console.error('Failed to load usage stats:', error);
-        // 加载失败时不设置usageInfo，让用户可以继续使用
-        // 这样按钮不会被错误地禁用
+        // Don't set usageInfo on load failure, let users continue
+        // This way buttons won't be incorrectly disabled
       }
     };
 
     loadUsageStats();
   }, []);
 
-  // 自动保存草稿
+  // Auto-save draft
   useEffect(() => {
     if (!isEditMode && (idea || generatedPrompt || finalPrompt)) {
       const draft = {
@@ -117,14 +117,14 @@ const PromptStudioPage = () => {
     }
   }, [idea, selectedModel, selectedStyle, generatedPrompt, structuredData, finalPrompt, isEditMode]);
 
-  // 加载要编辑的提示词
+  // Load prompt to edit
   const loadPromptForEdit = async (id: string) => {
     try {
       const response = await getPromptById(id);
       if (response.success && response.data) {
         const prompt = response.data;
         
-        // 检查是否是作者本人
+        // Check if user is the author
         const currentUser = getCurrentUser();
         if (currentUser?.id !== prompt.author?.id) {
           alert('You can only edit your own prompts');
@@ -132,7 +132,7 @@ const PromptStudioPage = () => {
           return;
         }
 
-        // 加载数据
+        // Load data
         setIsEditMode(true);
         setEditingPromptId(id);
         setGeneratedPrompt(prompt.content);
@@ -140,7 +140,7 @@ const PromptStudioPage = () => {
         setSelectedModel(prompt.modelType as AIModel);
         setSelectedStyle((prompt.style || 'cinematic') as PromptStyle);
         
-        // 设置保存数据
+        // Set save data
         setSaveData({
           title: prompt.title,
           description: prompt.description || '',
@@ -156,7 +156,7 @@ const PromptStudioPage = () => {
     }
   };
 
-  // 加载草稿
+  // Load draft
   const loadDraft = () => {
     try {
       const draftStr = localStorage.getItem(DRAFT_KEY);
@@ -164,7 +164,7 @@ const PromptStudioPage = () => {
         const draft = JSON.parse(draftStr);
         const draftAge = Date.now() - new Date(draft.timestamp).getTime();
         
-        // 只加载24小时内的草稿
+        // Only load drafts within 24 hours
         if (draftAge < 24 * 60 * 60 * 1000) {
           setIdea(draft.idea || '');
           setSelectedModel(draft.selectedModel || 'sora');
@@ -173,7 +173,7 @@ const PromptStudioPage = () => {
           setStructuredData(draft.structuredData || {});
           setFinalPrompt(draft.finalPrompt || '');
         } else {
-          // 清除过期草稿
+          // Clear expired draft
           localStorage.removeItem(DRAFT_KEY);
         }
       }
@@ -182,12 +182,12 @@ const PromptStudioPage = () => {
     }
   };
 
-  // 清除草稿
+  // Clear draft
   const clearDraft = () => {
     localStorage.removeItem(DRAFT_KEY);
   };
 
-  // 生成提示词
+  // Generate prompt
   const handleGenerate = async () => {
     if (!idea.trim()) {
       setGenerationError('Please enter your idea first');
@@ -209,14 +209,14 @@ const PromptStudioPage = () => {
       setFinalPrompt(result.prompt);
       setGenerationLogId(result.logId || '');
 
-      // 更新使用信息
+      // Update usage info
       if (result.usage) {
         setUsageInfo(result.usage);
       }
     } catch (error: any) {
       console.error('Failed to generate prompt:', error);
       
-      // 检查是否达到限制
+      // Check if limit is reached
       if (error.response?.data?.error?.code === 'GENERATION_LIMIT_REACHED') {
         setGenerationError(
           'You have reached your monthly generation limit. Upgrade to Pro for unlimited generations.'
@@ -229,11 +229,11 @@ const PromptStudioPage = () => {
     }
   };
 
-  // 从结构化数据更新最终提示词
+  // Update final prompt from structured data
   const updateFinalPrompt = (updated: StructuredPrompt) => {
     setStructuredData(updated);
     
-    // 组合结构化数据为最终提示词
+    // Combine structured data into final prompt
     const parts = [
       updated.shotType && `${updated.shotType} shot of`,
       updated.subject,
@@ -248,7 +248,7 @@ const PromptStudioPage = () => {
     setFinalPrompt(parts.join(', '));
   };
 
-  // 打开保存对话框
+  // Open save dialog
   const handleOpenSaveDialog = () => {
     if (!finalPrompt.trim()) {
       alert('Please generate a prompt first');
@@ -257,7 +257,7 @@ const PromptStudioPage = () => {
     setShowSaveDialog(true);
   };
 
-  // 保存提示词
+  // Save prompt
   const handleSavePrompt = async (data: SavePromptData) => {
     try {
       const promptData: CreatePromptRequest = {
@@ -273,22 +273,22 @@ const PromptStudioPage = () => {
 
       let savedPrompt;
       if (isEditMode && editingPromptId) {
-        // 更新现有提示词
+        // Update existing prompt
         const response = await updatePrompt(editingPromptId, promptData);
         savedPrompt = response.data;
         setSuccessMessage('Prompt updated successfully!');
       } else {
-        // 创建新提示词
+        // Create new prompt
         const response = await createPrompt(promptData);
         savedPrompt = response.data;
         setSuccessMessage('Prompt saved successfully!');
-        clearDraft(); // 清除草稿
+        clearDraft(); // Clear draft
       }
 
-      // 显示成功消息
+      // Show success message
       setTimeout(() => {
         setSuccessMessage('');
-        // 跳转到详情页
+        // Navigate to detail page
         navigate(`/library/${savedPrompt.id}`);
       }, 2000);
     } catch (error: any) {
@@ -300,7 +300,7 @@ const PromptStudioPage = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50 dark:from-slate-900 dark:via-purple-900 dark:to-slate-900 py-12 px-4 transition-colors duration-300">
       <div className="max-w-7xl mx-auto">
-        {/* 成功消息 */}
+        {/* Success message */}
         {successMessage && (
           <motion.div
             initial={{ opacity: 0, y: -50 }}
@@ -313,7 +313,7 @@ const PromptStudioPage = () => {
           </motion.div>
         )}
 
-        {/* 页面标题 */}
+        {/* Page title */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -365,7 +365,7 @@ const PromptStudioPage = () => {
                 isRegenerating={isGenerating}
               />
               
-              {/* 用户反馈组件 */}
+              {/* User feedback component */}
               {generationLogId && (
                 <div className="mt-6 pt-6 border-t border-gray-700/50">
                   <PromptRating logId={generationLogId} />
@@ -387,7 +387,7 @@ const PromptStudioPage = () => {
                 finalPrompt={finalPrompt}
               />
               
-              {/* 保存按钮 */}
+              {/* Save button */}
               <div className="mt-8 flex justify-center">
                 <motion.button
                   whileHover={{ scale: 1.05 }}
@@ -403,7 +403,7 @@ const PromptStudioPage = () => {
           )}
         </div>
 
-        {/* 保存对话框 */}
+        {/* Save dialog */}
         <SavePromptDialog
           isOpen={showSaveDialog}
           onClose={() => setShowSaveDialog(false)}
@@ -412,7 +412,7 @@ const PromptStudioPage = () => {
           isEditMode={isEditMode}
         />
 
-        {/* 使用提示 */}
+        {/* Usage tips */}
         {!generatedPrompt && (
           <motion.div
             initial={{ opacity: 0 }}

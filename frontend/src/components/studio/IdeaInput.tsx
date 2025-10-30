@@ -55,11 +55,11 @@ const IdeaInput = ({
   error,
   usageInfo,
 }: IdeaInputProps) => {
-  // 检查是否达到限制
+  // Check if limit is reached
   const isLimitReached = usageInfo && !usageInfo.isPro && usageInfo.remaining <= 0;
   return (
     <div className="space-y-6">
-      {/* 文本输入区域 */}
+      {/* Text input area */}
       <div>
         <label className="block text-sm font-medium text-gray-900 dark:text-purple-200 mb-2">
           Describe your idea
@@ -73,9 +73,9 @@ const IdeaInput = ({
         />
       </div>
 
-      {/* 模型和风格选择 */}
+      {/* Model and style selection */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* 模型选择 */}
+        {/* Model selection */}
         <div>
           <label className="block text-sm font-medium text-gray-900 dark:text-purple-200 mb-2">
             AI Model
@@ -94,7 +94,7 @@ const IdeaInput = ({
           </select>
         </div>
 
-        {/* 风格选择 */}
+        {/* Style selection */}
         <div>
           <label className="block text-sm font-medium text-gray-900 dark:text-purple-200 mb-2">
             Style
@@ -114,14 +114,14 @@ const IdeaInput = ({
         </div>
       </div>
 
-      {/* 错误提示 */}
+      {/* Error message */}
       {error && (
         <div className="bg-red-50 dark:bg-red-500/10 border border-red-300 dark:border-red-500/50 rounded-lg p-4 text-red-700 dark:text-red-200">
           {error}
         </div>
       )}
 
-      {/* 使用次数信息和限制提示 */}
+      {/* Usage information and limit notification */}
       {usageInfo && !usageInfo.isPro && (
         <div className={`rounded-lg p-4 border ${
           isLimitReached 
@@ -147,8 +147,8 @@ const IdeaInput = ({
                   : 'text-blue-800 dark:text-blue-200'
               }`}>
                 {isLimitReached 
-                  ? '已达到本月免费生成次数限制'
-                  : `剩余 ${usageInfo.remaining} 次免费生成`
+                  ? 'Monthly free generation limit reached'
+                  : `${usageInfo.remaining} free generations remaining`
                 }
               </p>
               <p className={`text-sm mt-1 ${
@@ -159,8 +159,8 @@ const IdeaInput = ({
                   : 'text-blue-700 dark:text-blue-300'
               }`}>
                 {isLimitReached 
-                  ? '升级到 Pro 版本获得无限次生成'
-                  : `本月已使用 ${usageInfo.used} / ${usageInfo.limit} 次`
+                  ? 'Upgrade to Pro for unlimited generations'
+                  : `Used ${usageInfo.used} / ${usageInfo.limit} this month`
                 }
               </p>
               {isLimitReached && (
@@ -168,7 +168,7 @@ const IdeaInput = ({
                   to="/pricing" 
                   className="inline-block mt-2 text-sm font-medium text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 underline"
                 >
-                  立即升级 →
+                  Upgrade Now →
                 </Link>
               )}
             </div>
@@ -176,7 +176,7 @@ const IdeaInput = ({
         </div>
       )}
 
-      {/* 生成按钮 */}
+      {/* Generate button */}
       <div className="flex items-center gap-4">
         <button
           onClick={onGenerate}
@@ -196,13 +196,13 @@ const IdeaInput = ({
           )}
         </button>
         
-        {/* Pro 用户或剩余次数显示 */}
+        {/* Pro user or remaining usage display */}
         {usageInfo && (
           <div className="text-sm text-gray-600 dark:text-gray-400">
             {usageInfo.isPro ? (
               <span className="inline-flex items-center gap-1 px-3 py-1 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-full font-medium">
                 <Sparkles className="w-4 h-4" />
-                Pro 无限制
+                Pro Unlimited
               </span>
             ) : (
               <span className="text-gray-700 dark:text-gray-300">

@@ -54,7 +54,7 @@ function SavePromptDialog({
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     
-    // 验证
+    // Validation
     if (!title.trim()) {
       setError('Please enter a title');
       return;
@@ -77,7 +77,7 @@ function SavePromptDialog({
         previewImage: previewImage.trim() || undefined,
       });
       
-      // 成功后关闭对话框
+      // Close dialog after success
       onClose();
     } catch (err: any) {
       console.error('Save failed:', err);
@@ -111,7 +111,7 @@ function SavePromptDialog({
   return (
     <AnimatePresence>
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-        {/* 背景遮罩 */}
+        {/* Background overlay */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -120,14 +120,14 @@ function SavePromptDialog({
           className="absolute inset-0 bg-black/60 backdrop-blur-sm"
         />
 
-        {/* 对话框 */}
+        {/* Dialog */}
         <motion.div
           initial={{ opacity: 0, scale: 0.95, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
           className="relative w-full max-w-2xl bg-white rounded-2xl shadow-2xl max-h-[90vh] overflow-y-auto"
         >
-          {/* 头部 */}
+          {/* Header */}
           <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between z-10">
             <h2 className="text-2xl font-bold text-gray-900">
               {isEditMode ? 'Edit Prompt' : 'Save Prompt'}
@@ -141,9 +141,9 @@ function SavePromptDialog({
             </button>
           </div>
 
-          {/* 表单内容 */}
+          {/* Form content */}
           <form onSubmit={handleSubmit} className="p-6 space-y-6">
-            {/* 错误提示 */}
+            {/* Error message */}
             {error && (
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
@@ -154,7 +154,7 @@ function SavePromptDialog({
               </motion.div>
             )}
 
-            {/* 标题 */}
+            {/* Title */}
             <div>
               <label htmlFor="title" className="block text-sm font-semibold text-gray-700 mb-2">
                 Title <span className="text-red-500">*</span>
@@ -176,7 +176,7 @@ function SavePromptDialog({
               </p>
             </div>
 
-            {/* 描述 */}
+            {/* Description */}
             <div>
               <label htmlFor="description" className="block text-sm font-semibold text-gray-700 mb-2">
                 Description
@@ -192,7 +192,7 @@ function SavePromptDialog({
               />
             </div>
 
-            {/* 分类 */}
+            {/* Category */}
             <div>
               <label htmlFor="category" className="block text-sm font-semibold text-gray-700 mb-2">
                 Category
@@ -213,13 +213,13 @@ function SavePromptDialog({
               </select>
             </div>
 
-            {/* 标签 */}
+            {/* Tags */}
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">
                 Tags
               </label>
               
-              {/* 已选标签 */}
+              {/* Selected tags */}
               {tags.length > 0 && (
                 <div className="flex flex-wrap gap-2 mb-3">
                   {tags.map((tag) => (
@@ -241,7 +241,7 @@ function SavePromptDialog({
                 </div>
               )}
 
-              {/* 标签输入 */}
+              {/* Tag input */}
               <div className="flex gap-2">
                 <input
                   type="text"
@@ -262,7 +262,7 @@ function SavePromptDialog({
                 </button>
               </div>
 
-              {/* 推荐标签 */}
+              {/* Suggested tags */}
               <div className="mt-3">
                 <p className="text-xs text-gray-500 mb-2">Suggested tags:</p>
                 <div className="flex flex-wrap gap-2">
@@ -281,7 +281,7 @@ function SavePromptDialog({
               </div>
             </div>
 
-            {/* 预览图 URL */}
+            {/* Preview image URL */}
             <div>
               <label htmlFor="previewImage" className="block text-sm font-semibold text-gray-700 mb-2">
                 <ImageIcon className="w-4 h-4 inline mr-1" />
@@ -301,7 +301,7 @@ function SavePromptDialog({
               </p>
             </div>
 
-            {/* 按钮 */}
+            {/* Buttons */}
             <div className="flex gap-3 pt-4">
               <button
                 type="button"

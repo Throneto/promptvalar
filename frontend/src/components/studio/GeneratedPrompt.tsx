@@ -24,13 +24,13 @@ const GeneratedPrompt = ({ prompt, onRegenerate, isRegenerating }: GeneratedProm
 
   return (
     <div className="space-y-4">
-      {/* 提示词显示区域 */}
+      {/* Prompt display area */}
       <div className="relative">
         <div className="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/30 dark:to-pink-900/30 backdrop-blur-sm border border-purple-300 dark:border-purple-500/30 rounded-xl p-6">
           <p className="text-gray-900 dark:text-white text-lg leading-relaxed whitespace-pre-wrap">{prompt}</p>
         </div>
 
-        {/* 复制成功提示 */}
+        {/* Copy success notification */}
         {copied && (
           <motion.div
             initial={{ opacity: 0, y: -10 }}
@@ -44,7 +44,7 @@ const GeneratedPrompt = ({ prompt, onRegenerate, isRegenerating }: GeneratedProm
         )}
       </div>
 
-      {/* 操作按钮 */}
+      {/* Action buttons */}
       <div className="flex gap-3">
         <button
           onClick={handleCopy}

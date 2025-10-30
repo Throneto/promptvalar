@@ -16,7 +16,7 @@ const StepCard = ({ stepNumber, title, description, children }: StepCardProps) =
       transition={{ delay: stepNumber * 0.1 }}
       className="bg-white/90 dark:bg-white/10 backdrop-blur-lg rounded-2xl border border-purple-300 dark:border-purple-500/30 overflow-hidden shadow-2xl"
     >
-      {/* 卡片头部 */}
+      {/* Card header */}
       <div className="bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-600/20 dark:to-pink-600/20 px-8 py-6 border-b border-purple-300 dark:border-purple-500/30">
         <div className="flex items-center gap-4">
           <div className="flex items-center justify-center w-12 h-12 rounded-full bg-purple-600 dark:bg-purple-500 text-white font-bold text-xl">
@@ -29,7 +29,7 @@ const StepCard = ({ stepNumber, title, description, children }: StepCardProps) =
         </div>
       </div>
 
-      {/* 卡片内容 */}
+      {/* Card content */}
       <div className="p-8">{children}</div>
     </motion.div>
   );
