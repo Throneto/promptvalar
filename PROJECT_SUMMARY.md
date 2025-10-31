@@ -95,8 +95,7 @@
 - ✅ 完整的操作审计日志
 - ✅ 精美的管理界面设计
 
-**文档**:
-- `PHASE5_COMPLETION_REPORT.md` - 详细完成报告
+**文档**: 详细功能说明请查看 [管理员指南](docs/ADMIN.md)
 
 ---
 
@@ -133,10 +132,7 @@
 - ✅ 优雅的取消/恢复流程
 - ✅ 详细的订阅文档和测试脚本
 
-**文档**:
-- `SUBSCRIPTION_GUIDE.md` - 完整使用指南
-- `SUBSCRIPTION_SETUP.md` - 快速开始指南
-- `test-subscription.js` - 自动化测试脚本
+**文档**: 详细配置和使用请查看 [订阅系统指南](docs/SUBSCRIPTION.md)
 
 ---
 

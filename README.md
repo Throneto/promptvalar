@@ -247,19 +247,19 @@ docker-compose logs -f
 ### 手动部署
 
 参考详细部署指南：
-- [部署指南](PRODUCTION_DEPLOYMENT_GUIDE.md) - 生产环境部署
-- [Deployment Guide](DEPLOYMENT_GUIDE.md) - 1G VPS优化部署
+- [部署指南](docs/DEPLOYMENT.md) - 完整部署指南
+- [故障排查](docs/TROUBLESHOOTING.md) - 常见问题解决方案
 
 ---
 
 ## 📖 文档
 
 - [快速开始](QUICK_START.md) - 本地开发环境搭建
+- [项目总结](PROJECT_SUMMARY.md) - 项目功能和技术栈概览
 - [项目规范](PROJECT_RULES.md) - 开发规范和最佳实践
-- [API文档](docs/API.md) - 后端API接口文档
 - [测试指南](TESTING_GUIDE.md) - 测试流程和规范
-- [部署指南](PRODUCTION_DEPLOYMENT_GUIDE.md) - 生产环境部署
-- [进度报告](PROGRESS_REPORT.md) - 项目进展和完成情况
+- [OpenRouter配置](OPENROUTER_SETUP.md) - AI API配置指南
+- [文档中心](docs/README.md) - 完整的项目文档导航
 
 ---
 
@@ -300,11 +300,12 @@ docker-compose logs -f
 ## 📊 项目状态
 
 - ✅ **Phase 1: Foundation** - 基础架构 (100%)
-- 🚧 **Phase 2: Core Features** - 核心功能 (80%)
-- 📋 **Phase 3: User System** - 用户系统 (规划中)
-- 📋 **Phase 4: Subscription** - 订阅系统 (规划中)
+- ✅ **Phase 2: Core Features** - 核心功能 (100%)
+- ✅ **Phase 3: User System** - 用户系统 (100%)
+- ✅ **Phase 4: Subscription** - 订阅系统 (100%)
+- ✅ **Phase 5: Admin Panel & Optimization** - 管理后台和优化 (100%)
 
-详细进展请查看 [PROGRESS_REPORT.md](PROGRESS_REPORT.md)
+详细进展请查看 [项目总结](PROJECT_SUMMARY.md)
 
 ---
 
