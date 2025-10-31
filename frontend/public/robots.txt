@@ -1,17 +1,48 @@
 # robots.txt for PromptValar
+# Optimized for Google Search Console
 
+# Allow all search engines
 User-agent: *
+
+# Allow public pages
 Allow: /
 Allow: /library
 Allow: /library/*
 Allow: /pricing
+Allow: /about
+Allow: /docs
+Allow: /guides
+Allow: /login
+Allow: /register
+Allow: /privacy
+Allow: /terms
+Allow: /refund-policy
+
+# Disallow private/protected pages
 Disallow: /dashboard
 Disallow: /dashboard/*
+Disallow: /studio
 Disallow: /admin
 Disallow: /admin/*
 Disallow: /api/
 
-# Crawl-delay
+# Specific rules for Googlebot
+User-agent: Googlebot
+Allow: /
+Allow: /library
+Allow: /library/*
+Allow: /pricing
+Allow: /about
+Allow: /docs
+Allow: /guides
+Disallow: /dashboard
+Disallow: /dashboard/*
+Disallow: /studio
+Disallow: /admin
+Disallow: /admin/*
+Disallow: /api/
+
+# Crawl-delay (optional, helps prevent server overload)
 Crawl-delay: 1
 
 # Sitemap location

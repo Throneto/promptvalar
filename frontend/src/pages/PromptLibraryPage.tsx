@@ -3,10 +3,19 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Search, Heart, Eye, Copy, Check, Filter, SortAsc, SortDesc, Grid, List } from 'lucide-react';
 import { Prompt, AIModel, PromptStyle } from '../types/prompt';
+import SEO from '../components/SEO';
+import { generateWebPageSchema } from '../utils/structuredData';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api/v1';
 
 const PromptLibraryPage = () => {
+  // 生成结构化数据
+  const webPageSchema = generateWebPageSchema(
+    'Prompt Library - PromptValar',
+    'https://promptvalar.com/library',
+    'Browse thousands of professional AI prompts for Sora, Veo, Midjourney and more. Filter by model, style, and category to find the perfect prompt for your AI content creation needs.',
+    ['en', 'zh-CN']
+  );
   const navigate = useNavigate();
   const [prompts, setPrompts] = useState<Prompt[]>([]);
   const [loading, setLoading] = useState(true);
@@ -94,6 +103,13 @@ const PromptLibraryPage = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50 dark:from-slate-900 dark:via-purple-900 dark:to-slate-900 py-12 px-4 transition-colors duration-300">
+      <SEO 
+        title="Prompt Library - Browse AI Prompts for Sora, Veo & More"
+        description="Browse thousands of professional AI prompts for Sora, Veo, Midjourney and more. Filter by model, style, and category to find the perfect prompt for your AI content creation needs."
+        url="https://promptvalar.com/library"
+        keywords="AI prompts library, Sora prompts, Veo prompts, Midjourney prompts, AI prompt collection, prompt database, AI content prompts"
+        structuredData={webPageSchema}
+      />
       <div className="max-w-7xl mx-auto">
         {/* 页面标题 */}
         <motion.div

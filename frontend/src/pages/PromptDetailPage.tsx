@@ -14,6 +14,8 @@ import {
   Edit,
   Loader2,
 } from 'lucide-react';
+import SEO from '../components/SEO';
+import { generateArticleSchema, generateWebPageSchema, generateBreadcrumbSchema } from '../utils/structuredData';
 import { getPromptById, toggleFavorite, getPrompts } from '../services/prompt.service';
 import { getCurrentUser, isAuthenticated } from '../services/auth.service';
 
@@ -180,6 +182,12 @@ const PromptDetailPage = () => {
   if (error || !prompt) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex items-center justify-center transition-colors duration-300">
+        <SEO 
+          title="Prompt Not Found - PromptValar"
+          description="The requested prompt could not be found."
+          url={`https://promptvalar.com/library/${id}`}
+          noindex={true}
+        />
         <div className="text-center">
           <p className="text-red-600 dark:text-red-400 text-xl mb-4">{error || 'Prompt not found'}</p>
           <Link
@@ -193,8 +201,43 @@ const PromptDetailPage = () => {
     );
   }
 
+  // 生成SEO结构化数据
+  const promptUrl = `https://promptvalar.com/library/${id}`;
+  const promptDescription = prompt.description || `Professional AI prompt for ${prompt.model} - ${prompt.title}`;
+  const articleSchema = generateArticleSchema(
+    prompt.title,
+    promptUrl,
+    promptDescription,
+    prompt.previewImage,
+    prompt.createdAt,
+    prompt.updatedAt,
+    prompt.author?.username || 'PromptValar Community'
+  );
+  
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Home', url: 'https://promptvalar.com' },
+    { name: 'Prompt Library', url: 'https://promptvalar.com/library' },
+    { name: prompt.title, url: promptUrl },
+  ]);
+
+  const structuredData = {
+    '@graph': [articleSchema, breadcrumbSchema]
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-12 px-4 transition-colors duration-300">
+      <SEO 
+        title={`${prompt.title} - PromptValar Library`}
+        description={promptDescription}
+        url={promptUrl}
+        keywords={`${prompt.title}, ${prompt.model} prompt, AI prompt, ${prompt.style} style, ${prompt.category} category`}
+        type="article"
+        image={prompt.previewImage || 'https://promptvalar.com/og-image.jpg'}
+        publishedTime={prompt.createdAt}
+        modifiedTime={prompt.updatedAt}
+        author={prompt.author?.username || 'PromptValar Community'}
+        structuredData={structuredData}
+      />
       <div className="max-w-6xl mx-auto">
         {/* 返回按钮和编辑按钮 */}
         <div className="mb-6 flex items-center justify-between">

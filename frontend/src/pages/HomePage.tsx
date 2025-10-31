@@ -1,13 +1,43 @@
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
+import { generateOrganizationSchema, generateWebSiteSchema, generateSoftwareApplicationSchema } from '../utils/structuredData';
 
 function HomePage() {
+  // 生成结构化数据
+  const organizationSchema = generateOrganizationSchema(
+    'PromptValar',
+    'https://promptvalar.com',
+    'https://promptvalar.com/logo.svg',
+    'Professional AI prompt engineering platform for Sora, Veo, Midjourney and more. Create, optimize, and share AI prompts with our intelligent generator.',
+    ['https://twitter.com/PromptValar', 'https://github.com/promptvalar']
+  );
+
+  const websiteSchema = generateWebSiteSchema(
+    'PromptValar',
+    'https://promptvalar.com',
+    'Professional AI prompt engineering platform for Sora, Veo, Midjourney and more.',
+    true
+  );
+
+  const softwareSchema = generateSoftwareApplicationSchema(
+    'PromptValar',
+    'https://promptvalar.com',
+    'Professional AI prompt engineering platform for Sora, Veo, Midjourney and more.'
+  );
+
+  // 合并结构化数据
+  const structuredData = {
+    '@graph': [organizationSchema, websiteSchema, softwareSchema]
+  };
+
   return (
     <div>
       <SEO 
         title="PromptValar - AI Prompt Engineering Made Easy"
         description="Create professional AI prompts for Sora, Veo, Midjourney and more. AI-powered optimization, structured editing, and a vast library of community prompts."
         url="https://promptvalar.com"
+        keywords="AI prompts, Sora prompts, Veo prompts, Midjourney prompts, AI video generation, prompt engineering, AI tools, prompt generator, AI content creation"
+        structuredData={structuredData}
       />
       {/* Hero Section */}
       <section className="bg-gradient-to-b from-primary-light/20 to-white dark:from-primary/20 dark:to-gray-900 py-20 transition-colors duration-300">

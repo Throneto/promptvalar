@@ -14,6 +14,8 @@ import {
   Award
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import SEO from '../components/SEO';
+import { generateWebPageSchema } from '../utils/structuredData';
 import {
   getSubscriptionPlans,
   createCheckoutSession,
@@ -37,6 +39,14 @@ export default function PricingPage() {
   // Get authentication token
   const token = localStorage.getItem('accessToken');
   const isLoggedIn = !!token;
+
+  // 生成结构化数据
+  const webPageSchema = generateWebPageSchema(
+    'Pricing - PromptValar',
+    'https://promptvalar.com/pricing',
+    'Choose the perfect subscription plan for your AI prompt engineering needs. Free, Pro, and Enterprise plans available with transparent pricing.',
+    ['en', 'zh-CN']
+  );
 
   useEffect(() => {
     loadPlans();
@@ -124,6 +134,13 @@ export default function PricingPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50 dark:from-slate-900 dark:via-purple-900 dark:to-slate-900 py-20 px-4 transition-colors duration-300">
+      <SEO 
+        title="Pricing Plans - PromptValar"
+        description="Choose the perfect subscription plan for your AI prompt engineering needs. Free, Pro, and Enterprise plans available with transparent pricing and flexible billing options."
+        url="https://promptvalar.com/pricing"
+        keywords="PromptValar pricing, AI prompt tool pricing, subscription plans, AI tool pricing, prompt engineering cost"
+        structuredData={webPageSchema}
+      />
       <div className="max-w-7xl mx-auto">
         {/* Hero Section */}
         <motion.div
@@ -193,14 +210,14 @@ export default function PricingPage() {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.1 }}
-            className="bg-white dark:bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-gray-200 dark:border-white/20 hover:border-purple-500 dark:hover:border-purple-500/50 transition-all duration-300 hover:scale-105 shadow-lg"
+            className="bg-white dark:bg-slate-800 backdrop-blur-lg rounded-2xl p-8 border border-gray-200 dark:border-slate-600 hover:border-purple-500 dark:hover:border-purple-500/50 transition-all duration-300 hover:scale-105 shadow-lg"
           >
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-3">
-                <Sparkles className="w-8 h-8 text-blue-500 dark:text-blue-400" />
+                <Sparkles className="w-8 h-8 text-blue-600 dark:text-blue-400" />
                 <h3 className="text-2xl font-bold text-gray-900 dark:text-white">{plans.free.name}</h3>
               </div>
-              <div className="px-3 py-1 bg-blue-100 dark:bg-blue-500/20 text-blue-700 dark:text-blue-300 rounded-full text-sm font-medium">
+              <div className="px-3 py-1 bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-200 rounded-full text-sm font-bold">
                 Starter
               </div>
             </div>
@@ -208,23 +225,23 @@ export default function PricingPage() {
             <div className="mb-8">
               <div className="flex items-baseline gap-2">
                 <span className="text-5xl font-bold text-gray-900 dark:text-white">$0</span>
-                <span className="text-gray-900 dark:text-gray-400">/ month</span>
+                <span className="text-gray-700 dark:text-gray-300">/ month</span>
               </div>
-              <p className="text-gray-900 dark:text-gray-400 mt-2">Perfect for getting started</p>
+              <p className="text-gray-700 dark:text-gray-300 mt-2 font-medium">Perfect for getting started</p>
             </div>
 
             <ul className="space-y-4 mb-8">
               {plans.free.features.map((feature, index) => (
                 <li key={index} className="flex items-start gap-3">
                   <Check className="w-5 h-5 text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
-                  <span className="text-gray-950 dark:text-gray-300">{feature}</span>
+                  <span className="text-gray-900 dark:text-gray-100 font-medium">{feature}</span>
                 </li>
               ))}
             </ul>
 
             <button
               onClick={() => handleSubscribe('free')}
-              className="w-full py-3 px-6 bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20 text-gray-900 dark:text-white rounded-lg font-semibold transition-all duration-200 flex items-center justify-center gap-2 group shadow-md"
+              className="w-full py-3 px-6 bg-gray-200 dark:bg-slate-700 hover:bg-gray-300 dark:hover:bg-slate-600 text-gray-900 dark:text-white rounded-lg font-bold transition-all duration-200 flex items-center justify-center gap-2 group shadow-md border border-gray-300 dark:border-slate-600"
             >
               {isLoggedIn ? 'Current Plan' : 'Get Started Free'}
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -236,45 +253,45 @@ export default function PricingPage() {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2 }}
-            className="bg-gradient-to-br from-purple-600/20 to-pink-600/20 backdrop-blur-lg rounded-2xl p-8 border-2 border-purple-500 relative overflow-hidden hover:shadow-2xl hover:shadow-purple-500/50 transition-all duration-300 hover:scale-105"
+            className="bg-gradient-to-br from-purple-700 to-pink-700 dark:from-purple-600 dark:to-pink-600 rounded-2xl p-8 border-2 border-purple-400 relative overflow-hidden hover:shadow-2xl hover:shadow-purple-500/50 transition-all duration-300 hover:scale-105"
           >
             {/* Recommended Badge */}
-            <div className="absolute top-0 right-0 bg-gradient-to-r from-purple-600 to-pink-600 text-white px-8 py-2 text-sm font-bold shadow-lg">
+            <div className="absolute top-0 right-0 bg-gradient-to-r from-yellow-500 to-orange-500 text-gray-900 px-8 py-2 text-sm font-bold shadow-lg">
               MOST POPULAR
             </div>
 
             <div className="flex items-center justify-between mb-6 mt-6">
               <div className="flex items-center gap-3">
-                <Crown className="w-8 h-8 text-yellow-400" />
-                <h3 className="text-2xl font-bold text-white">{plans.pro.name}</h3>
+                <Crown className="w-8 h-8 text-yellow-300" />
+                <h3 className="text-2xl font-bold text-white drop-shadow-md">{plans.pro.name}</h3>
               </div>
-              <div className="px-3 py-1 bg-purple-500/30 text-purple-200 rounded-full text-sm font-medium">
+              <div className="px-3 py-1 bg-white/20 text-white rounded-full text-sm font-bold">
                 Best Value
               </div>
             </div>
 
             <div className="mb-8">
               <div className="flex items-baseline gap-2">
-                <span className="text-5xl font-bold text-white">
+                <span className="text-5xl font-bold text-white drop-shadow-lg">
                   ${billingCycle === 'monthly' ? plans.pro.price : Math.round(plans.pro.price * 0.8 * 12)}
                 </span>
-                <span className="text-gray-300">
+                <span className="text-white/90 font-medium">
                   / {billingCycle === 'monthly' ? 'month' : 'year'}
                 </span>
               </div>
               {billingCycle === 'annual' && (
-                <p className="text-green-400 mt-2 font-medium">
+                <p className="text-green-200 mt-2 font-bold drop-shadow-md">
                   Save ${Math.round(plans.pro.price * 0.2 * 12)}/year
                 </p>
               )}
-              <p className="text-gray-300 mt-2">Everything you need to scale</p>
+              <p className="text-white/90 mt-2 font-medium">Everything you need to scale</p>
             </div>
 
             <ul className="space-y-4 mb-8">
               {plans.pro.features.map((feature, index) => (
                 <li key={index} className="flex items-start gap-3">
-                  <Check className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" />
-                  <span className="text-white font-medium">{feature}</span>
+                  <Check className="w-5 h-5 text-green-300 mt-0.5 flex-shrink-0" />
+                  <span className="text-white font-semibold drop-shadow-sm">{feature}</span>
                 </li>
               ))}
             </ul>
